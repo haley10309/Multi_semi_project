@@ -1,56 +1,40 @@
 /* Home.js */
-import React from "react";
+import React, { Component } from "react";
 import "./Home.scss";
+import { NavLink } from "react-router-dom";
 
-const Home = () => {
-  return (
-    <div className="cover">
-      <div className="row_box">
-        <div className="box">
-          <img src="https://newsimg.sedaily.com/2024/02/15/2D5DBZTH0H_1.jpg" />
-          <h2>웡카</h2>
-          <p>별점 4.5</p>
-        </div>
+class Home extends Component {
+  state = {
+    movies: [],
+  };
+  componentDidMount() {
+    this.callApi()
+      .then((res) => this.setState({ movies: res }))
+      .catch((err) => console.log(err));
+  }
+  callApi = async () => {
+    const response = await fetch("/api/movies");
+    const body = await response.json();
+    return body;
+  };
 
-        <div className="box">
-          <img src="https://image.tmdb.org/t/p/original/wv22frLmCpXDRjKj4MWFwa4eTOK.jpg" />
-          <h2>듄2</h2>
-          <p>별점 4.0</p>
-        </div>
-        <div className="box">
-          <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/hu4nI6znjpdLqcq2SLfLRc3CJOQ.jpg" />
-          <h2>시민덕희</h2>
-          <p>별점 3.0</p>
-        </div>
-        <br />
-        
-      </div>
-      <div className="row_box">
-        <div className="box">
-          <img src="https://newsimg.sedaily.com/2024/02/15/2D5DBZTH0H_1.jpg" />
-          <h2>웡카</h2>
-          <p>별점 4.5</p>
-        </div>
-
-        <div className="box">
-          <img src="https://image.tmdb.org/t/p/original/wv22frLmCpXDRjKj4MWFwa4eTOK.jpg" />
-          <h2>듄2</h2>
-          <p>별점 4.0</p>
-        </div>
-        <div className="box">
-          <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/hu4nI6znjpdLqcq2SLfLRc3CJOQ.jpg" />
-          <h2>시민덕희</h2>
-          <p>별점 3.0</p>
-        </div>
-        <br />
-        <div className="box">
-          <img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/hu4nI6znjpdLqcq2SLfLRc3CJOQ.jpg" />
-          <h2>시민덕희</h2>
-          <p>별점 3.0</p>
+  render() {
+    return (
+      <div className="cover">
+        <div className="row_box">
+          {this.state.movies.map((movie) => (
+            <div className="box" key={movie.number}>
+              <NavLink to={"/board"}>
+                <img src={movie.img_url} alt={movie.movie_name} />
+              </NavLink>
+              <h2>{movie.movie_name}</h2>
+              <p>{movie.star_rate}</p>
+            </div>
+          ))}
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Home;

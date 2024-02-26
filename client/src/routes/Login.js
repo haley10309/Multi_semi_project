@@ -3,8 +3,8 @@ import axios from "axios";
 import './Login.scss';
 
 function Login(props) {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [user_pw, setUser_pw] = useState("");
   const [msg, setMsg] = useState("");
 
   // useEffect=(()=>{
@@ -12,8 +12,8 @@ function Login(props) {
   // },[mgs])
   const LoginFunc = () => {
     let body = {
-      id,
-      password,
+      user_id,
+      user_pw,
     };
     // axios.post("Endpoint", body).then((res) => {
     //   console.log(res.data);

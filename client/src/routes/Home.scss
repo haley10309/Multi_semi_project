@@ -1,34 +1,33 @@
-*{
-    margin:0;
+* {
+    margin: 0;
     padding: 0;
-}
-
-.cover{
+  }
+  
+  .cover {
     width: 900px;
-    height : 900px;
-    //background : #000;
+    height: 900px;
     margin-top: 50px;
-    
-    justify-content: center;
-    
-}
-.row_box{//한 줄에 들어가는 이미지 컴포넌트
-    margin : 10px;
-    width: 900px;
-    height: 400px;
-    align-items: center;
-    
     display: flex;
-}
-.box{
-    margin: 35px;
+    justify-content: center;
+  }
+  
+  .row_box {
+    width: 900px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap into multiple lines */
+    justify-content: flex-start; /* Align items to the left */
+  }
+  
+  .box {
+    margin: 10px; /* Adjust spacing between boxes */
     box-shadow: -1px 0 10px #0000;
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-img{
+  }
+  
+  img {
     width: 200px;
     height: 300px;
-    display: flex;
-}
+  }
+  
