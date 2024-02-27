@@ -4,6 +4,7 @@ import Home from "./routes/Home";
 import {Route, Routes} from "react-router-dom";
 import Login from './routes/Login';
 import { Component } from 'react';
+import Assign from './routes/assign';
 
 
 /* App.js */
@@ -15,6 +16,7 @@ class App extends Component {
         <Route path="/" element={<Home />} />
         <Route path="/board" element={<BoardList />} />
         <Route path = '/Login' element={<Login/>}/>
+        <Route path = '/Assign' element={<Assign/>}/>
       </Routes>
       
     );
