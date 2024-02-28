@@ -29,17 +29,17 @@ const Assign = () => {
     const assignSubmit = async (e) => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
 
-    // // 서비스 이용약관 동의 여부 확인
-    //     if (!agree) { 
-    //         setErrorMessage('서비스 이용약관에 동의해야 합니다.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
-    //         return;
-    //       }
+    // 서비스 이용약관 동의 여부 확인
+        if (!agree) { 
+            setErrorMessage('서비스 이용약관에 동의해야 합니다.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
+            return;
+          }
     
-    // // 비밀번호와 비밀번호 확인이 일치 여부 확인
-    //     if (pwd !== pwdCheck) {
-    //         setErrorMessage('비밀번호가 일치하지 않습니다.');
-    //         return;
-    //       }
+    // 비밀번호와 비밀번호 확인이 일치 여부 확인
+        if (pwd !== pwdCheck) {
+            setErrorMessage('비밀번호가 일치하지 않습니다.');
+            return;
+          }
         
     
     // // 서버로 회원가입 데이터를 전송 요청
