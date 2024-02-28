@@ -29,36 +29,38 @@ const Assign = () => {
     const assignSubmit = async (e) => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
 
-    // 서비스 이용약관 동의 여부 확인
-        if (!agree) { 
-            setErrorMessage('서비스 이용약관에 동의해야 합니다.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
-            return;
-          }
+    // // 서비스 이용약관 동의 여부 확인
+    //     if (!agree) { 
+    //         setErrorMessage('서비스 이용약관에 동의해야 합니다.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
+    //         return;
+    //       }
     
-    // 비밀번호와 비밀번호 확인이 일치 여부 확인
-        if (pwd !== pwdCheck) {
-            setErrorMessage('비밀번호가 일치하지 않습니다.');
-            return;
-          }
+    // // 비밀번호와 비밀번호 확인이 일치 여부 확인
+    //     if (pwd !== pwdCheck) {
+    //         setErrorMessage('비밀번호가 일치하지 않습니다.');
+    //         return;
+    //       }
+        
     
-    // 서버로 회원가입 데이터를 전송 요청
-          try {
-            const response = await axios.post('/api/assign', {
-              id,
-              pwd,
-              pwdCheck,
-              nickname,
-              email
-            });
-            console.log('회원가입 완료:', response.data); // 성공적으로 응답을 받은 경우 > 콘솔 로그 출력
-          } catch (error) {
-             // 서버에서 이미 가입된 ID나 닉네임이라는 응답 시 오류 메시지 처리
-            if (error.response && error.response.status === 404) {
-            setErrorMessage('이미 가입된 ID 혹은 닉네임입니다.');
-          } else { 
-            console.error('회원가입 실패:', error); // 오류가 발생한 경우 > 콘솔 에러 출력
-          }
-        };
+    // // 서버로 회원가입 데이터를 전송 요청
+    //       try {
+    //         const response = await axios.post('/api/assign', {
+    //           id,
+    //           pwd,
+    //           pwdCheck,
+    //           nickname,
+    //           email
+    //         });
+    //         console.log('회원가입 완료:', response.data); // 성공적으로 응답을 받은 경우 > 콘솔 로그 출력
+    //       } catch (error) {
+    //          // 서버에서 이미 가입된 ID나 닉네임이라는 응답 시 오류 메시지 처리
+    //         if (error.response && error.response.status === 404) {
+    //         setErrorMessage('이미 가입된 ID 혹은 닉네임입니다.');
+    //       } else { 
+    //         console.error('회원가입 실패:', error); // 오류가 발생한 경우 > 콘솔 에러 출력
+    //       }
+    //     };
+    }
 
     return (
     <div>
@@ -137,6 +139,6 @@ const Assign = () => {
     </form>
     </div>
   );
-}}
+}
 
 export default Assign;

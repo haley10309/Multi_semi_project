@@ -11,8 +11,8 @@ const Header = () => {
         </Link>
         <nav className="navigation">
           <ul>
-            <Link className="Login" to='/Login'>로그인</Link>
-            <li><Link className="Assign" to='/Assign'>회원가입</Link></li>
+            <li><Link className="Login" to='/Login'>로그인</Link></li>
+            <li><Link className="Login" to='/Assign'>회원가입</Link></li>
           </ul>
         </nav>
 

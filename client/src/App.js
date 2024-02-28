@@ -4,7 +4,7 @@ import Home from "./routes/Home";
 import {Route, Routes} from "react-router-dom";
 import Login from './routes/Login';
 import { Component } from 'react';
-import Assign from './routes/assign';
+import Assign from './routes/Assign';
 
 
 /* App.js */

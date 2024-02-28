@@ -26,7 +26,7 @@ class Home extends Component {
             <div className="box" key={movie.number}>
               <NavLink to={"/board"}>
                 <img src={movie.img_url} alt={movie.movie_name} />
-              </NavLink>
+              </NavLink >
               <h2>{movie.movie_name}</h2>
               <p>{movie.star_rate}</p>
             </div>
