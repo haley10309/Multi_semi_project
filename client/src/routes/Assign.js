@@ -103,17 +103,7 @@ const Assign = () => {
           <div className="input-list">
           {pwd !== pwdCheck && <div className="error-message">비밀번호가 일치하지 않습니다.</div>}
         </div>
-          {/* NICKNAME */}
-          <div className="input-list">
-          <div className="label">닉네임</div>
-          <input
-            type="text"
-            placeholder="닉네임"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)} />
-          {/* 닉네임 중복 확인 버튼 */}
-          <button type="nickname-button" onClick={nicknameCheck}>중복 확인</button>
-        </div>
+         
           {/* EMAIL */}
           <div className="input-list">
           <div className="label">이메일</div>
@@ -125,14 +115,14 @@ const Assign = () => {
         </div>
         
     {/* 서비스 이용약관 동의 체크박스 */}
-        <label>
+        {/* <label>
           <input
             type="checkbox"
             checked={agree}
             onChange={(e) => setAgree(e.target.checked)}
           />
-          서비스 이용약관에 동의합니다.
-        </label>
+          회원가입 각
+        </label> */}
        
     {/* 회원가입 버튼 */}
         <button type="submit">회원가입</button>

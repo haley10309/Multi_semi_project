@@ -7,6 +7,13 @@ function Login(props) {
   const [user_pw, setUser_pw] = useState("");
   const [msg, setMsg] = useState("");
 
+  const onIDhandler=(event)=>{
+    setUser_id(event.target.value);
+  }
+  const onPwhandler =(event)=>{
+    setUser_pw(event.target.value);
+  }
+
   // useEffect=(()=>{
 
   // },[mgs])
@@ -39,10 +46,10 @@ function Login(props) {
       <h1>로그인</h1>
       <form onSubmit={LoginFunc}>
         <label htmlFor="id">ID: </label>
-        <input type="text" id="id" />
+        <input type="text" id="id" onChange={onIDhandler}/>
         <br />
-        <label htmlFor="password">PASSWORD : </label>
-        <input type="password" />
+        <label htmlFor="password" >PASSWORD : </label>
+        <input type="password" onChange={onPwhandler}/>
         <br />
         <button type="submit">로그인</button>
         <br />
