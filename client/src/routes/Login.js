@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './Login.scss';
+import "./Login.scss";
 
 function Login(props) {
   const [user_id, setUser_id] = useState("");
   const [user_pw, setUser_pw] = useState("");
   const [msg, setMsg] = useState("");
 
-  const onIDhandler=(event)=>{
+  const onIDhandler = (event) => {
     setUser_id(event.target.value);
-  }
-  const onPwhandler =(event)=>{
+  };
+  const onPwhandler = (event) => {
     setUser_pw(event.target.value);
-  }
+  };
 
   // useEffect=(()=>{
 
@@ -26,7 +26,7 @@ function Login(props) {
     //   console.log(res.data);
     //   if (res.data.code === 200) {
     //     console.log("로그인");
-        
+
     //     setMsg("");
     //   }
     //   if (res.data.code === 400) {
@@ -45,11 +45,15 @@ function Login(props) {
     <div className="Login_md">
       <h1>로그인</h1>
       <form onSubmit={LoginFunc}>
-        <label htmlFor="id">ID: </label>
-        <input type="text" id="id" onChange={onIDhandler}/>
+        <div className="ID_form_align">
+          <label htmlFor="id">   ID: </label>
+          <input type="text" id="id" onChange={onIDhandler} />
+        </div>
         <br />
-        <label htmlFor="password" >PASSWORD : </label>
-        <input type="password" onChange={onPwhandler}/>
+        <div className="PW_form_align">
+          <label htmlFor="password">PASSWORD : </label>
+          <input type="password" onChange={onPwhandler} />
+        </div>
         <br />
         <button type="submit">로그인</button>
         <br />

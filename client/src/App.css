@@ -4,16 +4,7 @@
 }
 
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+
 .Login{
   text-decoration-line: none;
 }
@@ -22,10 +13,7 @@ header {
   align-items: center;
   justify-content: center;
 }
-.contents{
-  
-  left: 50%;
-}
+
 .logo{
   text-align: center;
   text-shadow: 1;
