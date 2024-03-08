@@ -55,7 +55,7 @@ function Login(props) {
           <input type="password" onChange={onPwhandler} />
         </div>
         <br />
-        <button type="submit">로그인</button>
+        <button className="Login_button" type="submit">로그인</button>
         <br />
         {msg}
       </form>
