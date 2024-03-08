@@ -4,6 +4,7 @@
     "scripts": {
         "client": "cd client && yarn start",
         "server": "nodemon server.js",
+        "movie_info_server" : "nodemon movie_info_server.js",
         "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\" "
     },
     "dependencies": {

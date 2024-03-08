@@ -19,22 +19,7 @@ class Home extends Component {
     return body;
   };
 
-  handleImageClick = async (movie_name) => { //영화 클릭했을 때
-    try {
-      // Post movie_name to the API endpoint
-      await fetch("/api/movie_name", { //영화 이름만 보낼 api
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ movie_name }),
-      });
-      // Navigate to boardList.js
-      this.props.history.push("/board");
-    } catch (error) {
-      console.error("Error posting movie name:", error);
-    }
-  };
+  
 
   render() {
     return (
@@ -45,7 +30,7 @@ class Home extends Component {
               <NavLink to={{ pathname: "/board"}}>
                 <img 
                 src={movie.img_url} alt={movie.movie_name} 
-                onClick={() => this.handleImageClick(movie.movie_name)} 
+                
                 />
               </NavLink >
               <h2>{movie.movie_name}</h2>

@@ -53,6 +53,18 @@ app.get('/api/movies',(req,res) =>{
 
     ]);
 });
+app.get(`/second_api/movie_info`,(req,res) =>{
+    res.send([
+        {
+            'number':1,
+            'movie_name' : '웡카',
+            'star_rate':'4.5',
+            'director' : 'Paul King',
+            'img_url': 'https://newsimg.sedaily.com/2024/02/15/2D5DBZTH0H_1.jpg'
+        }
+
+    ]);
+});
 
 
 app.listen(port,()=> console.log(`Listening on port ${port}`));
