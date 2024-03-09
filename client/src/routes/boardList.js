@@ -15,7 +15,9 @@ const BoardList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/second_api/movie_info");
+        const response_rv = await axios.get("/review");
         setMovies(response.data);
+        setReviews(response_rv.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -31,20 +33,20 @@ const BoardList = () => {
   // 리뷰 제출 시 호출되는 함수
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (review.trim() !== "") {
-      // 새로운 리뷰를 추가하고 상태 업데이트
-      setReviews([
-        ...reviews,
-        {
-          id: reviews.length + 1,
-          author: "사용자",
-          content: review,
-          date: new Date(),
-          liked: false,
-        },
-      ]);
-      setReview("");
-    }
+    // if (review.trim() !== "") {
+    //   // 새로운 리뷰를 추가하고 상태 업데이트
+    //   setReviews([
+    //     ...reviews,
+    //     {
+    //       id: reviews.length + 1,
+    //       author: "사용자",
+    //       content: review,
+    //       date: new Date(),
+    //       liked: false,
+    //     },
+    //   ]);
+    //   setReview("");
+    // }
   };
 
   // 리뷰 수정 시 호출되는 함수
@@ -87,20 +89,22 @@ const BoardList = () => {
   };
 
   return (
-    <div>
+    <div className="the_whole_box">
       <div className="movie_info">
         {movies.map((movie) => (
           <div key={movie.id}>
-            <div className="movie_image">
-              <img src={movie.img_url} alt={movie.movie_name} />
+            <div className="movie_image_box">
+              <img
+                className="movie_image"
+                src={movie.img_url}
+                alt={movie.movie_name}
+              />
             </div>
-
             <div className="movie_explanation">
-              movie_explanation
-              <br />
               <ul className="movie_info_category">{movie.movie_name}</ul>
-              <ul className="movie_info_category">별점 : {movie.star_rate}</ul>
+              <ul className="movie_info_category">별점 : {movie.star}</ul>
               <ul className="movie_info_category">감독 : {movie.director}</ul>
+              <ul className="movie_info_category">줄거리 : {movie.story}</ul>
             </div>
           </div>
         ))}
@@ -108,7 +112,7 @@ const BoardList = () => {
       <div className="review_list">
         <div className="review_box">
           <h3>리뷰 작성</h3>
-          <form onSubmit={handleSubmit} >
+          <form onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="리뷰를 입력하세요"
@@ -116,47 +120,52 @@ const BoardList = () => {
               onChange={handleReviewChange}
               className="review_input_form"
             />
-            <button type="submit" className="review_sumbit_button">등록</button>
+            <button type="submit" className="review_sumbit_button">
+              등록
+            </button>
           </form>
           <div className="reviews_box">
             <h3>리뷰 목록</h3>
-            
-              {reviews.map((r) => (
-                <li className="reviews_lists"
-                key={r.id}>
-                  <span>{r.author}</span><br/>
-                  {editingId === r.id ? (
-                    <input
-                      
-                      type="text"
-                      value={editedReview}
-                      onChange={(e) => setEditedReview(e.target.value)}
-                    />
-                  ) : (
-                    <span className="review_text">{r.content}</span>
-                  )}
-                  {/* 리뷰 좋아요 버튼 */}
-                  <br/>
-                  {!editingId && (
-                    <button className="liked_button" onClick={() => handleLike(r.id)}>
-                      {r.liked ? "♥" : "♡"}
+
+            {reviews.map((user) => (
+              <li className="reviews_lists" key={user.user_id}>
+                <span>{user.user_id}</span>
+                <br />
+
+                <span className="review_text">{user.content}</span>
+
+                {/* 리뷰 좋아요 버튼 */}
+                <br />
+                <button
+                  className="liked_button"
+                  onClick={() => handleLike(user.id)}
+                >
+                  {user.likes ? "♥" : "♡"}
+                </button>
+                <span className="review_date">게시일: {user.post_date}</span>
+                {editingId === user.id ? (
+                  <>
+                    <button onClick={() => handleSaveEdit(user.user_id)}>
+                      저장
                     </button>
-                  )}
-                  <span>{r.date.toLocaleString()}</span>
-                  {editingId === r.id ? (
-                    <>
-                      <button onClick={() => handleSaveEdit(r.id)}>저장</button>
-                      <button onClick={handleCancelEdit}>취소</button>
-                    </>
-                  ) : (
-                    <button onClick={() => handleEdit(r.id, r.content)}>
-                      수정
-                    </button>
-                  )}
-                  <button onClick={() => handleDelete(r.id)}>삭제</button>
-                </li>
-              ))}
-            
+                    <button onClick={handleCancelEdit}>취소</button>
+                  </>
+                ) : (
+                  <button
+                    className="edit_button"
+                    onClick={() => handleEdit(user.user_id, user.content)}
+                  >
+                    수정
+                  </button>
+                )}
+                <button
+                  className="delete_button"
+                  onClick={() => handleDelete(user.user_id)}
+                >
+                  삭제
+                </button>
+              </li>
+            ))}
           </div>
         </div>
       </div>

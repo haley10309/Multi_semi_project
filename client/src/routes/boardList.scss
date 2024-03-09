@@ -1,54 +1,145 @@
 .movie_info {
     width: 90%;
     margin: 10px auto;
-    background-color: plum;
+    background-color:  rgb(53, 49, 66);
     height: 80vh;
+}
+.movie_image_box{
+    width: 45%;
+    height: 80vh;
+    background-color: rgb(53, 49, 66);
+    float: left;
+    
 }
 
 .movie_image {
-    width: 45%;
-    height: 80vh;
-    float: left;
-    background-color: yellow;
+    width: 85%;
+    height: 75vh;
+    margin : 10px;
+    float: right;
+    background-color: green;
+    object-fit: cover;
 }
 
 .movie_explanation {
+    position: relative;
     width: 45%;
     height: 80vh;
     float: left;
+    margin: 10px;
+    color: white;
 
 }
+
 
 .review_list {
     width: 100%;
     height: 100vh;
+    float: left;
 
 }
-.review_list{
+
+
+
+.review_box {
     width: 90%;
     margin: 10px auto;
 }
-.review_box{
 
-}
-.review_input_form{
+.review_input_form {
     width: 50%;
 }
-.review_sumbit_button{
 
-}
-.reviews_lists{
+.review_sumbit_button {}
+
+.reviews_lists {
     width: 90%;
     margin: 10px auto;
     list-style-type: none;
-    word-break:break-all;
+    word-break: break-all;
     border-bottom: 1px solid black;
 }
-.review_text{
+
+.review_text {
     width: 90%;
     margin: 10px auto;
+    color : red;
+    padding: 3%;
     
+
 }
-.liked_button{
-    
+.review_text_sameID{
+
+}
+
+.liked_button {
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 2px 2px;
+    margin-top: 1px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 80ms ease-in;
+    color: black;
+    background-color: white;
+    border: 2px solid white;
+
+    &:hover {
+        transform: scale(1.1);
+        background-color: white;
+    }
+
+}
+.review_date{
+    padding : 2px;
+}
+
+.edit_button {
+    margin:5px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 10px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 80ms ease-in;
+    color: black;
+    background-color:  #f5f5f7;
+    border: 1px solid rgb(134, 134, 135);
+
+    &:hover {
+        transform: scale(1.05);
+        background-color: #f0f0f0;
+    }
+}
+
+.delete_button {
+    margin:5px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 10px;
+    margin-top: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 80ms ease-in;
+    color: black;
+    background-color:  #f5f5f7;
+    border: 1px solid rgb(134, 134, 135);
+
+    &:hover {
+        transform: scale(1.05);
+        background-color: #f0f0f0;
+    }
 }

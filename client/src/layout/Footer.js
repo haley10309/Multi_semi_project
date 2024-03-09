@@ -3,10 +3,13 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer>
-      <hr/>
-      푸터 입니다.
-    </footer>
+    <><div id='wrapper'>
+      <div>
+        footer
+        <br/>
+        멀티잇 풀스텍 부트캠프 6조 
+      </div>
+    </div><footer></footer></>
   );
 };
 
