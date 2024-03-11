@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    
+  }
+  
+  .cover {
+    
+     height: 900px;
+    width: 100%;
+    
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+   
+  }
+
+
+  
+  .row_box {
+    width: 900px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap into multiple lines */
+    justify-content: flex-start; /* Align items to the left */
+  }
+  
+  .box {
+    margin: 10px; /* Adjust spacing between boxes */
+    box-shadow: -1px 0 10px #0000;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex; /* Add display flex */
+    flex-direction: column; /* Set flex direction to column */
+  }
+  
+  img {
+    width: 200px;
+    height: 300px;
+    margin-bottom: 10px; /* Add margin bottom to create space between image and text */
+    margin-top: 10px; /* Adjust this value to move the image slightly higher */
+    display: block; /* Ensure proper centering */
+  }
+
+  
+  

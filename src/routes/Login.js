@@ -1,44 +1,51 @@
+// Login.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Login.scss";
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
-  const [user_id, setUser_id] = useState("");
-  const [user_pw, setUser_pw] = useState("");
+  const [useraccount, setUseraccount] = useState("");
+  const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const onIDhandler = (event) => {
-    setUser_id(event.target.value);
+    setUseraccount(event.target.value);
   };
   const onPwhandler = (event) => {
-    setUser_pw(event.target.value);
+    setPassword(event.target.value);
   };
 
-  // useEffect=(()=>{
-
-  // },[mgs])
   const LoginFunc = () => {
     let body = {
-      user_id,
-      user_pw,
+      useraccount,
+      password,
     };
-    // axios.post("Endpoint", body).then((res) => {
-    //   console.log(res.data);
-    //   if (res.data.code === 200) {
-    //     console.log("로그인");
+    axios.post("/login", body).then((res) => {
+      console.log(res.data);
+      
+      if (res.data.code === 200) {
+        console.log("로그인");
 
-    //     setMsg("");
-    //   }
-    //   if (res.data.code === 400) {
-    //     setMsg("ID, Password가 비어있습니다.");
-    //   }
-    //   if (res.data.code === 401) {
-    //     setMsg("존재하지 않는 ID입니다.");
-    //   }
-    //   if (res.data.code === 402) {
-    //     setMsg("Password가 틀립니다.");
-    //   }
-    // });
+        // Store login status in localStorage
+        localStorage.setItem("isLoggedIn", true);
+
+        navigate('/',{
+          state:useraccount
+        });
+
+      }
+      if (res.data.code === 400) {
+        setMsg("ID, Password가 비어있습니다.");
+      }
+      if (res.data.code === 401) {
+        setMsg("존재하지 않는 ID입니다.");
+      }
+      if (res.data.code === 402) {
+        setMsg("Password가 틀립니다.");
+      }
+    });
   };
 
   return (
