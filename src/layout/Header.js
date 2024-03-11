@@ -1,11 +1,22 @@
 // Header.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.Module.css";
 
 const Header = () => {
-  // Check if user is logged in
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || false;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Update isLoggedIn state based on localStorage
+  useEffect(() => {
+    const storedLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(storedLoggedIn);
+  }, []);
+
+  const handleLogout = () => {
+    // Clear localStorage and update state
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
 
   return (
     <header className="header">
@@ -31,9 +42,9 @@ const Header = () => {
             )}
             {isLoggedIn && (
               <li>
-                <Link className="Login" to="/Logout">
+                <button className="Login_out" onClick={handleLogout}>
                   로그아웃
-                </Link>
+                </button>
               </li>
             )}
           </ul>
