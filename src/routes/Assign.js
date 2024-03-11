@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Assign.scss';
 import axios from 'axios';
 
-// React 함수 컴포넌트인 'assign' 정의
+// React 함수 컴포넌트인 'Assign' 정의
 const Assign = () => {
     // 입력 상태값 및 해당 상태값 업데이트 함수 정의
     const [useraccount, setUseraccount] = useState(''); 
