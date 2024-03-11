@@ -7,8 +7,8 @@ import axios from 'axios';
 // React 함수 컴포넌트인 'assign' 정의
 const Assign = () => {
     // [입력 상태값, 해당 상태값 업데이트 함수] = 리액트훅('');
-    const [id, setId] = useState(''); 
-    const [pwd, setPwd] = useState('');
+    const [useraccount, setUseraccount] = useState(''); 
+    const [password, setPassword] = useState('');
     const [pwdCheck, setPwdCheck] = useState('');
 /*    const [nickname, setNickname] = useState(''); */
     const [email, setEmail] = useState('');
@@ -30,6 +30,9 @@ const Assign = () => {
     const assignSubmit = async (e) => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
 
+    // 서버로 ID 중복 확인 데이터 전송 요청 
+    // 코드 구현 필요
+
     // 서비스 이용약관 동의 여부 확인
         if (!agree) { 
             setErrorMessage('클린 리뷰어 약속에 동의해주세요.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
@@ -37,17 +40,16 @@ const Assign = () => {
           }
     
     // 비밀번호와 비밀번호 확인이 일치 여부 확인
-        if (pwd !== pwdCheck) {
+        if (password !== pwdCheck) {
             setErrorMessage('비밀번호가 일치하지 않습니다.');
             return;
           }
         
-    
     // 서버로 회원가입 데이터를 전송 요청 (axios.post - import)
            try {
              const response = await axios.post('/myapp/assign', {
-               id,
-               pwd,
+               useraccount,
+               password,
                pwdCheck,
                email
              });
@@ -77,8 +79,8 @@ const Assign = () => {
           <input
             type="text"
             placeholder="아이디"
-            value={id}
-            onChange={(e) => setId(e.target.value)} />
+            value={useraccount}
+            onChange={(e) => setUseraccount(e.target.value)} />
         </div>
           {/* 중복 확인 버튼 ID */}
           <button className="id-button" type="id-button" onClick={idCheck}>중복 확인</button>
@@ -89,8 +91,8 @@ const Assign = () => {
           <input
             type="password"
             placeholder="비밀번호"
-            value={pwd}
-            onChange={(e) => setPwd(e.target.value)} />
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} />
         </div>
           {/* PWD(확인) */}        
           <div className="input-list">
@@ -103,7 +105,7 @@ const Assign = () => {
         </div>
           {/* 비밀번호 & 비밀번호(확인) 불일치 오류 메시지 */}
           <div className="input-list">
-          {pwd !== pwdCheck && <div className="error-message">비밀번호가 일치하지 않습니다.</div>}
+          {password !== pwdCheck && <div className="error-message">비밀번호가 일치하지 않습니다.</div>}
         </div>
   
           {/* EMAIL */}
