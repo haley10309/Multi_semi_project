@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Assign.scss';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // React 함수 컴포넌트인 'Assign' 정의
 const Assign = () => {
@@ -11,6 +12,7 @@ const Assign = () => {
     const [email, setEmail] = useState('');
     const [agree, setAgree] = useState(false); // 서비스 이용약관 동의
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지 표시
+    const navigate = useNavigate(); // navigate 함수 가져오기
 
     // ID 중복 확인 함수
     const idCheck = async () => { 
@@ -41,22 +43,22 @@ const Assign = () => {
         }
         
         try {
-            // 서버로 회원가입 데이터를 전송 요청
             const response = await axios.post('/myapp/assign', {
                 useraccount,
                 password,
                 email
             });
-            console.log('회원가입 완료:', response.data); // 성공적으로 응답을 받은 경우 콘솔 로그 출력
+            console.log('회원가입 완료:', response.data);
+            navigate('/login'); // 회원가입 완료 후 로그인 페이지로 이동
         } catch (error) {
-            // 서버에서 이미 가입된 ID나 닉네임이라는 응답 시 오류 메시지 처리
             if (error.response && error.response.status === 404) {
                 setErrorMessage('이미 가입된 ID 혹은 닉네임입니다.');
             } else { 
-                console.error('회원가입 실패:', error); // 오류가 발생한 경우 콘솔 에러 출력
+                console.error('회원가입 실패:', error);
             }
         }
     } 
+
 
     return (
         <div>
