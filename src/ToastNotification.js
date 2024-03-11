@@ -16,7 +16,10 @@ function ToastNotification() {
     return (
         <div className="toast-alert">
             <img alt="" src="img/alert.png" />
-            <p>입력하지 않은 칸이 있습니다!</p>
+            <p>로그인 실패했습니다 
+                <br/>
+                다시 한 번 시도해 주세요
+            </p>
         </div>
     );
 }
