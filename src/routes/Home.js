@@ -8,10 +8,11 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-    window.location.reload();
+    
       try {
         
         const response = await fetch("/api/movies");
+        
         const body = await response.json();
         setMovies(body);
       } catch (error) {

@@ -13,7 +13,7 @@ class App extends Component {
   render(){
     return (
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home  stateRefresh={this.props.stateRefresh} />} />
         <Route path="/board" element={<BoardList />} />
         <Route path = '/Login' element={<Login/>}/>
         <Route path = '/Assign' element={<Assign/>}/>
