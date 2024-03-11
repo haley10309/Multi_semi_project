@@ -33,20 +33,20 @@ const BoardList = () => {
   // 리뷰 제출 시 호출되는 함수
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (review.trim() !== "") {
-    //   // 새로운 리뷰를 추가하고 상태 업데이트
-    //   setReviews([
-    //     ...reviews,
-    //     {
-    //       id: reviews.length + 1,
-    //       author: "사용자",
-    //       content: review,
-    //       date: new Date(),
-    //       liked: false,
-    //     },
-    //   ]);
-    //   setReview("");
-    // }
+    if (review.trim() !== "") {
+       // 새로운 리뷰를 추가하고 상태 업데이트
+       setReviews([
+         ...reviews,
+         {
+           id: reviews.length + 1,
+           author: "사용자",
+          content: review,
+           date: new Date(),
+           liked: false,
+         },
+       ]);
+       setReview("");
+     }
   };
 
   // 리뷰 수정 시 호출되는 함수
@@ -109,6 +109,7 @@ const BoardList = () => {
           </div>
         ))}
       </div>
+
       <div className="review_list">
         <div className="review_box">
           <h3>리뷰 작성</h3>
@@ -136,13 +137,15 @@ const BoardList = () => {
 
                 {/* 리뷰 좋아요 버튼 */}
                 <br />
+                {!editingId && (
                 <button
                   className="liked_button"
                   onClick={() => handleLike(user.id)}
                 >
-                  {user.likes ? "♥" : "♡"}
-                </button>
-                <span className="review_date">게시일: {user.post_date}</span>
+                  {user.liked ? "♥" : "♡"}
+                </button> 
+                )}
+                <span className="review_date">게시일: {user.date.toLocaleString()}</span>
                 {editingId === user.id ? (
                   <>
                     <button onClick={() => handleSaveEdit(user.user_id)}>
