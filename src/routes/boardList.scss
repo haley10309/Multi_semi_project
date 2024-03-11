@@ -4,6 +4,7 @@
     background-color:  rgb(53, 49, 66);
     height: 80vh;
 }
+
 .movie_image_box{
     width: 45%;
     height: 80vh;
@@ -30,7 +31,6 @@
     color: white;
 
 }
-
 
 .review_list {
     width: 100%;
@@ -60,7 +60,6 @@
     background-color: #0056b3; /* 호버 시 배경색 변경 */
 }
 
-
 .reviews_lists {
     width: 90%;
     margin: 10px auto;
@@ -77,9 +76,8 @@
     
 
 }
-//.review_text_sameID{ 구현 예정 }
 
-.liked_button {
+.likes_button {
     border-radius: 30px;
     border: none;
     outline: none;
@@ -101,6 +99,11 @@
     }
 
 }
+
+.like-count {
+    margin-left: 5px; 
+}
+
 .review_date{
     padding : 2px;
 }
