@@ -17,7 +17,7 @@ const Assign = () => {
     // ID 중복 확인 함수
     const idCheck = async () => { 
       try {
-          const response = await axios.post('/myapp/useraccount', { id: useraccount });
+          const response = await axios.post('/myapp/useraccount', { useraccount : useraccount });
           console.log('ID 중복 확인 결과:', response.data);
           // 서버로부터 응답을 받아 처리하는 코드 추가
       } catch (error) {
@@ -42,7 +42,7 @@ const Assign = () => {
             return;
         }
         
-        try {
+        try { // 200은 try
             const response = await axios.post('/myapp/assign', {
                 useraccount,
                 password,
