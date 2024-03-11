@@ -22,7 +22,7 @@ function Login(props) {
       useraccount,
       password,
     };
-    axios.post("/login", body).then((res) => {
+    axios.post("/myapp/login", body).then((res) => {
       console.log(res.data);
       
       if (res.data.code === 200) {
@@ -36,15 +36,10 @@ function Login(props) {
         });
 
       }
-      if (res.data.code === 400) {
-        setMsg("ID, Password가 비어있습니다.");
+      if (res.data.code === 404) {
+        setMsg("로그인 실패");
       }
-      if (res.data.code === 401) {
-        setMsg("존재하지 않는 ID입니다.");
-      }
-      if (res.data.code === 402) {
-        setMsg("Password가 틀립니다.");
-      }
+      
     });
   };
 
