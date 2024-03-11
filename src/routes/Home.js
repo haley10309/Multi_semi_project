@@ -8,6 +8,7 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        localStorage.setItem("isLoggedIn", false);
         const response = await fetch("/api/movies");
         const body = await response.json();
         setMovies(body);

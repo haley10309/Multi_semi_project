@@ -17,6 +17,7 @@ const Header = () => {
           <ul>
             {!isLoggedIn && <li><Link className="Login" to='/Login'>로그인</Link></li>}
             {!isLoggedIn && <li><Link className="Login" to='/Assign'>회원가입</Link></li>}
+            {isLoggedIn && <li><Link className="Login" to='/Assign'>로그아웃</Link></li>}
           </ul>
         </nav>
 
