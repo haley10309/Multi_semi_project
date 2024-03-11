@@ -1,3 +1,6 @@
+// Assign.scss
+
+// 컨테이너 스타일
 .Assign_md {
   background: #ebecf0;
   display: flex;
@@ -89,21 +92,18 @@ button {
   }
 }
 
-// ID 버튼 스타일 (+닉네임)
-.id-button
-//, .nickname-button 
-{
+// ID 버튼 스타일 
+.id-button {
   padding: 10px 15px;
   border-radius: 5px;
   background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
+  margin-left: auto; // ID 입력란 오른쪽 정렬
 }
 
 // 특정 버튼 호버 스타일
-.id-button:hover
-//, .nickname-button:hover 
-{
+.id-button:hover {
   background-color: #0056b3;
 }
