@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Importing useNavigate hook
 import { ToastNotification } from "../ToastNotification";
 
 function Login(props) {
@@ -9,7 +9,7 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [toastState, setToastState] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Using useNavigate hook instead of useHistory
 
   const onIDhandler = (event) => {
     setUseraccount(event.target.value);
@@ -31,9 +31,8 @@ function Login(props) {
         console.log("로그인");
         // Store login status in localStorage
         localStorage.setItem("isLoggedIn", true);
-        navigate("/", {
-          state: useraccount,
-        });
+        
+        navigate("/", { state: useraccount }); // Using navigate instead of history.push
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
