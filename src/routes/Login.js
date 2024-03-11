@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,8 @@ function Login(props) {
   const [useraccount, setUseraccount] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [toastState, setToastState] = useState(false);
   const navigate = useNavigate();
-  let [toastState, setToastState] = useState(false);
 
   const onIDhandler = (event) => {
     setUseraccount(event.target.value);
@@ -18,32 +18,35 @@ function Login(props) {
     setPassword(event.target.value);
   };
 
-  const LoginFunc = () => {
-    let body = {
+  const LoginFunc = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    const body = {
       useraccount,
       password,
     };
-    try {
-      axios.post("/myapp/login", body).then((res) => {
-        console.log(res.data);
 
+    axios.post("/myapp/login", body)
+      .then((res) => {
+        console.log(res.data);
         if (res.data.code === 200) {
           console.log("로그인");
-
           // Store login status in localStorage
           localStorage.setItem("isLoggedIn", true);
-
           navigate("/", {
             state: useraccount,
           });
+        } else {
+          
+          setMsg("로그인 실패: " + res.data.message); // Set error message if login fails
         }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          setToastState(true);
+        }
+        console.log("로그인 axios post 실패", error);
+        setMsg("로그인 요청에 실패했습니다.");
       });
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setToastState(true);
-      }
-      console.log("로그인 axios post 실패");
-    }
   };
 
   return (
@@ -52,23 +55,21 @@ function Login(props) {
       <form onSubmit={LoginFunc}>
         <div className="ID_form_align">
           <label htmlFor="id"> ID: </label>
-          <input type="text" id="id" onChange={onIDhandler} />
+          <input type="text" id="id" value={useraccount} onChange={onIDhandler} />
         </div>
         <br />
         <div className="PW_form_align">
           <label htmlFor="password">PASSWORD : </label>
-          <input type="password" onChange={onPwhandler} />
+          <input type="password" value={password} onChange={onPwhandler} />
         </div>
         <br />
         <button className="Login_button" type="submit">
           로그인
         </button>
         <br />
-        {msg}
+        {msg && <p>{msg}</p>}
         {/* Conditional rendering for ToastNotification */}
-        {toastState === true ? (
-          <ToastNotification setToastState={setToastState} />
-        ) : null}
+        {toastState && <ToastNotification setToastState={setToastState} />}
       </form>
     </div>
   );
