@@ -4,11 +4,12 @@ import { NavLink, useLocation } from "react-router-dom";
 
 function Home() {
   const [movies, setMovies] = useState([]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        localStorage.setItem("isLoggedIn", false);
+        
         const response = await fetch("/api/movies");
         const body = await response.json();
         setMovies(body);

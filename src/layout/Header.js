@@ -5,7 +5,7 @@ import styles from "./Header.Module.css";
 
 const Header = () => {
   // Check if user is logged in
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true" || false;
 
   return (
     <header className="header">
@@ -15,12 +15,29 @@ const Header = () => {
         </Link>
         <nav className="navigation">
           <ul>
-            {!isLoggedIn && <li><Link className="Login" to='/Login'>로그인</Link></li>}
-            {!isLoggedIn && <li><Link className="Login" to='/Assign'>회원가입</Link></li>}
-            {isLoggedIn && <li><Link className="Login" to='/Assign'>로그아웃</Link></li>}
+            {!isLoggedIn && (
+              <>
+                <li>
+                  <Link className="Login" to="/Login">
+                    로그인
+                  </Link>
+                </li>
+                <li>
+                  <Link className="Login" to="/Assign">
+                    회원가입
+                  </Link>
+                </li>
+              </>
+            )}
+            {isLoggedIn && (
+              <li>
+                <Link className="Login" to="/Logout">
+                  로그아웃
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
-
         <hr />
       </div>
     </header>

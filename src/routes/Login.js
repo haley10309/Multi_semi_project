@@ -29,11 +29,11 @@ function Login(props) {
       .then((res) => {
         console.log(res.data);
         console.log("로그인");
-          // Store login status in localStorage
-          localStorage.setItem("isLoggedIn", true);
-          navigate("/", {
-            state: useraccount,
-          });
+        // Store login status in localStorage
+        localStorage.setItem("isLoggedIn", true);
+        navigate("/", {
+          state: useraccount,
+        });
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
@@ -62,7 +62,6 @@ function Login(props) {
           로그인
         </button>
         <br />
-        
       </form>
     </div>
   );
