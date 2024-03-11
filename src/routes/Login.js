@@ -22,25 +22,31 @@ function Login(props) {
       useraccount,
       password,
     };
-    axios.post("/myapp/login", body).then((res) => {
-      console.log(res.data);
-      
-      if (res.data.code === 200) {
-        console.log("로그인");
-
-        // Store login status in localStorage
-        localStorage.setItem("isLoggedIn", true);
-
-        navigate('/',{
-          state:useraccount
-        });
-
-      }
-      if (res.data.code === 404) {
-        setMsg("로그인 실패");
-      }
-      
-    });
+    try {
+      axios.post("/myapp/login", body).then((res) => {
+        console.log(res.data);
+        
+        if (res.data.code === 200) {
+          console.log("로그인");
+  
+          // Store login status in localStorage
+          localStorage.setItem("isLoggedIn", true);
+  
+          navigate('/',{
+            state:useraccount
+          });
+  
+        }
+        
+        
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        
+    } 
+      console.log("로그인 axios post 실패");
+    }
+    
   };
 
   return (
