@@ -32,49 +32,62 @@
 
 }
 
-.review_list {
-    width: 100%;
-    height: 100vh;
-    float: left;
-
-}
-
-.review_box {
+.review_list{
     width: 90%;
     margin: 10px auto;
 }
 
+.review_box {
+    width: 100%;
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
 .review_input_form {
-    width: 50%;
+    width: 95%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    font-size: 16px;
+
+    textarea {
+        width: 90%;
+        min-height: 100px; /* 최소 높이 지정 */
+        padding: 12px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical; /* 수직 크기 조정 허용 */
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    }
 }
 
 .review_sumbit_button {
-    padding: 10px 20px; /* 상하 10px, 좌우 20px의 내부 여백 추가 */
+    padding: 20px 40px; /* 상하, 좌우 내부 여백 추가 */
+    font-size: 16px;
     background-color: #007bff; /* 배경색 추가 */
     color: #fff; /* 텍스트 색상 추가 */
     border: none; /* 테두리 없애기 */
     cursor: pointer; /* 커서를 포인터로 변경 */
     transition: background-color 0.3s; /* 배경색 변화에 대한 transition 효과 추가 */
 }
+
 .review_sumbit_button:hover {
     background-color: #0056b3; /* 호버 시 배경색 변경 */
 }
 
-.reviews_lists {
+.review_text{
     width: 90%;
     margin: 10px auto;
-    list-style-type: none;
-    word-break: break-all;
-    border-bottom: 1px solid black;
-}
-
-.review_text {
-    width: 90%;
-    margin: 10px auto;
-    color : red;
-    padding: 3%;
-    
-
+    margin-bottom: 10px; /* 아래쪽 여백 추가 */
+    word-break: break-all; /* 긴 단어 및 문자열을 여러 줄로 나눔 */
+    color: purple;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .likes_button {
@@ -100,7 +113,7 @@
 
 }
 
-.like-count {
+.like_count {
     margin-left: 5px; 
 }
 

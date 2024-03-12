@@ -157,16 +157,16 @@ const BoardList = () => {
       </div>
 
       <div className="review_list">
-        <div className="review_box">
-          <h3>리뷰 작성</h3>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="리뷰를 입력하세요"
-              value={review}
-              onChange={handleReviewChange}
-              className="review_input_form"
-            />
+      <div className="review_box">
+       <h3>리뷰 작성</h3>
+       <form onSubmit={handleSubmit}>
+       <textarea
+        rows="3"
+        placeholder="리뷰를 입력하세요"
+        value={review}
+        onChange={handleReviewChange}
+        className="review_input_form"
+      ></textarea>
             <button type="submit" className="review_sumbit_button">
               등록
             </button>
@@ -194,7 +194,7 @@ const BoardList = () => {
                   >
                     {user.likes % 2 === 0 ? "♡" : "♥"}
                   </button>
-                  <span className="like-count">{user.likes}</span>
+                  <span className="like_count">{user.likes}</span>
                 </div>
                 <span className="review_date">
                   게시일: {user.date.toLocaleString()}
