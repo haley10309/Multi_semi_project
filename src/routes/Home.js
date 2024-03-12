@@ -28,7 +28,7 @@ function Home() {
       <div className="row_box">
         {movies.map((movie) => (
           <div className="box" key={movie.number}>
-            <NavLink to={{ pathname: "/board" }}>
+            <NavLink to={`/board?movie_number=${movie.number}`}>
               <img src={movie.img_url} alt={movie.movie_name} />
             </NavLink>
             <h2>{movie.movie_name}</h2>

@@ -31,7 +31,7 @@ function Login(props) {
         console.log("로그인");
         // Store login status in localStorage
         localStorage.setItem("isLoggedIn", true);
-        
+        localStorage.setItem("LoginID",useraccount);
         navigate("/", { state: useraccount }); // Using navigate instead of history.push
       })
       .catch((error) => {

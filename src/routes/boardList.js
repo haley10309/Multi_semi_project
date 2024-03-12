@@ -1,21 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./boardList.scss";
+import { useLocation } from "react-router-dom";
 
-const BoardList = () => {
-  const [movies, setMovies] = useState([]);
+
+const BoardList = () => { 
+  const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보 
   const [review, setReview] = useState("");
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]); //바뀔 때마다 랜더링 : 리뷰 리스트
   const [editingId, setEditingId] = useState(null);
   const [editedReview, setEditedReview] = useState("");
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자의 계정 정보
+  const[isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
+  const searchParams = new URLSearchParams(location.search);
+  const movieNumber = searchParams.get("movie_number"); //Home.js에서 movie_number 받을 변수
 
   useEffect(() => {
+    
+    if(localStorage.getItem("LoginID")!=null){ //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
+      setCurrentUser(localStorage.getItem("LoginID"));
+      setIsLoggedIn(true);
+    }
+
     const fetchData = async () => {
       try {
-        const response = await axios.get("/second_api/movie_info");
-        const response_rv = await axios.get("/review");
+        const response = await axios.get(`/second_api/${movieNumber}`); //영화 정보 가져오기 
+        const response_rv = await axios.get("/review"); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
@@ -24,7 +36,7 @@ const BoardList = () => {
     };
 
     fetchData();
-  }, []);
+  },  [movieNumber]);
 
   // 리뷰 작성자와 현재 사용자를 비교하여 동일한 경우에만 수정 및 삭제 가능하도록 함
   const isAuthor = (useraccount) => {
@@ -199,7 +211,7 @@ const BoardList = () => {
                 <span className="review_date">
                   게시일: {user.date.toLocaleString()}
                 </span>
-                {editingId === user.id ? (
+                {editingId === user.useraccount ? (
                   <>
                     <button onClick={() => handleSaveEdit(user.id, user.user_id)}>저장</button>
                     <button onClick={handleCancelEdit}>취소</button>
