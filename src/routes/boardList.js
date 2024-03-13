@@ -42,17 +42,7 @@ const BoardList = () => {
     };
 
     fetchData();
-    // 민경
-    // fetchReviews(); 
   }, [movieNumber]);
-
-  const formatReviewDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear().toString().slice(-2); // 년도의 마지막 2자리만 추출
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월을 2자리로 표시
-    const day = ('0' + date.getDate()).slice(-2); // 일을 2자리로 표시
-    return `${year}/${month}/${day}`;
-  };
 
   // 민경 - 리뷰 조회 기능 추가
   const fetchReviews = async () => {
@@ -68,7 +58,6 @@ const BoardList = () => {
       }
     }
   };
-
   // 민경 - 리뷰 삽입(작성) 기능 추가
   const addReview = async () => {
     if (isLoggedIn === true) {
@@ -115,14 +104,14 @@ const BoardList = () => {
           content: review,
           date: new Date(),
           likes: 0,
-          rating: user_star_rate // Include the user's star rating in the review object
+        
         },
       ]);
       setReview("");
       setUserStarRate(0); // Reset the user's star rating after submitting the review
     }
   };
-  
+
   /*  민경 - 상단 대체 코드
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -138,6 +127,17 @@ const BoardList = () => {
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditedReview("");
+  };
+  const handleDelete = (user_reviewid, user_useraccount, user_movie_id) => {
+    try {
+      axios.delete(`/review`, {
+        reviewid: user_reviewid,
+        useraccount: user_useraccount,
+        movie_id: user_movie_id,
+      });
+    } catch (e) {
+
+    }
   };
 
   // 좋아요를 누를 때 사용자의 계정 정보를 함께 전달하여 필요한 경우 확인할 수 있도록 함
@@ -268,11 +268,13 @@ const BoardList = () => {
                   </button>
                   <span className="like_count">{user.likes}</span>
                 </div>
-                <span className="review_date">게시일: {formatReviewDate(user.creationdate)}</span>  
+
                 <button>저장</button>
                 <button onClick={handleCancelEdit}>취소</button>
                 <button className="edit_button">수정</button>
-                <button className="delete_button">삭제</button>
+                <button className="delete_button" onClick={handleDelete}>
+                  삭제
+                </button>
               </li>
             ))}
           </div>
