@@ -26,7 +26,7 @@ const BoardList = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/movie?movie_id=${movieNumber}`); //영화 정보 가져오기 
+        const response = await axios.get(`myapp/movie?movie_id=${movieNumber}`); //영화 정보 가져오기 
         const response_rv = await axios.get("/review"); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
@@ -159,10 +159,12 @@ const BoardList = () => {
               />
             </div>
             <div className="movie_explanation">
-              <ul className="movie_info_category">{movie.movie_name}</ul>
-              <ul className="movie_info_category">별점 : {movie.star}</ul>
+              <ul className="movie_info_category">{movie.title}</ul>
+              <ul className="movie_info_category">별점 : {movie.averagerating}</ul>
               <ul className="movie_info_category">감독 : {movie.director}</ul>
-              <ul className="movie_info_category">줄거리 : {movie.story}</ul>
+              <ul className="movie_info_category">출연 : {movie.actors}</ul>
+              <ul className="movie_info_category">출시일 : {movie.releasedate}</ul>
+              <ul className="movie_info_category">줄거리 : {movie.description}</ul>
             </div>
           </div>
         ))}
