@@ -15,7 +15,7 @@ const BoardList = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
-  const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
+  const movieNumber = searchParams.get("movie_id").trim(); //Home.js에서 movie_number 받을 변수
 
   useEffect(() => {
     
@@ -23,6 +23,7 @@ const BoardList = () => {
       setCurrentUser(localStorage.getItem("LoginID"));
       setIsLoggedIn(true);
     }
+    console.log("Movie ID:", movieNumber);
 
     const fetchData = async () => {
       try {

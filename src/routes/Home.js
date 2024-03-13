@@ -12,7 +12,7 @@ function Home() {
       try {
         
 
-        const response = await fetch("myapp/movieList");
+        const response = await fetch("/myapp/movieList");
 
         
         const body = await response.json();
@@ -30,7 +30,7 @@ function Home() {
       <div className="row_box">
         {movies.map((movie) => (
           <div className="box" key={movie.movie_id}>
-            <NavLink to={`/board?movie_number=${movie.movie_id}`}>
+            <NavLink to={`/board?movie_id=${movie.movie_id}`}>
               <img src={movie.img_url} alt={movie.title} />
             </NavLink>
             <h2>{movie.title}</h2>
