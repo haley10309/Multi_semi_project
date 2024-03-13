@@ -240,7 +240,7 @@ const BoardList = () => {
             <h3>리뷰 목록</h3>
             {reviews.map((user) => (
               <li className="reviews_lists" key={user.useraccount}>
-                <span>{user.useraccount}</span>
+                <span className="review_list_useraccount">{user.useraccount}</span>
                 <br />
 
                 <span className="review_text">{user.content}</span>
