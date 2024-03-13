@@ -29,7 +29,7 @@ const BoardList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
-        console.log(response);
+        console.log(response.data);
         //const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
         setMovies(response.data);
         //setReviews(response_rv.data);
@@ -200,11 +200,11 @@ const BoardList = () => {
           </form>
           <div className="reviews_box">
             <h3>리뷰 목록</h3>
-            {/* {reviews.map((user) => (
-              <li className="reviews_lists" key={user.user_id}>
-                <span>{user.user_id}</span>
+            {reviews.map((user) => (
+              <li className="reviews_lists" key={user.useraccount}>
+                <span>{user.useraccount}</span>
                 <br />
-                {editingId === user.id ? (
+                {editingId === user.useraccount ? (
                   <input
                     type="text"
                     value={editedReview}
@@ -217,7 +217,7 @@ const BoardList = () => {
                 <div>
                   <button
                     className="likes_button"
-                    onClick={() => handleLike(user.id)}
+                    onClick={() => handleLike(user.useraccount)}
                   >
                     {user.likes % 2 === 0 ? "♡" : "♥"}
                   </button>
@@ -229,7 +229,7 @@ const BoardList = () => {
                 {editingId === user.useraccount ? (
                   <>
                     <button
-                      onClick={() => handleSaveEdit(user.id, user.user_id)}
+                      onClick={() => handleSaveEdit(user.useraccount, user.user_id)}
                     >
                       저장
                     </button>
@@ -258,7 +258,7 @@ const BoardList = () => {
                   </>
                 )}
               </li>
-            ))} */}
+            ))}
           </div>
         </div>
       </div>
