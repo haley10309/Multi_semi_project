@@ -29,10 +29,10 @@ function Home() {
         {movies.map((movie) => (
           <div className="box" key={movie.movie_id}>
             <NavLink to={`/board?movie_number=${movie.movie_id}`}>
-              <img src={movie.img_url} alt={movie.movie_name} />
+              <img src={movie.img_url} alt={movie.title} />
             </NavLink>
-            <h2>{movie.movie_name}</h2>
-            <p>{movie.star}</p>
+            <h2>{movie.title}</h2>
+            <p>{movie.averagerating}</p>
           </div>
         ))}
       </div>

@@ -26,7 +26,7 @@ const BoardList = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/second_api/${movieNumber}`); //영화 정보 가져오기 
+        const response = await axios.get(`/movie?movie_id=${movieNumber}`); //영화 정보 가져오기 
         const response_rv = await axios.get("/review"); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
