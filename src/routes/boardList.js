@@ -224,7 +224,7 @@ const BoardList = () => {
                   <span className="like_count">{user.likes}</span>
                 </div>
                 <span className="review_date">
-                  게시일: {user.date.toLocaleString()}
+                  게시일: {user.date}
                 </span>
                 {editingId === user.useraccount ? (
                   <>
