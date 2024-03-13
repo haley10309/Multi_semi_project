@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./boardList.scss";
 import { useLocation } from "react-router-dom";
+import Rating from '@mui/material/Rating';
+
 
 const BoardList = () => {
   const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
@@ -11,7 +13,9 @@ const BoardList = () => {
   const [editedReview, setEditedReview] = useState("");
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자의 계정 정보
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //현재 로그인한 상태인지에 대한 여부
+  const user_star_rate = 0; //사용자가 생각하는 영화의 별점
+  const user_liked = false;
 
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
@@ -25,6 +29,7 @@ const BoardList = () => {
     }
     console.log("Movie ID:", movieNumber);
     const params = { movie_id: movieNumber };
+    
 
     const fetchData = async () => {
       try {
@@ -33,6 +38,7 @@ const BoardList = () => {
         const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -57,24 +63,31 @@ const BoardList = () => {
   };
   // 민경 - 리뷰 삽입(작성) 기능 추가
   const addReview = async () => {
-    try {
-      const response = await axios.post(`/myapp/review`, {
-        useraccount: currentUser,
-        movie_id: movieNumber,
-        content: review,
-        date: new Date().toLocaleString(),
-        likes: 0,
-      });
-      // 응답을 콘솔에 출력
-      console.log("Review added successfully:", response.data);
-      setReviews([...reviews, response.data]); // 새 리뷰를 추가
-      setReview("");
-    } catch (error) {
-      console.error("Error adding review:", error);
-      if (error.response && error.response.status === 404) {
-        console.error("Bad request:", error.response.data);
+    if (isLoggedIn === true) {
+      //로그인이 되어 있는 사용자 일때
+      try {
+        const response = await axios.post(`/myapp/review`, {
+          useraccount: currentUser,
+          movie_id: movieNumber,
+          content: review,
+          star : user_star_rate,
+        });
+        // 응답을 콘솔에 출력
+        console.log("Review added successfully:", response.data);
+        setReviews([...reviews, response.data]); // 새 리뷰를 추가
+        setReview("");
+      } catch (error) {
+        console.error("Error adding review:", error);
+        if (error.response && error.response.status === 404) {
+          console.error("Bad request:", error.response.data);
+        }
       }
+    } else {
+      //로그인이 안되어 있을 때
+      alert("로그인 후 사용해주세요.");
+
     }
+
   };
 
   const handleReviewChange = (e) => {
@@ -181,6 +194,7 @@ const BoardList = () => {
               <ul className="movie_info_category">
                 별점 : {movie.averagerating}
               </ul>
+              <Rating name="movie_star_rating" value={movie.averagerating} readOnly/>
               <ul className="movie_info_category">감독 : {movie.director}</ul>
               <ul className="movie_info_category">출연 : {movie.actors}</ul>
               <ul className="movie_info_category">
@@ -205,7 +219,12 @@ const BoardList = () => {
               onChange={handleReviewChange}
               className="review_input_form"
             ></textarea>
-            <button type="submit" className="review_sumbit_button">
+            <Rating name="review_star" value={user_star_rate} defaultValuevalue={0.5} />
+            <button
+              type="submit"
+              className="review_sumbit_button"
+              onClick={addReview}
+            >
               등록
             </button>
           </form>
@@ -215,23 +234,31 @@ const BoardList = () => {
               <li className="reviews_lists" key={user.useraccount}>
                 <span>{user.useraccount}</span>
                 <br />
+
                 
-                  <input
-                    type="text"
-                    value={editedReview}
-                    onChange={(e) => setEditedReview(e.target.value)}
-                  />
-                
-                  <span className="review_text">{user.content}</span>
-                
+
+                <span className="review_text">{user.content}</span>
+                <Rating name="review_star" value={user.rating} readOnly/>
+
                 <br />
                 <div>
-                  <button  className="likes_button"  onClick={() => handleLike(user.useraccount)}  >
-                    {user.likes % 2 === 0 ? "♡" : "♥"}
+                  <button
+                    className="likes_button"
+                    onClick={() => handleLike()}
+                  >
+                    {user.user_liked === false ? "♡" : "♥"}
                   </button>
                   <span className="like_count">{user.likes}</span>
                 </div>
-                <span className="review_date">게시일: {user.date}</span>
+                <span className="review_date">게시일: {new Intl.DateTimeFormat('ko-KR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                  second: 'numeric'
+                  }).format(new Date(user.date))}
+                </span>
                 <button>저장</button>
                 <button onClick={handleCancelEdit}>취소</button>
                 <button className="edit_button">수정</button>
