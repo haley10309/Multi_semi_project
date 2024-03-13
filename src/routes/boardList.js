@@ -3,9 +3,8 @@ import axios from "axios";
 import "./boardList.scss";
 import { useLocation } from "react-router-dom";
 
-
-const BoardList = () => { 
-  const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보 
+const BoardList = () => {
+  const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]); //바뀔 때마다 랜더링 : 리뷰 리스트
   const [editingId, setEditingId] = useState(null);
@@ -15,20 +14,20 @@ const BoardList = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
-  const movieNumber = searchParams.get("movie_id").trim(); //Home.js에서 movie_number 받을 변수
+  const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
 
   useEffect(() => {
-    
-    if(localStorage.getItem("LoginID")!=null){ //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
+    if (localStorage.getItem("LoginID") != null) {
+      //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       setCurrentUser(localStorage.getItem("LoginID"));
       setIsLoggedIn(true);
     }
     console.log("Movie ID:", movieNumber);
-
+    const params = { movie_id: movieNumber };
+    
     const fetchData = async () => {
-      const params = {movie_id : movieNumber};
       try {
-        const response = await axios.get(`/myapp/movie`,{params}); //영화 정보 가져오기 
+        const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
         const response_rv = await axios.get(`/myapp/review`); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
@@ -38,7 +37,7 @@ const BoardList = () => {
     };
 
     fetchData();
-  },  [movieNumber]);
+  }, [movieNumber]);
 
   // 리뷰 작성자와 현재 사용자를 비교하여 동일한 경우에만 수정 및 삭제 가능하도록 함
   const isAuthor = (useraccount) => {
@@ -121,7 +120,9 @@ const BoardList = () => {
         const updatedReview = response.data;
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review.id === id ? { ...review, likes: updatedReview.likes } : review
+            review.id === id
+              ? { ...review, likes: updatedReview.likes }
+              : review
           )
         );
       } else {
@@ -139,7 +140,9 @@ const BoardList = () => {
         const updatedReview = response.data;
         setReviews((prevReviews) =>
           prevReviews.map((review) =>
-            review.id === id ? { ...review, likes: updatedReview.likes } : review
+            review.id === id
+              ? { ...review, likes: updatedReview.likes }
+              : review
           )
         );
       }
@@ -152,37 +155,43 @@ const BoardList = () => {
     <div className="the_whole_box">
       <div className="movie_info">
         {movies.map((movie) => (
-          <div key={movie.id}>
+          <div>
             <div className="movie_image_box">
               <img
                 className="movie_image"
                 src={movie.img_url}
-                alt={movie.movie_name}
+                alt={movie.movieid}
               />
             </div>
             <div className="movie_explanation">
               <ul className="movie_info_category">{movie.title}</ul>
-              <ul className="movie_info_category">별점 : {movie.averagerating}</ul>
+              <ul className="movie_info_category">
+                별점 : {movie.averagerating}
+              </ul>
               <ul className="movie_info_category">감독 : {movie.director}</ul>
               <ul className="movie_info_category">출연 : {movie.actors}</ul>
-              <ul className="movie_info_category">출시일 : {movie.releasedate}</ul>
-              <ul className="movie_info_category">줄거리 : {movie.description}</ul>
+              <ul className="movie_info_category">
+                출시일 : {movie.releasedate}
+              </ul>
+              <ul className="movie_info_category">
+                줄거리 : {movie.description}
+              </ul>
             </div>
           </div>
         ))}
       </div>
 
       <div className="review_list">
-      <div className="review_box">
-       <h3>리뷰 작성</h3>
-       <form onSubmit={handleSubmit}>
-       <textarea
-        rows="3"
-        placeholder="리뷰를 입력하세요"
-        value={review}
-        onChange={handleReviewChange}
-        className="review_input_form"
-      ></textarea>
+        <div className="review_box">
+          <h3>리뷰 작성</h3>
+          <form onSubmit={handleSubmit}>
+            <textarea
+              rows="3"
+              placeholder="리뷰를 입력하세요"
+              value={review}
+              onChange={handleReviewChange}
+              className="review_input_form"
+            ></textarea>
             <button type="submit" className="review_sumbit_button">
               등록
             </button>
@@ -217,7 +226,11 @@ const BoardList = () => {
                 </span>
                 {editingId === user.useraccount ? (
                   <>
-                    <button onClick={() => handleSaveEdit(user.id, user.user_id)}>저장</button>
+                    <button
+                      onClick={() => handleSaveEdit(user.id, user.user_id)}
+                    >
+                      저장
+                    </button>
                     <button onClick={handleCancelEdit}>취소</button>
                   </>
                 ) : (
@@ -225,7 +238,9 @@ const BoardList = () => {
                     {isAuthor(user.author) && (
                       <button
                         className="edit_button"
-                        onClick={() => handleEdit(user.id, user.content, user.author)}
+                        onClick={() =>
+                          handleEdit(user.id, user.content, user.author)
+                        }
                       >
                         수정
                       </button>
