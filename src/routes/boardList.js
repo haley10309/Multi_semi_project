@@ -24,7 +24,7 @@ const BoardList = () => {
       setIsLoggedIn(true);
     }
     console.log("Movie ID:", movieNumber);
-    const params = {movie_id: movieNumber};
+    const params = { movie_id: movieNumber };
 
     const fetchData = async () => {
       try {
@@ -41,9 +41,40 @@ const BoardList = () => {
     fetchData();
   }, [movieNumber]);
 
-  // 리뷰 작성자와 현재 사용자를 비교하여 동일한 경우에만 수정 및 삭제 가능하도록 함
-  const isAuthor = (useraccount) => {
-    return currentUser === useraccount;
+  // 민경 - 리뷰 조회 기능 추가
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(`/myapp/review`); // 리뷰 정보 가져오기
+      // 응답을 콘솔에 출력
+      console.log("Reviews fetched successfully:", response.data);
+      setReviews(response.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      if (error.response && error.response.status === 404) {
+        console.error("Bad request:", error.response.data);
+      }
+    }
+  };
+  // 민경 - 리뷰 삽입(작성) 기능 추가
+  const addReview = async () => {
+    try {
+      const response = await axios.post(`/myapp/review`, {
+        useraccount: currentUser,
+        movie_id: movieNumber,
+        content: review,
+        date: new Date().toLocaleString(),
+        likes: 0,
+      });
+      // 응답을 콘솔에 출력
+      console.log("Review added successfully:", response.data);
+      setReviews([...reviews, response.data]); // 새 리뷰를 추가
+      setReview("");
+    } catch (error) {
+      console.error("Error adding review:", error);
+      if (error.response && error.response.status === 404) {
+        console.error("Bad request:", error.response.data);
+      }
+    }
   };
 
   const handleReviewChange = (e) => {
@@ -66,41 +97,21 @@ const BoardList = () => {
       setReview("");
     }
   };
-
-  const handleEdit = (id, content, useraccount) => {
-    if (isAuthor(useraccount)) {
-      setEditingId(id);
-      setEditedReview(content);
-    } else {
-      alert("리뷰를 수정할 수 있는 권한이 없습니다.");
+  /*  민경 - 상단 대체 코드
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (review.trim() !== "") {
+      try {
+        await addReview(); // 리뷰를 추가하는 함수 호출
+      } catch (error) {
+        console.error("Error handling submit:", error);
+      }
     }
-  };
-
-  const handleSaveEdit = (id, useraccount) => {
-    if (isAuthor(useraccount)) {
-      setReviews(
-        reviews.map((review) =>
-          review.id === id ? { ...review, content: editedReview } : review
-        )
-      );
-      setEditingId(null);
-      setEditedReview("");
-    } else {
-      alert("리뷰를 수정할 수 있는 권한이 없습니다.");
-    }
-  };
+  }; */
 
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditedReview("");
-  };
-
-  const handleDelete = (id, useraccount) => {
-    if (currentUser && isAuthor(useraccount)) {
-      setReviews(reviews.filter((review) => review.id !== id));
-    } else {
-      alert("리뷰를 삭제할 수 있는 권한이 없습니다.");
-    }
   };
 
   // 좋아요를 누를 때 사용자의 계정 정보를 함께 전달하여 필요한 경우 확인할 수 있도록 함
@@ -204,59 +215,27 @@ const BoardList = () => {
               <li className="reviews_lists" key={user.useraccount}>
                 <span>{user.useraccount}</span>
                 <br />
-                {editingId === user.useraccount ? (
+                
                   <input
                     type="text"
                     value={editedReview}
                     onChange={(e) => setEditedReview(e.target.value)}
                   />
-                ) : (
+                
                   <span className="review_text">{user.content}</span>
-                )}
+                
                 <br />
                 <div>
-                  <button
-                    className="likes_button"
-                    onClick={() => handleLike(user.useraccount)}
-                  >
+                  <button  className="likes_button"  onClick={() => handleLike(user.useraccount)}  >
                     {user.likes % 2 === 0 ? "♡" : "♥"}
                   </button>
                   <span className="like_count">{user.likes}</span>
                 </div>
-                <span className="review_date">
-                  게시일: {user.date}
-                </span>
-                {editingId === user.useraccount ? (
-                  <>
-                    <button
-                      onClick={() => handleSaveEdit(user.useraccount, user.user_id)}
-                    >
-                      저장
-                    </button>
-                    <button onClick={handleCancelEdit}>취소</button>
-                  </>
-                ) : (
-                  <>
-                    {isAuthor(user.author) && (
-                      <button
-                        className="edit_button"
-                        onClick={() =>
-                          handleEdit(user.id, user.content, user.author)
-                        }
-                      >
-                        수정
-                      </button>
-                    )}
-                    {isAuthor(user.author) && (
-                      <button
-                        className="delete_button"
-                        onClick={() => handleDelete(user.id, user.author)}
-                      >
-                        삭제
-                      </button>
-                    )}
-                  </>
-                )}
+                <span className="review_date">게시일: {user.date}</span>
+                <button>저장</button>
+                <button onClick={handleCancelEdit}>취소</button>
+                <button className="edit_button">수정</button>
+                <button className="delete_button">삭제</button>
               </li>
             ))}
           </div>
