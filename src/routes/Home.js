@@ -10,11 +10,7 @@ function Home() {
     const fetchData = async () => {
     
       try {
-        
-
         const response = await fetch("/myapp/movieList");
-
-        
         const body = await response.json();
         setMovies(body);
       } catch (error) {

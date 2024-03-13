@@ -12,6 +12,7 @@ const BoardList = () => {
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자의 계정 정보
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
   const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
@@ -23,14 +24,15 @@ const BoardList = () => {
       setIsLoggedIn(true);
     }
     console.log("Movie ID:", movieNumber);
-    const params = { movie_id: movieNumber };
-    
+    const params = {movie_id: movieNumber};
+
     const fetchData = async () => {
       try {
         const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
-        const response_rv = await axios.get(`/myapp/review`); //리뷰 정보 가져오기
+        console.log(response);
+        //const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
         setMovies(response.data);
-        setReviews(response_rv.data);
+        //setReviews(response_rv.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -198,7 +200,7 @@ const BoardList = () => {
           </form>
           <div className="reviews_box">
             <h3>리뷰 목록</h3>
-            {reviews.map((user) => (
+            {/* {reviews.map((user) => (
               <li className="reviews_lists" key={user.user_id}>
                 <span>{user.user_id}</span>
                 <br />
@@ -256,7 +258,7 @@ const BoardList = () => {
                   </>
                 )}
               </li>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
