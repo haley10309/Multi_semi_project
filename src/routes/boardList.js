@@ -42,8 +42,19 @@ const BoardList = () => {
     };
 
     fetchData();
+    // 민경
+    // fetchReviews(); 
   }, [movieNumber]);
 
+  const formatReviewDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().slice(-2); // 년도의 마지막 2자리만 추출
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월을 2자리로 표시
+    const day = ('0' + date.getDate()).slice(-2); // 일을 2자리로 표시
+    return `${year}/${month}/${day}`;
+  };
+
+  
   // 민경 - 리뷰 조회 기능 추가
   const fetchReviews = async () => {
     try {
@@ -268,7 +279,7 @@ const BoardList = () => {
                   </button>
                   <span className="like_count">{user.likes}</span>
                 </div>
-
+                <span className="review_date">게시일: {formatReviewDate(user.creationdate)}</span>
                 <button>저장</button>
                 <button onClick={handleCancelEdit}>취소</button>
                 <button className="edit_button">수정</button>
