@@ -26,9 +26,10 @@ const BoardList = () => {
     console.log("Movie ID:", movieNumber);
 
     const fetchData = async () => {
+      const params = {movie_id : movieNumber};
       try {
-        const response = await axios.get(`/myapp/movie?movie_id=${movieNumber}`); //영화 정보 가져오기 
-        const response_rv = await axios.get("/myapp/review"); //리뷰 정보 가져오기
+        const response = await axios.get(`/myapp/movie`,{params}); //영화 정보 가져오기 
+        const response_rv = await axios.get(`/myapp/review`); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
