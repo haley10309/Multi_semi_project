@@ -12,10 +12,10 @@ const BoardList = () => {
   const [editedReview, setEditedReview] = useState("");
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자의 계정 정보
-  const[isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
-  const movieNumber = searchParams.get("movie_number"); //Home.js에서 movie_number 받을 변수
+  const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
 
   useEffect(() => {
     

@@ -11,7 +11,7 @@ function Home() {
     
       try {
         
-        const response = await fetch("/api/movies");
+        const response = await fetch("/movieList");
         
         const body = await response.json();
         setMovies(body);
@@ -27,12 +27,12 @@ function Home() {
     <div className="cover">
       <div className="row_box">
         {movies.map((movie) => (
-          <div className="box" key={movie.number}>
-            <NavLink to={`/board?movie_number=${movie.number}`}>
+          <div className="box" key={movie.movie_id}>
+            <NavLink to={`/board?movie_number=${movie.movie_id}`}>
               <img src={movie.img_url} alt={movie.movie_name} />
             </NavLink>
             <h2>{movie.movie_name}</h2>
-            <p>{movie.star_rate}</p>
+            <p>{movie.star}</p>
           </div>
         ))}
       </div>
