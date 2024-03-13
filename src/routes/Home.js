@@ -11,7 +11,11 @@ function Home() {
     
       try {
         
+<<<<<<< HEAD
         const response = await fetch("/myapp/movieList");
+=======
+        const response = await fetch("myapp/movieList");
+>>>>>>> f2db21f4de4ff726c121fe8cf323011cb5942f78
         
         const body = await response.json();
         setMovies(body);
