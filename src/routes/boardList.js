@@ -103,12 +103,16 @@ const BoardList = () => {
           author: currentUser,
           content: review,
           date: new Date(),
-          likes: 0, // 좋아요 수 초기값 설정
+          likes: 0,
+          rating: user_star_rate // Include the user's star rating in the review object
         },
       ]);
       setReview("");
+      setUserStarRate(0); // Reset the user's star rating after submitting the review
     }
   };
+  
+  
   /*  민경 - 상단 대체 코드
     const handleSubmit = async (e) => {
     e.preventDefault();
@@ -175,6 +179,7 @@ const BoardList = () => {
       console.error("Error updating like:", error);
     }
   };
+  //=============handleLike ================
 
   return (
     <div className="the_whole_box">
