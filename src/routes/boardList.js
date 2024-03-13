@@ -46,6 +46,7 @@ const BoardList = () => {
     // fetchReviews(); 
   }, [movieNumber]);
 
+  // 민경 - 게시일 받는 함수
   const formatReviewDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear().toString().slice(-2); // 년도의 마지막 2자리만 추출
@@ -95,6 +96,7 @@ const BoardList = () => {
       alert("로그인 후 사용해주세요.");
     }
   };
+
   //별점 value변화 할 때마다 호출 -> 저장
   const handleStarRatingChange = (event, newValue) => {
     setUserStarRate(newValue); // Update user's star rating
@@ -123,18 +125,6 @@ const BoardList = () => {
     }
   };
 
-  /*  민경 - 상단 대체 코드
-    const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (review.trim() !== "") {
-      try {
-        await addReview(); // 리뷰를 추가하는 함수 호출
-      } catch (error) {
-        console.error("Error handling submit:", error);
-      }
-    }
-  }; */
-
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditedReview("");
@@ -151,58 +141,43 @@ const BoardList = () => {
     }
   };
 
-  // 좋아요를 누를 때 사용자의 계정 정보를 함께 전달하여 필요한 경우 확인할 수 있도록 함
+  // 민경 - 좋아요 구현부
+  // 좋아요를 토글하는 함수
   const handleLike = async (id) => {
     try {
-      // 사용자가 이미 누른 리뷰인지 확인
-      if (likesReviews.includes(id)) {
-        // 좋아요 취소
-        setLikesReviews(likesReviews.filter((reviewId) => reviewId !== id));
-
-        // 좋아요 수 감소 후 상태 업데이트
-        setReviews(
-          reviews.map((review) =>
-            review.id === id ? { ...review, likes: review.likes - 1 } : review
-          )
-        );
-
-        const response = await axios.put(`/unlike/${id}`);
-        const updatedReview = response.data;
-        setReviews((prevReviews) =>
-          prevReviews.map((review) =>
-            review.id === id
-              ? { ...review, likes: updatedReview.likes }
-              : review
-          )
-        );
-      } else {
-        // 좋아요 추가
-        setLikesReviews([...likesReviews, id]);
-
-        // 좋아요 수 증가 후 상태 업데이트
-        setReviews(
-          reviews.map((review) =>
-            review.id === id ? { ...review, likes: review.likes + 1 } : review
-          )
-        );
-
-        const response = await axios.put(`/reviewlike`);
-        const updatedReview = response.data;
-        setReviews((prevReviews) =>
-          prevReviews.map((review) =>
-            review.id === id
-              ? { ...review, likes: updatedReview.likes }
-              : review
-          )
-        );
-      }
+      const isLiked = likesReviews.includes(id); // includes : 배열에 특정 요소가 포함되어 있는지 여부를 확인하는 함수
+  
+      // /like 업데이트하는 요청 보내기
+      await axios.post(`/like`, {
+        useraccount: currentUser,
+        reviewid: id,
+        status: !isLiked,
+      });
+  
+      // /reviewlike 업데이트하는 요청 보내기
+      await axios.post(`/reviewlike`, {
+        useraccount: currentUser,
+        reviewid: id,
+        status: !isLiked,
+      });
+  
+      // 리뷰 목록에서 해당 리뷰의 좋아요 수 변경
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review.id === id ? { ...review, likes: isLiked ? review.likes - 1 : review.likes + 1 } : review
+        )
+      );
+  
+      // 좋아요 상태 업데이트
+      setLikesReviews(isLiked ? likesReviews.filter((reviewId) => reviewId !== id) : [...likesReviews, id]);
     } catch (error) {
       console.error("Error updating like:", error);
     }
   };
+
   //=============handleLike ================
 
-  return (
+ return (
     <div className="the_whole_box">
       <div className="movie_info">
         {movies.map((movie) => (
@@ -256,7 +231,7 @@ const BoardList = () => {
             />
             <button
               type="submit"
-              className="review_sumbit_button"
+              className="review_submit_button"
               onClick={addReview}
             >
               등록
@@ -274,16 +249,19 @@ const BoardList = () => {
 
                 <br />
                 <div>
-                  <button className="likes_button" onClick={() => handleLike()}>
+                <button 
+                className={`likes_button ${user.user_liked ? 'liked' : ''}`} 
+                onClick={() => handleLike(user.id)} >
                     {user.user_liked === false ? "♡" : "♥"}
                   </button>
                   <span className="like_count">{user.likes}</span>
                 </div>
                 <span className="review_date">게시일: {formatReviewDate(user.creationdate)}</span>
-                <button>저장</button>
-                <button onClick={handleCancelEdit}>취소</button>
+                {/* 민경 - 수정 버튼을 누르면 저장 버튼으로 변경하는 함수 필요한지 확인 */}
                 <button className="edit_button">수정</button>
-                <button className="delete_button" onClick={handleDelete(user.reviewId,user.useraccount,movieNumber)}>
+                <button className="save_button">저장</button>
+                <button className="cancel_button" onClick={handleCancelEdit}>취소</button>
+                <button className="delete_button" onClick={() => handleDelete(user.reviewId, user.useraccount, movieNumber)}>
                   삭제
                 </button>
               </li>
