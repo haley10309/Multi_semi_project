@@ -30,9 +30,9 @@ const BoardList = () => {
       try {
         const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
         console.log(response.data);
-        //const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
+        const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
         setMovies(response.data);
-        //setReviews(response_rv.data);
+        setReviews(response_rv.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
