@@ -4,45 +4,58 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* 영화 정보 컨테이너 */
 .movie_info {
     width: 90%;
     margin: 10px auto;
-    background-color: #dde0ea;
-    height: 50vh;
-    display: flex;
-    justify-content: space-between;
-    border-radius: 30px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
+    background-color: rgb(53, 49, 66);
+    height: 80vh;
+    border-radius: 15px;
+    background-image: linear-gradient(to top, #FFF5EA, #dde0ea);  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+} 
 
-/* 영화 이미지 */
-.movie_image_box {
+.movie_image_box{
     width: 45%;
     height: 80vh;
-    background-color: #FFF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgb(53, 49, 66);
+    float: left;
+    margin-left: 5%;
+    border-radius: 15px;
+    background-image: linear-gradient(to top, #FFF5EA, #dde0ea);   
 }
 
 .movie_image {
-    width: 85%;
-    height: 75vh;
-    margin: 10px;
-    background-color: #FFF;
+    width: 75%;
+    height: 65vh;
+    margin : 85px;
+    float: right;
+    background-color: #F5F5F5;
     object-fit: cover;
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* 영화 설명 */
 .movie_explanation {
+    position: relative;
     width: 45%;
-    height: 80vh;
-    margin: 10px;
+    height: 70vh;
+    float: left;
+    margin: 80px 80px 80px 0px;
+    color: white;
+}
+
+/* 각 항목의 폰트 크기 조정 */
+.movie_explanation ul.movie_info_category {
+    font-size: 30px; 
+    font-weight: 500;
+    line-height: 1.8; 
+    color: #6C757D;
+}
+
+/* 영화 제목 폰트 크기 조정 */
+.movie_info_category_title {
+    font-size: 80px; 
     color: #333;
-    overflow-y: auto;
+    font-weight: bold;
 }
 
 /* 리뷰 리스트 컨테이너 */
@@ -51,20 +64,35 @@ body {
     margin: 10px auto;
 }
 
+/* 리뷰 작성, 리뷰 목록 제목 */
+.review_box h3:first-child {
+    font-size: 20px; /* 폰트 크기 조절 */
+    color: #333; /* 텍스트 색상 */
+    margin-top: 5px;
+    margin-bottom: 5px; /* 하단 마진 설정 */
+    margin-left: 60px; /* 우측 마진 설정 */
+    font-family: 'Arial', sans-serif; /* 폰트 패밀리 설정 */
+    font-weight: bold; /* 폰트 굵기 설정 */
+    text-transform: uppercase; /* 텍스트 대문자 변환 */
+    letter-spacing: 1px; /* 글자 간격 설정 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 설정 */
+  }
+  
+
 /* 리뷰 박스 */
 .review_box {
     width: 100%;
-    margin-top: 20px;
-    background-color: #dde0ea;
+    margin-top: 15px;
+    background-image: linear-gradient(to top,#dde0ea, #FFF5EA);   
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 리뷰 입력 폼 */
 .review_input_form {
-    width: 100%;
+    width: 90%;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom:20px;
     padding: 20px;
     font-size: 16px;
     background-color: #FFF;
@@ -73,13 +101,12 @@ body {
 }
 
 .review_input_form textarea {
-    width: 100%;
-    min-height: 100px;
     padding: 12px;
     font-size: 16px;
     border: 1px solid #CCC;
     border-radius: 4px;
-    resize: vertical;
+    resize: none; /* 크기 조절 비활성화 */
+    overflow: hidden; /* 스크롤 표시하지 않음 */
     transition: border-color 0.3s ease;
 }
 
@@ -98,7 +125,7 @@ body {
     cursor: pointer;
     transition: transform 0.3s, background-color 0.3s;
     color: #FFF;
-    background-color: #7C50A4;
+    background-color: #7f3cbe;
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -111,20 +138,23 @@ body {
 /* 좋아요 */
 .likes_button {
     width: fit-content;
-    padding: 7px;
+    padding: 1.5px;
+    padding-inline: 7px;
     border-radius: 50%;
     font-size: 20px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 7.5px;
     cursor: pointer;
     transition: transform 80ms ease-in;
     color: #6C757D;
-    background-color: #FFF;
-    border: 2px solid #6C757D;
+    background-color: transparent; 
+    box-shadow: 0 0 3px rgb(255, 255, 255);
 }
 
 .likes_button:hover {
     transform: scale(1.1);
+    background-color: #dde0ea;
+    color: #5B3C87;
 }
 
 .likes_button.liked {
@@ -161,7 +191,7 @@ body {
 .cancel_button:hover,
 .delete_button:hover {
     transform: scale(1.05);
-    background-color: #F0F0F0;
+    background-color: #f0f0f0b4;
 }
 
 /* 수정, 삭제, 취소 버튼의 공통 스타일 */
@@ -173,15 +203,15 @@ body {
 }
 
 .edit_button {
-    background-color: #007BFF;
+    background-color: #968C83;
 }
 
 .cancel_button {
-    background-color: #6C757D;
+    background-color: rgb(72, 123, 177)
 }
 
 .delete_button {
-    background-color: #DC3545;
+    background-color: #dc3546;
 }
 
 /* 리뷰 리스트 스타일 */
@@ -193,7 +223,7 @@ body {
     word-break: break-all;
     color: #5B3C87;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 19px;
 }
 .review_list_useraccount {
     width: 90%;
