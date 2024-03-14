@@ -32,6 +32,9 @@ body {
     background-color: #F5F5F5;
     object-fit: cover;
     border-radius: 15px;
+
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+
 }
 
 .movie_explanation {
@@ -85,11 +88,15 @@ body {
     margin-top: 15px;
     background-image: linear-gradient(to top,#dde0ea, #FFF5EA);   
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
 }
-
+//'리뷰 작성 폼'
+.review_start{
+ margin : 10px;
+}
 /* 리뷰 입력 폼 */
 .review_input_form {
+
     width: 90%;
     margin-top: 20px;
     margin-bottom:20px;
