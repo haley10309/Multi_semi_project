@@ -15,8 +15,9 @@ const Header = () => {
 
   const handleLogout = () => {
     // Clear localStorage and update state
-    localStorage.set("isLoggedIn",false);
+    localStorage.setItem("isLoggedIn",false);
     setIsLoggedIn(false);
+    
   };
 
   return (
