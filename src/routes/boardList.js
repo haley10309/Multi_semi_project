@@ -29,13 +29,22 @@ const BoardList = () => {
     console.log("Movie ID:", movieNumber);
 
     const params_mv = { movie_id: movieNumber };
-    const params_review = { movie_id : movieNumber, likeuseraccount: currentUser};
+    const params_movie_id = { movie_id : movieNumber};
+    const params_likeuseraccount = {likeuseraccount: currentUser};
 
     const fetchData = async () => {
       try {
         const response = await axios.get(`/myapp/movie`, { params : params_mv }); //영화 정보 가져오기
         console.log(response.data);
-        const response_rv = await axios.get(`/myapp/review`, { params: params_review });
+        const response_rv = await axios.get(`/myapp/review`, 
+        {
+          params: 
+          { 
+            movie_id: movieNumber, 
+            likeuseraccount: currentUser
+          }
+        }
+        );
  //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
