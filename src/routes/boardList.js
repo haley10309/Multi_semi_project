@@ -26,11 +26,19 @@ const BoardList = () => {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       
       setIsLoggedIn(true);
+<<<<<<< HEAD
     } else {
       
       setIsLoggedIn(false);
     }
 
+=======
+    }else{
+      setCurrentUser("guest");
+      setIsLoggedIn(false);
+    }
+   
+>>>>>>> b537837 (boardList.js currentUser)
     console.log("Movie ID:", movieNumber);
 
     const params_mv = { movie_id: movieNumber };
@@ -38,6 +46,7 @@ const BoardList = () => {
     const fetchData = async () => {
       try {
         //영화 정보 가져오는 request
+<<<<<<< HEAD
         const response = await axios.get(`/myapp/movie`, { params: params_mv }); //영화 정보 가져오기
         console.log(response.data);
         //리뷰 정보 가져오는 request
@@ -48,6 +57,21 @@ const BoardList = () => {
           },
         });
         //리뷰 정보 저장
+=======
+        const response = await axios.get(`/myapp/movie`, { params : params_mv }); //영화 정보 가져오기
+        console.log(response.data);
+        //리뷰 정보 가져오는 request
+        const response_rv = await axios.get(`/myapp/review`, 
+        {
+          params: 
+          { 
+            movie_id: movieNumber,  //해당 영화 id
+            likeuseraccount: currentUser //현재 접속한 사용자의 id -> 리뷰들에 대한 좋아요를 눌렀는지 확인
+          }
+        }
+        );
+ //리뷰 정보 저장
+>>>>>>> b537837 (boardList.js currentUser)
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
