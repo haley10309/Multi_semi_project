@@ -30,8 +30,10 @@ body {
     margin : 85px;
     float: right;
     background-color: #F5F5F5;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .movie_explanation {
@@ -92,7 +94,7 @@ body {
 .review_input_form {
     width: 90%;
     margin-top: 20px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
     padding: 20px;
     font-size: 16px;
     background-color: #FFF;
@@ -105,8 +107,8 @@ body {
     font-size: 16px;
     border: 1px solid #CCC;
     border-radius: 4px;
-    resize: none; /* 크기 조절 비활성화 */
-    overflow: hidden; /* 스크롤 표시하지 않음 */
+    resize: none;
+    overflow: hidden;
     transition: border-color 0.3s ease;
 }
 
