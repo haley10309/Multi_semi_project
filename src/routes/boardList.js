@@ -20,7 +20,9 @@ const BoardList = () => {
   const searchParams = new URLSearchParams(location.search);
   const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
 
+  const user_id = localStorage.getItem("LoginID");
   useEffect(() => {
+    //const user_id = localStorage.getItem("LoginID");
     if (localStorage.getItem("LoginID") != null) {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       setCurrentUser(localStorage.getItem("LoginID"));
@@ -43,7 +45,7 @@ const BoardList = () => {
         const response_rv = await axios.get(`/myapp/review`, {
           params: {
             movie_id: movieNumber, //해당 영화 id
-            likeuseraccount: currentUser, //현재 접속한 사용자의 id -> 리뷰들에 대한 좋아요를 눌렀는지 확인
+            likeuseraccount: user_id, //현재 접속한 사용자의 id -> 리뷰들에 대한 좋아요를 눌렀는지 확인
           },
         });
         //리뷰 정보 저장
