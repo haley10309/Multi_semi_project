@@ -27,18 +27,28 @@ const BoardList = () => {
       setIsLoggedIn(true);
     }
     console.log("Movie ID:", movieNumber);
+<<<<<<< HEAD
     
     const params = { movie_id: movieNumber };
 <<<<<<< HEAD
 =======
+=======
+
+    const params_mv = { movie_id: movieNumber };
+>>>>>>> c322bf6 (boardList.js request method)
     const params_review = { movie_id : movieNumber, likeuseraccount: currentUser};
 >>>>>>> 0f53ae3 (Login -> localstorage ->review get method {params_rv})
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
+        const response = await axios.get(`/myapp/movie`, { params : params_mv }); //영화 정보 가져오기
         console.log(response.data);
+<<<<<<< HEAD
         const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
+=======
+        const response_rv = await axios.get(`/myapp/review`, { params: params_review });
+ //리뷰 정보 가져오기
+>>>>>>> c322bf6 (boardList.js request method)
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
