@@ -26,16 +26,20 @@ const BoardList = () => {
     
 
 
+
  
     //const user_id = localStorage.getItem("LoginID");
+
 
     if (localStorage.getItem("LoginID") != null) {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       
       setIsLoggedIn(true);
     } else {
+
       setIsLoggedIn(false);
     }
+
 
 
     console.log("Movie ID:", movieNumber);
