@@ -22,7 +22,14 @@ const BoardList = () => {
   const currentUser = localStorage.getItem("LoginID");
   useEffect(() => {
     
-    
+    if (localStorage.getItem("LoginID") != null) {
+      //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
+      
+      setIsLoggedIn(true);
+    } else {
+      
+      setIsLoggedIn(false);
+    }
 
     console.log("Movie ID:", movieNumber);
 
@@ -151,14 +158,14 @@ const BoardList = () => {
       const isLiked = likesReviews.includes(id); // includes : 배열에 특정 요소가 포함되어 있는지 여부를 확인하는 함수
 
       // /like 업데이트하는 요청 보내기
-      await axios.post(`/like`, {
+      await axios.post(`/myapp/like`, {
         useraccount: currentUser,
         reviewid: id,
         status: !isLiked,
       });
 
       // /reviewlike 업데이트하는 요청 보내기
-      await axios.post(`/reviewlike`, {
+      await axios.post(`/myapp/reviewlike`, {
         useraccount: currentUser,
         reviewid: id,
         status: !isLiked,
