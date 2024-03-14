@@ -10,12 +10,15 @@ const Header = () => {
   useEffect(() => {
     const storedLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(storedLoggedIn);
-    
+    if(!isLoggedIn){
+      localStorage.setItem("LoginID","guest");
+    }
   }, [isLoggedIn]);
 
   const handleLogout = () => {
     // Clear localStorage and update state
     localStorage.setItem("isLoggedIn",false);
+    localStorage.setItem("LoginID","guest");
     setIsLoggedIn(false);
     
   };

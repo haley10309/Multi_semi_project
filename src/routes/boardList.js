@@ -27,9 +27,9 @@ const BoardList = () => {
       setIsLoggedIn(true);
     }
     console.log("Movie ID:", movieNumber);
+    
     const params = { movie_id: movieNumber };
-    const params_review = { movie_id : movieNumber,
-      likeuseraccount: currentUser}
+    const params_review = { movie_id : movieNumber, likeuseraccount: currentUser};
 
     const fetchData = async () => {
       try {
@@ -188,7 +188,7 @@ const BoardList = () => {
               <img
                 className="movie_image"
                 src={movie.img_url}
-                alt={movie.movieid}
+                alt={movie.movie_id}
               />
             </div>
             <div className="movie_explanation">
@@ -217,7 +217,7 @@ const BoardList = () => {
       <div className="review_list">
         <div className="review_box">
           <br/>
-          <h3 className="review_start">  리뷰 작성</h3>
+          <h3 className="review_start"> 리뷰 작성</h3>
           <form onSubmit={handleSubmit}>
             <textarea
               rows="3"
@@ -236,6 +236,7 @@ const BoardList = () => {
               type="submit"
               className="review_submit_button"
               onClick={addReview}
+              
             >
               등록
             </button>
