@@ -10,9 +10,7 @@ const Header = () => {
   useEffect(() => {
     const storedLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(storedLoggedIn);
-    if(!isLoggedIn){
-      localStorage.setItem("LoginID","guest");
-    }
+    
   }, [isLoggedIn]);
 
   const handleLogout = () => {

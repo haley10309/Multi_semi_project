@@ -27,15 +27,16 @@ const BoardList = () => {
       setIsLoggedIn(true);
     }
     console.log("Movie ID:", movieNumber);
-    
-    const params = { movie_id: movieNumber };
+
+    const params_mv = { movie_id: movieNumber };
     const params_review = { movie_id : movieNumber, likeuseraccount: currentUser};
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
+        const response = await axios.get(`/myapp/movie`, { params : params_mv }); //영화 정보 가져오기
         console.log(response.data);
-        const response_rv = await axios.get(`/myapp/review`, { params_review }); //리뷰 정보 가져오기
+        const response_rv = await axios.get(`/myapp/review`, { params: params_review });
+ //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
