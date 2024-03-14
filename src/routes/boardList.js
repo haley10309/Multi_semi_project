@@ -29,8 +29,6 @@ const BoardList = () => {
     console.log("Movie ID:", movieNumber);
 
     const params_mv = { movie_id: movieNumber };
-    const params_movie_id = { movie_id : movieNumber};
-    const params_likeuseraccount = {likeuseraccount: currentUser};
 
     const fetchData = async () => {
       try {
