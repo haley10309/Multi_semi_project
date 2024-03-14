@@ -20,6 +20,7 @@ const BoardList = () => {
   const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
 
 
+
   const currentUser = localStorage.getItem("LoginID");
   useEffect(() => {
     
@@ -35,6 +36,7 @@ const BoardList = () => {
     } else {
       setIsLoggedIn(false);
     }
+
 
     console.log("Movie ID:", movieNumber);
 
