@@ -25,11 +25,11 @@ const BoardList = () => {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       setCurrentUser(localStorage.getItem("LoginID"));
       setIsLoggedIn(true);
-    }else{
+    } else {
       setCurrentUser("guest");
       setIsLoggedIn(false);
     }
-   
+
     console.log("Movie ID:", movieNumber);
 
     const params_mv = { movie_id: movieNumber };
@@ -37,19 +37,16 @@ const BoardList = () => {
     const fetchData = async () => {
       try {
         //영화 정보 가져오는 request
-        const response = await axios.get(`/myapp/movie`, { params : params_mv }); //영화 정보 가져오기
+        const response = await axios.get(`/myapp/movie`, { params: params_mv }); //영화 정보 가져오기
         console.log(response.data);
         //리뷰 정보 가져오는 request
-        const response_rv = await axios.get(`/myapp/review`, 
-        {
-          params: 
-          { 
-            movie_id: movieNumber,  //해당 영화 id
-            likeuseraccount: currentUser //현재 접속한 사용자의 id -> 리뷰들에 대한 좋아요를 눌렀는지 확인
-          }
-        }
-        );
- //리뷰 정보 저장
+        const response_rv = await axios.get(`/myapp/review`, {
+          params: {
+            movie_id: movieNumber, //해당 영화 id
+            likeuseraccount: currentUser, //현재 접속한 사용자의 id -> 리뷰들에 대한 좋아요를 눌렀는지 확인
+          },
+        });
+        //리뷰 정보 저장
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
@@ -59,19 +56,18 @@ const BoardList = () => {
 
     fetchData();
     // 민경
-    // fetchReviews(); 
+    // fetchReviews();
   }, [movieNumber]);
 
   // 민경 - 게시일 받는 함수
   const formatReviewDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear().toString().slice(-2); // 년도의 마지막 2자리만 추출
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월을 2자리로 표시
-    const day = ('0' + date.getDate()).slice(-2); // 일을 2자리로 표시
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // 월을 2자리로 표시
+    const day = ("0" + date.getDate()).slice(-2); // 일을 2자리로 표시
     return `${year}/${month}/${day}`;
   };
 
-  
   // 민경 - 리뷰 조회 기능 추가
   // const fetchReviews = async () => {
   //   try {
@@ -133,7 +129,6 @@ const BoardList = () => {
           content: review,
           date: new Date(),
           likes: 0,
-        
         },
       ]);
       setReview("");
@@ -152,9 +147,7 @@ const BoardList = () => {
         useraccount: user_useraccount,
         movie_id: user_movie_id,
       });
-    } catch (e) {
-
-    }
+    } catch (e) {}
   };
 
   // 민경 - 좋아요 구현부
@@ -162,30 +155,39 @@ const BoardList = () => {
   const handleLike = async (id) => {
     try {
       const isLiked = likesReviews.includes(id); // includes : 배열에 특정 요소가 포함되어 있는지 여부를 확인하는 함수
-  
+
       // /like 업데이트하는 요청 보내기
       await axios.post(`/like`, {
         useraccount: currentUser,
         reviewid: id,
         status: !isLiked,
       });
-  
+
       // /reviewlike 업데이트하는 요청 보내기
       await axios.post(`/reviewlike`, {
         useraccount: currentUser,
         reviewid: id,
         status: !isLiked,
       });
-  
+
       // 리뷰 목록에서 해당 리뷰의 좋아요 수 변경
       setReviews((prevReviews) =>
         prevReviews.map((review) =>
-          review.id === id ? { ...review, likes: isLiked ? review.likes - 1 : review.likes + 1 } : review
+          review.id === id
+            ? {
+                ...review,
+                likes: isLiked ? review.likes - 1 : review.likes + 1,
+              }
+            : review
         )
       );
-  
+
       // 좋아요 상태 업데이트
-      setLikesReviews(isLiked ? likesReviews.filter((reviewId) => reviewId !== id) : [...likesReviews, id]);
+      setLikesReviews(
+        isLiked
+          ? likesReviews.filter((reviewId) => reviewId !== id)
+          : [...likesReviews, id]
+      );
     } catch (error) {
       console.error("Error updating like:", error);
     }
@@ -193,7 +195,7 @@ const BoardList = () => {
 
   //=============handleLike ================
 
- return (
+  return (
     <div className="the_whole_box">
       <div className="movie_info">
         {movies.map((movie) => (
@@ -230,7 +232,7 @@ const BoardList = () => {
 
       <div className="review_list">
         <div className="review_box">
-          <br/>
+          <br />
           <h3 className="review_start"> 리뷰 작성</h3>
           <form onSubmit={handleSubmit}>
             <textarea
@@ -245,12 +247,12 @@ const BoardList = () => {
               name="user_star_rating"
               value={user_star_rate}
               onChange={handleStarRatingChange}
+              size="large"
             />
             <button
               type="submit"
               className="review_submit_button"
               onClick={addReview}
-              
             >
               등록
             </button>
@@ -259,29 +261,48 @@ const BoardList = () => {
             <h3 className="review_start">리뷰 목록</h3>
             {reviews.map((user) => (
               <li className="reviews_lists" key={user.useraccount}>
-                <span className="review_list_useraccount">{user.useraccount}</span>
+                <span className="review_list_useraccount">
+                  {user.useraccount}
+                </span>
                 <br />
 
                 <span className="review_text">{user.content}</span>
-                <Rating name="review_star" value={user.rating} readOnly />
+                <Rating
+                  name="review_star"
+                  value={user.rating}
+                  readOnly
+                  size="small"
+                />
 
                 <br />
                 <div>
-                <button 
-                className={`likes_button ${user.user_liked ? 'liked' : ''}`} 
-                onClick={() => handleLike(user.id)} >
+                  <button
+                    className={`likes_button ${user.user_liked ? "liked" : ""}`}
+                    onClick={() => handleLike(user.id)}
+                  >
                     {user.user_liked === false ? "♡" : "♥"}
                   </button>
                   <span className="like_count">{user.likes}</span>
                 </div>
-                <span className="review_date">게시일: {formatReviewDate(user.creationdate)}</span>
+                <span className="review_date">
+                  게시일: {formatReviewDate(user.creationdate)}
+                </span>
                 {/* 민경 - 수정 버튼을 누르면 저장 버튼으로 변경하는 함수 필요한지 확인 */}
-                <button className="edit_button">수정</button>
-                <button className="save_button">저장</button>
-                <button className="cancel_button" onClick={handleCancelEdit}>취소</button>
-                <button className="delete_button" onClick={() => handleDelete(user.reviewId, user.useraccount, movieNumber)}>
-                  삭제
-                </button>
+
+                {isLoggedIn && user.useraccount === currentUser && (
+                  <>
+                    <button className="edit_button">수정</button>
+                    <button className="save_button">저장</button>
+                    <button className="cancel_button"  onClick={handleCancelEdit}  >  취소</button>
+                    <button  className="delete_button"  onClick={() =>  handleDelete(  user.reviewId,  user.useraccount,
+                          movieNumber
+                        )
+                      }
+                    >
+                      삭제
+                    </button>
+                  </>
+                )}
               </li>
             ))}
           </div>
