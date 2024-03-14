@@ -1,175 +1,248 @@
+/* 전체 스타일 */
+body {
+    background-color: #F5F5F5;
+    font-family: Arial, sans-serif;
+}
+
 .movie_info {
     width: 90%;
     margin: 10px auto;
-    background-color:  rgb(53, 49, 66);
+    background-color: rgb(53, 49, 66);
     height: 80vh;
-}
+    border-radius: 15px;
+    background-image: linear-gradient(to top, #FFF5EA, #dde0ea);  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+} 
 
 .movie_image_box{
     width: 45%;
     height: 80vh;
     background-color: rgb(53, 49, 66);
     float: left;
-    
+    margin-left: 5%;
+    border-radius: 15px;
+    background-image: linear-gradient(to top, #FFF5EA, #dde0ea);   
 }
 
 .movie_image {
-    width: 85%;
-    height: 75vh;
-    margin : 10px;
+    width: 75%;
+    height: 65vh;
+    margin : 85px;
     float: right;
-    background-color: green;
-    object-fit: cover;
+    background-color: #F5F5F5;
+    object-fit: contain;
+    border-radius: 15px;
+
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .movie_explanation {
     position: relative;
     width: 45%;
-    height: 80vh;
+    height: 70vh;
     float: left;
-    margin: 10px;
+    margin: 80px 80px 80px 0px;
     color: white;
-
 }
 
-.review_list{
+/* 각 항목의 폰트 크기 조정 */
+.movie_explanation ul.movie_info_category {
+    font-size: 30px; 
+    font-weight: 500;
+    line-height: 1.8; 
+    color: #6C757D;
+}
+
+/* 영화 제목 폰트 크기 조정 */
+.movie_info_category_title {
+    font-size: 80px; 
+    color: #333;
+    font-weight: bold;
+}
+
+/* 리뷰 리스트 컨테이너 */
+.review_list {
     width: 90%;
     margin: 10px auto;
 }
 
+/* 리뷰 작성, 리뷰 목록 제목 */
+.review_box h3:first-child {
+    font-size: 20px; /* 폰트 크기 조절 */
+    color: #333; /* 텍스트 색상 */
+    margin-top: 5px;
+    margin-bottom: 5px; /* 하단 마진 설정 */
+    margin-left: 60px; /* 우측 마진 설정 */
+    font-family: 'Arial', sans-serif; /* 폰트 패밀리 설정 */
+    font-weight: bold; /* 폰트 굵기 설정 */
+    text-transform: uppercase; /* 텍스트 대문자 변환 */
+    letter-spacing: 1px; /* 글자 간격 설정 */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 텍스트 그림자 설정 */
+  }
+  
+
+/* 리뷰 박스 */
 .review_box {
     width: 100%;
-    margin-top: 20px; /* 위쪽 여백 추가 */
+    margin-top: 15px;
+    background-image: linear-gradient(to top,#dde0ea, #FFF5EA);   
+    border-radius: 15px;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
 }
-
+//'리뷰 작성 폼'
+.review_start{
+ margin : 10px;
+}
+/* 리뷰 입력 폼 */
 .review_input_form {
-    width: 95%;
+
+    width: 90%;
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 20px;
     font-size: 16px;
-
-    textarea {
-        width: 90%;
-        min-height: 100px; /* 최소 높이 지정 */
-        padding: 12px;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical; /* 수직 크기 조정 허용 */
-        transition: border-color 0.3s ease;
-
-        &:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-    }
+    background-color: #FFF;
+    border-radius: 10px;
+    color: #333;
 }
 
-.review_sumbit_button {
-    padding: 20px 40px; /* 상하, 좌우 내부 여백 추가 */
+.review_input_form textarea {
+    padding: 12px;
     font-size: 16px;
-    background-color: #007bff; /* 배경색 추가 */
-    color: #fff; /* 텍스트 색상 추가 */
-    border: none; /* 테두리 없애기 */
-    cursor: pointer; /* 커서를 포인터로 변경 */
-    transition: background-color 0.3s; /* 배경색 변화에 대한 transition 효과 추가 */
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    resize: none;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
 }
 
-.review_sumbit_button:hover {
-    background-color: #0056b3; /* 호버 시 배경색 변경 */
-}
-
-.review_text{
-    width: 90%;
-    margin: 10px auto;
-    margin-bottom: 10px; /* 아래쪽 여백 추가 */
-    word-break: break-all; /* 긴 단어 및 문자열을 여러 줄로 나눔 */
-    color: purple;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.likes_button {
-    border-radius: 30px;
-    border: none;
+.review_input_form textarea:focus {
     outline: none;
-    font-size: 30px;
+    border-color: #007BFF;
+}
+
+/* 작성 리뷰 등록 버튼 */
+.review_submit_button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
     font-weight: bold;
-    padding: 2px 2px;
-    margin-top: 1px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+    color: #FFF;
+    background-color: #7f3cbe;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.review_submit_button:hover {
+    transform: scale(1.05);
+    background-color: #5B3C87;
+}
+
+/* 좋아요 */
+.likes_button {
+    width: fit-content;
+    padding: 1.5px;
+    padding-inline: 7px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 7.5px;
     cursor: pointer;
     transition: transform 80ms ease-in;
-    color: black;
-    background-color: white;
-    border: 2px solid white;
+    color: #6C757D;
+    background-color: transparent; 
+    box-shadow: 0 0 3px rgb(255, 255, 255);
+}
 
-    &:hover {
-        transform: scale(1.1);
-        background-color: white;
-    }
+.likes_button:hover {
+    transform: scale(1.1);
+    background-color: #dde0ea;
+    color: #5B3C87;
+}
 
+.likes_button.liked {
+    color: #DC3545;
 }
 
 .like_count {
     margin-left: 5px; 
 }
 
-.review_date{
-    padding : 2px;
+/* 리뷰 게시일 */
+.review_date {
+    padding: 2px;
+    color: #6C757D;
+}
+
+/* 저장, 수정, 삭제, 취소 버튼 */
+.save_button,
+.edit_button,
+.cancel_button,
+.delete_button {
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 80ms ease-in;
+}
+
+.save_button:hover,
+.edit_button:hover,
+.cancel_button:hover,
+.delete_button:hover {
+    transform: scale(1.05);
+    background-color: #f0f0f0b4;
+}
+
+/* 수정, 삭제, 취소 버튼의 공통 스타일 */
+.edit_button,
+.cancel_button,
+.delete_button {
+    color: #FFF;
+    border: 1px solid transparent;
 }
 
 .edit_button {
-    margin:5px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 10px 10px;
-    margin-top: 20px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 80ms ease-in;
-    color: black;
-    background-color:  #f5f5f7;
-    border: 1px solid rgb(134, 134, 135);
+    background-color: #968C83;
+}
 
-    &:hover {
-        transform: scale(1.05);
-        background-color: #f0f0f0;
-    }
+.cancel_button {
+    background-color: rgb(72, 123, 177)
 }
 
 .delete_button {
-    margin:5px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    font-size: 14px;
+    background-color: #dc3546;
+}
+
+/* 리뷰 리스트 스타일 */
+
+.review_text {
+    width: 90%;
+    margin: 10px auto;
+    margin-bottom: 10px;
+    word-break: break-all;
+    color: #5B3C87;
     font-weight: bold;
-    padding: 10px 10px;
-    margin-top: 20px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 80ms ease-in;
-    color: black;
-    background-color:  #f5f5f7;
-    border: 1px solid rgb(134, 134, 135);
-
-    &:hover {
-        transform: scale(1.05);
-        background-color: #f0f0f0;
-    }
+    font-size: 19px;
 }
-.review_list_useraccount{
-
+.review_list_useraccount {
+    width: 90%;
+    margin: 10px auto;
+    list-style-type: none;
+    word-break: break-all;
+    border-bottom: 1px solid black;
 }
-.reviews_lists{
+
+.reviews_lists {
     width: 90%;
     margin: 10px auto;
     list-style-type: none;
