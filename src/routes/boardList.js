@@ -171,8 +171,8 @@ const BoardList = () => {
       const isLiked = likesReviews.includes(id); // includes : 배열에 특정 요소가 포함되어 있는지 여부를 확인하는 함수
 
 
-      // /like 업데이트하는 요청 보내기
-      await axios.post(`/myapp/like`, {
+      // /like 업데이트하는 요청 보내기 (조회만) - guest 
+      await axios.post(`/myapp/myapp/like`, {
         useraccount: currentUser,
         reviewid: id,
         status: !isLiked,
@@ -180,7 +180,7 @@ const BoardList = () => {
 
 
       // /reviewlike 업데이트하는 요청 보내기
-      await axios.post(`/myapp/reviewlike`, {
+      await axios.post(`/myapp/myapp/reviewlike`, {
         useraccount: currentUser,
         reviewid: id,
         status: !isLiked,
@@ -232,7 +232,7 @@ const BoardList = () => {
               />
             </div>
             <div className="movie_explanation">
-              <ul className="movie_info_category">{movie.title}</ul>
+              <ul className="movie_info_category_title">{movie.title}</ul>
               <ul className="movie_info_category">
                 별점 : {movie.averagerating}
               </ul>
@@ -260,13 +260,14 @@ const BoardList = () => {
           <br />
           <h3 className="review_start"> 리뷰 작성</h3>
           <form onSubmit={handleSubmit}>
-            <textarea
-              rows="3"
-              placeholder="리뷰를 입력하세요"
-              value={review}
-              onChange={handleReviewChange}
-              className="review_input_form"
-            ></textarea>
+          <textarea
+           rows="3"
+           placeholder="리뷰를 입력하세요"
+           value={review}
+           onChange={handleReviewChange}
+           className="review_input_form"
+           style={{ resize: 'none' }} // 크기 조절 비활성화
+          ></textarea>
             {/*      영화에 대한 해당 사용자의 별점 평가       */}
             <Rating
               name="user_star_rating"
