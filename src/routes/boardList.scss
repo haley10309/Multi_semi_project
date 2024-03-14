@@ -33,7 +33,7 @@ body {
     background-color: #FFF;
     object-fit: cover;
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
 }
 
 /* 영화 설명 */
@@ -57,13 +57,16 @@ body {
     margin-top: 20px;
     background-color: #dde0ea;
     border-radius: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.1);
 }
-
+//'리뷰 작성 폼'
+.review_start{
+ margin : 10px;
+}
 /* 리뷰 입력 폼 */
 .review_input_form {
-    width: 100%;
-    margin-top: 20px;
+    width: 85%;
+    margin-top: 10px;
     margin-bottom: 20px;
     padding: 20px;
     font-size: 16px;

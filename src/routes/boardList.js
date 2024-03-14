@@ -28,12 +28,14 @@ const BoardList = () => {
     }
     console.log("Movie ID:", movieNumber);
     const params = { movie_id: movieNumber };
+    const params_review = { movie_id : movieNumber,
+      likeuseraccount: currentUser}
 
     const fetchData = async () => {
       try {
         const response = await axios.get(`/myapp/movie`, { params }); //영화 정보 가져오기
         console.log(response.data);
-        const response_rv = await axios.get(`/myapp/review`, { params }); //리뷰 정보 가져오기
+        const response_rv = await axios.get(`/myapp/review`, { params_review }); //리뷰 정보 가져오기
         setMovies(response.data);
         setReviews(response_rv.data);
       } catch (error) {
@@ -57,19 +59,19 @@ const BoardList = () => {
 
   
   // 민경 - 리뷰 조회 기능 추가
-  const fetchReviews = async () => {
-    try {
-      const response = await axios.get(`/myapp/review`); // 리뷰 정보 가져오기
-      // 응답을 콘솔에 출력
-      console.log("Reviews fetched successfully:", response.data);
-      setReviews(response.data);
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-      if (error.response && error.response.status === 404) {
-        console.error("Bad request:", error.response.data);
-      }
-    }
-  };
+  // const fetchReviews = async () => {
+  //   try {
+  //     const response = await axios.get(`/myapp/review`); // 리뷰 정보 가져오기
+  //     // 응답을 콘솔에 출력
+  //     console.log("Reviews fetched successfully:", response.data);
+  //     setReviews(response.data);
+  //   } catch (error) {
+  //     console.error("Error fetching reviews:", error);
+  //     if (error.response && error.response.status === 404) {
+  //       console.error("Bad request:", error.response.data);
+  //     }
+  //   }
+  // };
   // 민경 - 리뷰 삽입(작성) 기능 추가
   const addReview = async () => {
     if (isLoggedIn === true) {
@@ -131,7 +133,7 @@ const BoardList = () => {
   };
   const handleDelete = (user_reviewid, user_useraccount, user_movie_id) => {
     try {
-      axios.delete(`/review`, {
+      axios.delete(`/myapp/review`, {
         reviewid: user_reviewid,
         useraccount: user_useraccount,
         movie_id: user_movie_id,
@@ -214,7 +216,8 @@ const BoardList = () => {
 
       <div className="review_list">
         <div className="review_box">
-          <h3>리뷰 작성</h3>
+          <br/>
+          <h3 className="review_start">  리뷰 작성</h3>
           <form onSubmit={handleSubmit}>
             <textarea
               rows="3"
@@ -238,7 +241,7 @@ const BoardList = () => {
             </button>
           </form>
           <div className="reviews_box">
-            <h3>리뷰 목록</h3>
+            <h3 className="review_start">리뷰 목록</h3>
             {reviews.map((user) => (
               <li className="reviews_lists" key={user.useraccount}>
                 <span className="review_list_useraccount">{user.useraccount}</span>
