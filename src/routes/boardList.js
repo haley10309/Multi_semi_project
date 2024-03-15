@@ -269,7 +269,7 @@ const BoardList = () => {
                 <div>
                   <button
                     className={`likes_button ${review.user_liked ? "liked" : ""}`}
-                    onClick={() => handleLike(review.id)}
+                    onClick={() => handleLike(review.reviewid)}
                   >
                     {review.user_liked === false ? "♡" : "♥"}
                   </button>
