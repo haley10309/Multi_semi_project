@@ -33,6 +33,7 @@ function Login(props) {
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("LoginID",useraccount);
         navigate("/", { state: useraccount }); // Using navigate instead of history.push
+        console.log("로그인 post 성공");
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
