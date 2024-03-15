@@ -153,6 +153,7 @@ const BoardList = () => {
         },
       });
       setReview(response.data);
+      window.location.reload();
     } catch (error) {
       console.log("수정 오류 : "+ error);
     }
