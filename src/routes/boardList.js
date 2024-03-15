@@ -124,7 +124,6 @@ const BoardList = () => {
     setEditingId(null);
     setEditedReview("");
   };
-  
   const handleDelete = async (user_reviewid, user_useraccount) => {
     console.log("리뷰 아이디: "+user_reviewid);
     console.log("리뷰 쓴 사람"+user_useraccount);
@@ -143,6 +142,7 @@ const BoardList = () => {
       console.error("Error deleting review:", e);
     }
   };
+
 
   // 민경 - 좋아요 구현부
   // 좋아요 토글 함수
@@ -231,7 +231,7 @@ const BoardList = () => {
               value={review}
               onChange={handleReviewChange}
               className="review_input_form"
-              style={{ resize: 'none' }} // 크기 조절 비활성화
+              style={{ resize: "none" }} // 크기 조절 비활성화
             ></textarea>
             {/*      영화에 대한 해당 사용자의 별점 평가       */}
             <Rating
