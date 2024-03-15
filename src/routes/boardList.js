@@ -361,7 +361,7 @@ const BoardList = () => {
                     <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid)} >
                       저장
                     </button>
-                    <button  className="cancel_button"  onClick={() => handleCancelEdit} >
+                    <button  className="cancel_button"  onClick={() => handleCancelEdit()} >
                       
                       취소
                     </button>
