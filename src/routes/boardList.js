@@ -21,13 +21,11 @@ const BoardList = () => {
 
   const currentUser = localStorage.getItem("LoginID");
   useEffect(() => {
-    
     if (localStorage.getItem("LoginID") != null) {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
-      
+
       setIsLoggedIn(true);
     } else {
-      
       setIsLoggedIn(false);
     }
 
@@ -141,14 +139,21 @@ const BoardList = () => {
     setEditingId(null);
     setEditedReview("");
   };
-  const handleDelete = (user_reviewid, user_useraccount, user_movie_id) => {
+  const handleDelete = async (user_reviewid, user_useraccount) => {
     try {
-      axios.delete(`/myapp/review`, {
-        reviewid: user_reviewid,
-        useraccount: user_useraccount,
-        movie_id: user_movie_id,
+      const response = await axios.delete(`/myapp/review`, {
+        params: { //query
+          reviewid: user_reviewid,
+        },
+        data: { //body
+          useraccount: user_useraccount,
+          movie_id: movieNumber,
+        }
       });
-    } catch (e) {}
+      setReview(response.data);
+    } catch (e) {
+      console.log("handleDelete axios error ");
+    }
   };
 
   // 민경 - 좋아요 구현부
@@ -242,7 +247,7 @@ const BoardList = () => {
               value={review}
               onChange={handleReviewChange}
               className="review_input_form"
-              style={{ resize: 'none' }} // 크기 조절 비활성화
+              style={{ resize: "none" }} // 크기 조절 비활성화
             ></textarea>
             {/*      영화에 대한 해당 사용자의 별점 평가       */}
             <Rating
@@ -295,13 +300,21 @@ const BoardList = () => {
                   <>
                     <button className="edit_button">수정</button>
                     <button className="save_button">저장</button>
-                    <button className="cancel_button"  onClick={handleCancelEdit}  >  취소</button>
-                    <button  className="delete_button"  onClick={() =>  handleDelete(  user.reviewId,  user.useraccount,
-                          movieNumber
-                        )
+                    <button
+                      className="cancel_button"
+                      onClick={handleCancelEdit}
+                    >
+                      {" "}
+                      취소
+                    </button>
+                    <button
+                      className="delete_button"
+                      onClick={() =>
+                        handleDelete(user.reviewId, user.useraccount)
                       }
                     >
-                      삭제
+                      {" "}
+                      삭제{" "}
                     </button>
                   </>
                 )}
