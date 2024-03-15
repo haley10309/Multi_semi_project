@@ -148,14 +148,14 @@ const BoardList = () => {
     setEditingId(reviewid);
     setIsEditing(true);
   };
-  const handleSubmitEdit = async (reviewid) => {
+  const handleSubmitEdit = async (reviewid, content ,rating) => {
     try {
       const response = await axios.put("/myapp/review", {
         useraccount: currentUser,
         reviewid: reviewid,
         movie_id: movieNumber,
-        content: editedContent,
-        rating: editedRating,
+        content: content,
+        rating: rating,
       });
       setReviews(response.data);
     } catch (error) {
@@ -358,7 +358,7 @@ const BoardList = () => {
                 {/* ================= 저장 + 취소 버튼 누를 조건================= */}
                 {isEditing && editingId === review.reviewid && (
                   <>
-                    <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid)} >
+                    <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid,editedContent ,editedRating)} >
                       저장
                     </button>
                     <button  className="cancel_button"  onClick={() => handleCancelEdit()} >
