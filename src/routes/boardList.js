@@ -151,6 +151,24 @@ const BoardList = () => {
     setEditingId(reviewid);
     setIsEditing(true);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (review.trim() !== "") {
+      setReviews([
+        ...reviews,
+        {
+          id: reviews.length + 1,
+          author: currentUser,
+          content: review,
+          date: new Date(),
+          likes: 0,
+        },
+      ]);
+      setReview("");
+      setUserStarRate(0); // Reset the user's star rating after submitting the review
+    }
+  };
+
 
   // 민경 - 좋아요 구현부
   // 좋아요 토글 함수
