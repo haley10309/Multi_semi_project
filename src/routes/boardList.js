@@ -153,51 +153,52 @@ const BoardList = () => {
         },
       });
       setReview(response.data);
-      window.location.reload();
     } catch (error) {
       console.log("수정 오류 : "+ error);
     }
   };
 
-  // 민경 - 좋아요 구현부
+    // 민경 - 좋아요 구현부
   // 좋아요 토글 함수
-  const handleLike = async (reviewId) => {
-    try {
-      const isLiked = likesReviews.includes(reviewId);
+const handleLike = async (reviewId) => {
+  try {
+    const isLiked = likesReviews.includes(reviewId);
 
-      // 서버로 전송할 데이터 준비
-      const requestData = {
-        useraccount: currentUser,
-        reviewid: reviewId,
-      };
+    // 서버로 전송할 데이터 준비
+    const requestData = {
+      useraccount: currentUser,
+      reviewid: reviewId,
+    };
 
-      // /reviewlike 엔드포인트로 POST 요청 보내기
-      await axios.post(`/myapp/reviewlike`, requestData);
+    // /reviewlike 엔드포인트로 POST 요청 보내기
+    await axios.post(`/myapp/reviewlike`, requestData);
 
-      // 리뷰 목록에서 해당 리뷰의 좋아요 수 변경 및 사용자의 좋아요 상태 업데이트
-      setReviews((prevReviews) =>
-        prevReviews.map((review) =>
-          review.id === reviewId
-            ? {
-                ...review,
-                likes: isLiked ? review.likes - 1 : review.likes + 1,
-                user_liked: !isLiked, // 사용자의 좋아요 상태 업데이트
-              }
-            : review
-        )
-      );
+    // 리뷰 목록에서 해당 리뷰의 좋아요 수 변경 및 사용자의 좋아요 상태 업데이트
+    setReviews((prevReviews) =>
+      prevReviews.map((review) =>
+        review.id === reviewId
+          ? {
+              ...review,
+              likes: isLiked ? review.likes - 1 : review.likes + 1,
+              user_liked: !isLiked, // 사용자의 좋아요 상태 업데이트
+            }
+          : review
+      )
+    );
 
-      // 좋아요 상태 업데이트
-      setLikesReviews(
-        isLiked
-          ? likesReviews.filter((id) => id !== reviewId) // 좋아요 취소한 경우
-          : [...likesReviews, reviewId] // 좋아요 한 경우
-      );
-    } catch (error) {
-      console.error("Error updating like:", error);
-    }
-    window.location.reload();
-  };
+    // 좋아요 상태 업데이트 후에 fetchData 함수를 호출하여 해당 영역을 새로 고침
+    fetchData();
+
+    // 좋아요 상태 업데이트
+    setLikesReviews(
+      isLiked
+        ? likesReviews.filter((id) => id !== reviewId) // 좋아요 취소한 경우
+        : [...likesReviews, reviewId] // 좋아요 한 경우
+    );
+  } catch (error) {
+    console.error("Error updating like:", error);
+  }
+};
 
   //=============handleLike ================
 
