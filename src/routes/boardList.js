@@ -20,7 +20,9 @@ const BoardList = () => {
 
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
-  const movieNumber = Number(searchParams.get("movie_id")); //Home.js에서 movie_number 받을 변수
+
+  const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
+
 
   const currentUser = localStorage.getItem("LoginID");
 
