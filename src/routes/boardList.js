@@ -149,6 +149,9 @@ const BoardList = () => {
     setIsEditing(true);
   };
   const handleSubmitEdit = async (reviewid, content ,rating) => {
+    console.log("리뷰 아이디: "+review,"\n 수정된 리뷰 내용 : "+content+"\n movie_id: "+movieNumber);
+    console.log("현재 사용자 id : "+currentUser);
+    console.log("별점 : "+rating);
     try {
       const response = await axios.put("/myapp/review", {
         useraccount: currentUser,
@@ -301,21 +304,22 @@ const BoardList = () => {
                   <>
                     <textarea
                       rows="3"
-                      value={editedContent}
+                      value={review.content}
                       onChange={handleEditedContentChange}
                       className="review_input_form"
                       style={{ resize: "none" }} // 크기 조절 비활성화
                     ></textarea>
                     <Rating
                       name="review_star"
-                      value={review.content}
+                      defaultValue={review.rating}
+                      value={editedRating}
                       onChange={handleEditedRatingChange}
                       size="small"
                     />
                   </>
                 )}
                 {/* 평소 상태(수정 버튼 안 눌렀을 때) && editingId !== review.reviewid */}
-                {editingId === review.reviewid  && (
+                {editingId !== review.reviewid  && (
                   <>
                     <span className="review_text">{review.content}</span>
                     <Rating
