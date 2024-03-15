@@ -138,6 +138,7 @@ const BoardList = () => {
       });
       setReview(response.data);
       console.log("Delete response:", response.data);
+      window.location.reload(); 
     } catch (e) {
       console.error("Error deleting review:", e);
     }
@@ -283,7 +284,7 @@ const BoardList = () => {
                     <button className="edit_button">수정</button>
                     <button className="save_button">저장</button>
                     <button className="cancel_button"  onClick={handleCancelEdit}  >  취소</button>
-                    <button  className="delete_button"  onClick={() =>  handleDelete(  review.reviewId,  review.useraccount,
+                    <button  className="delete_button"  onClick={() =>  handleDelete(  review.reviewid,  review.useraccount,
                           movieNumber
                         )
                       }
