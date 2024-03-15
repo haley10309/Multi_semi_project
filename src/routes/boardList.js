@@ -143,10 +143,9 @@ const BoardList = () => {
     }
   };
 
-
   // 민경 - 좋아요 구현부
   // 좋아요 토글 함수
-  const handleLike = async (reviewId) => {
+const handleLike = async (reviewId) => {
   try {
     const isLiked = likesReviews.includes(reviewId);
 
@@ -172,6 +171,9 @@ const BoardList = () => {
       )
     );
 
+    // 좋아요 상태 업데이트 후에 fetchData 함수를 호출하여 해당 영역을 새로 고침
+    fetchData();
+
     // 좋아요 상태 업데이트
     setLikesReviews(
       isLiked
@@ -181,7 +183,6 @@ const BoardList = () => {
   } catch (error) {
     console.error("Error updating like:", error);
   }
-  window.location.reload(); 
 };
 
   //=============handleLike ================
