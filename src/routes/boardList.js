@@ -126,6 +126,8 @@ const BoardList = () => {
   };
   
   const handleDelete = async (user_reviewid, user_useraccount) => {
+    console.log("리뷰 아이디: "+user_reviewid);
+    console.log("리뷰 쓴 사람"+user_useraccount);
     try {
       const response = await axios.delete(`/myapp/review`, {
         params: { reviewid: user_reviewid }, // Passing reviewid as a parameter
@@ -247,17 +249,17 @@ const BoardList = () => {
           </form>
           <div className="reviews_box">
             <h3 className="review_start">리뷰 목록</h3>
-            {reviews.map((user) => (
-              <li className="reviews_lists" key={user.useraccount}>
+            {reviews.map((review) => (
+              <li className="reviews_lists" key={review.useraccount}>
                 <span className="review_list_useraccount">
-                  {user.useraccount}
+                  {review.useraccount}
                 </span>
                 <br />
 
-                <span className="review_text">{user.content}</span>
+                <span className="review_text">{review.content}</span>
                 <Rating
                   name="review_star"
-                  value={user.rating}
+                  value={review.rating}
                   readOnly
                   size="small"
                 />
@@ -265,23 +267,23 @@ const BoardList = () => {
                 <br />
                 <div>
                   <button
-                    className={`likes_button ${user.user_liked ? "liked" : ""}`}
-                    onClick={() => handleLike(user.id)}
+                    className={`likes_button ${review.user_liked ? "liked" : ""}`}
+                    onClick={() => handleLike(review.id)}
                   >
-                    {user.user_liked === false ? "♡" : "♥"}
+                    {review.user_liked === false ? "♡" : "♥"}
                   </button>
-                  <span className="like_count">{user.likes}</span>
+                  <span className="like_count">{review.likes}</span>
                 </div>
                 <span className="review_date">
-                  게시일: {formatReviewDate(user.creationdate)}
+                  게시일: {formatReviewDate(review.creationdate)}
                 </span>
                 {/* 민경 - 수정 버튼을 누르면 저장 버튼으로 변경하는 함수 필요한지 확인 */}
-                {isLoggedIn && user.useraccount === currentUser && (
+                {isLoggedIn && review.useraccount === currentUser && (
                   <>
                     <button className="edit_button">수정</button>
                     <button className="save_button">저장</button>
                     <button className="cancel_button"  onClick={handleCancelEdit}  >  취소</button>
-                    <button  className="delete_button"  onClick={() =>  handleDelete(  user.reviewId,  user.useraccount,
+                    <button  className="delete_button"  onClick={() =>  handleDelete(  review.reviewId,  review.useraccount,
                           movieNumber
                         )
                       }
