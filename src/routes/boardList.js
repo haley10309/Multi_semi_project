@@ -6,12 +6,14 @@ import Rating from "@mui/material/Rating";
 
 const BoardList = () => {
   const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
-  const [review, setReview] = useState("");
+  const [review, setReview] = useState(""); //사용자가 작성하는 리뷰
   const [reviews, setReviews] = useState([]); //바뀔 때마다 랜더링 : 리뷰 리스트
 
   const [isEditing, setIsEditing] = useState(false); //수정 여부
   const [editingId, setEditingId] = useState(null); //수정 하고자 하는 리뷰의 id
   const [editedReview, setEditedReview] = useState(""); //수정한 리뷰 내용
+  const [editedContent, setEditedContent] = useState("");
+  const [editedRating, setEditedRating] = useState(0);
 
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [isLoggedIn, setIsLoggedIn] = useState(false); //현재 로그인한 상태인지에 대한 여부
@@ -58,6 +60,15 @@ const BoardList = () => {
   }, [movieNumber]);
 
   console.log("Movie ID:", movieNumber);
+  // 수정된 리뷰의 내용을 업데이트하는 함수
+const handleEditedContentChange = (e) => {
+  setEditedContent(e.target.value);
+};
+
+// 수정된 리뷰의 평점을 업데이트하는 함수
+const handleEditedRatingChange = (newValue) => {
+  setEditedRating(newValue);
+};
 
   // 민경 - 게시일 받는 함수
   const formatReviewDate = (dateString) => {
@@ -104,8 +115,6 @@ const BoardList = () => {
     setReview(e.target.value);
   };
 
-  
-
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditedReview("");
@@ -123,43 +132,33 @@ const BoardList = () => {
           movie_id: movieNumber,
         },
       });
-      setReview(response.data);
+      setReviews(response.data);
       console.log("Delete response:", response.data);
       window.location.reload();
     } catch (e) {
       console.error("Error deleting review:", e);
     }
   };
-  const submitEdit = async (review_content, review_rating , reviewid) => {
-    try {
-      const response = await axios.put(`/myapp/review`, {
-        data: {
-          useraccount: currentUser,
-          reviewid : reviewid,
-          movie_id: movieNumber,
-          content: review_content,
-          rating: review_rating,
-        },
-      });
-      setReview(response.data);
-      window.location.reload();
-    } catch (error) {
-      console.log("수정 오류 : " + error);
-    }
-  };
+  
   const startEdit = async (reviewid) => {
     setEditingId(reviewid);
     setIsEditing(true);
   };
-  const handleSubmitEdit = async(reviewid ,  rating)=>{
-    const response = await axios.put('/myapp/review',{
-      useraccount:currentUser,
-     reviewid :reviewid,
-      movie_id : movieNumber,
-       content : review,
-        rating : rating
-    })
-  }
+  const handleSubmitEdit = async (reviewid) => {
+    try {
+      const response = await axios.put("/myapp/review", {
+        useraccount: currentUser,
+        reviewid: reviewid,
+        movie_id: movieNumber,
+        content: editedContent,
+        rating: editedRating,
+      });
+      setReviews(response.data);
+    } catch (error) {
+      console.log("리뷰 수정 오류 : "+error);
+    }
+    
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (review.trim() !== "") {
@@ -177,7 +176,6 @@ const BoardList = () => {
       setUserStarRate(0); // Reset the user's star rating after submitting the review
     }
   };
-
 
   // 민경 - 좋아요 구현부
   // 좋아요 토글 함수
@@ -262,7 +260,7 @@ const BoardList = () => {
         <div className="review_box">
           <br />
           <h3 className="review_start"> 리뷰 작성</h3>
-          <form >
+          <form>
             <textarea
               rows="3"
               placeholder="리뷰를 입력하세요"
@@ -294,22 +292,21 @@ const BoardList = () => {
                   {review.useraccount}
                 </span>
                 <br />
-              {isEditing && editingId===review.reviewid &&(
-                
-                <textarea
-                 rows="3"
-                 
-                 value={review.conte}
-                 onChange={handleReviewChange}
-                 className="review_input_form"
-                 style={{ resize: "none" }} // 크기 조절 비활성화
-               ></textarea>
-              )}
-              { (!isEditing)(
-                <span className="review_text">{review.content}</span>
-              )}
+                {isEditing && editingId === review.reviewid && (
+                  <>
+                    <textarea
+                      rows="3"
+                      value={review.content}
+                      onChange={handleReviewChange}
+                      className="review_input_form"
+                      style={{ resize: "none" }} // 크기 조절 비활성화
+                    ></textarea>
+                  </>
+                )}
+                {(!isEditing&&editingId !== review.reviewid)&&(
+                  <span className="review_text">{review.content}</span>
+                )}
 
-                
                 <Rating
                   name="review_star"
                   value={review.rating}
@@ -341,9 +338,16 @@ const BoardList = () => {
                     >
                       수정
                     </button>
-                    {isEditing && editingId===review.reviewid &&(
+                    {isEditing && editingId === review.reviewid && (
                       <>
-                        <button className="save_button" onClick={handleSubmitEdit(review.reviewid,review.rating)}>저장</button>
+                        <button
+                          className="save_button"
+                          onClick={handleSubmitEdit(
+                            review.reviewid
+                          )}
+                        >
+                          저장
+                        </button>
                         <button
                           className="cancel_button"
                           onClick={handleCancelEdit}
