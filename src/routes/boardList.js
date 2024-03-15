@@ -294,7 +294,7 @@ const BoardList = () => {
                   {review.useraccount}
                 </span>
                 <br />
-              {isEditing && review.useraccount === currentUser &&(
+              {isEditing && editingId===review.reviewid &&(
                 
                 <textarea
                  rows="3"
@@ -305,9 +305,10 @@ const BoardList = () => {
                  style={{ resize: "none" }} // 크기 조절 비활성화
                ></textarea>
               )}
-              { (!isEditing)||review.useraccount !== currentUser ||(!isLoggedIn)&&(
+              { (!isEditing)(
                 <span className="review_text">{review.content}</span>
               )}
+
                 
                 <Rating
                   name="review_star"
