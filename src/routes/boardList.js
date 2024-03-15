@@ -20,7 +20,8 @@ const BoardList = () => {
 
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
-  const movieNumber = Number(searchParams.get("movie_id")); //Home.js에서 movie_number 받을 변수
+
+  const movieNumber = parseInt(searchParams.get("movie_id")); //Home.js에서 movie_number 받을 변수 * String -> int로 형변환 *
 
   const currentUser = localStorage.getItem("LoginID");
 
@@ -104,11 +105,17 @@ const BoardList = () => {
     setReview(e.target.value);
   };
 
-  const handleSubmit = async (reviewId) => {
+  const handleSubmit = async (reviewId ,rating) => {
     try {
       // Perform update request to update the review content
-      await axios.put(`/myapp/review/${reviewId}`, {
-        content: editedReview,
+      await axios.put(`/myapp/review/`, {
+        data : {
+          useraccount:currentUser, 
+          reviewid:reviewId, 
+          movie_id: movieNumber,
+          content :editedReview,
+          rating : rating
+        }
       });
       // Reset editing state
       setEditingId(null);
@@ -144,6 +151,7 @@ const BoardList = () => {
       console.error("Error deleting review:", e);
     }
   };
+
   const handleEdit = (reviewId, content) => {
     setEditingId(reviewId); // Set the ID of the review being edited
     setEditedReview(content); // Set the initial content of the textarea
@@ -151,47 +159,50 @@ const BoardList = () => {
   };
   const handleEditChange = (e) => {
     setEditedReview(e.target.value);
+
   };
 
-  // 민경 - 좋아요 구현부
+    // 민경 - 좋아요 구현부
   // 좋아요 토글 함수
-  const handleLike = async (reviewId) => {
-    try {
-      const isLiked = likesReviews.includes(reviewId);
+const handleLike = async (reviewId) => {
+  try {
+    const isLiked = likesReviews.includes(reviewId);
 
-      // 서버로 전송할 데이터 준비
-      const requestData = {
-        useraccount: currentUser,
-        reviewid: reviewId,
-      };
+    // 서버로 전송할 데이터 준비
+    const requestData = {
+      useraccount: currentUser,
+      reviewid: reviewId,
+    };
 
-      // /reviewlike 엔드포인트로 POST 요청 보내기
-      await axios.post(`/myapp/reviewlike`, requestData);
+    // /reviewlike 엔드포인트로 POST 요청 보내기
+    await axios.post(`/myapp/reviewlike`, requestData);
 
-      // 리뷰 목록에서 해당 리뷰의 좋아요 수 변경 및 사용자의 좋아요 상태 업데이트
-      setReviews((prevReviews) =>
-        prevReviews.map((review) =>
-          review.id === reviewId
-            ? {
-                ...review,
-                likes: isLiked ? review.likes - 1 : review.likes + 1,
-                user_liked: !isLiked, // 사용자의 좋아요 상태 업데이트
-              }
-            : review
-        )
-      );
+    // 리뷰 목록에서 해당 리뷰의 좋아요 수 변경 및 사용자의 좋아요 상태 업데이트
+    setReviews((prevReviews) =>
+      prevReviews.map((review) =>
+        review.id === reviewId
+          ? {
+              ...review,
+              likes: isLiked ? review.likes - 1 : review.likes + 1,
+              user_liked: !isLiked, // 사용자의 좋아요 상태 업데이트
+            }
+          : review
+      )
+    );
 
-      // 좋아요 상태 업데이트
-      setLikesReviews(
-        isLiked
-          ? likesReviews.filter((id) => id !== reviewId) // 좋아요 취소한 경우
-          : [...likesReviews, reviewId] // 좋아요 한 경우
-      );
-    } catch (error) {
-      console.error("Error updating like:", error);
-    }
-    window.location.reload();
-  };
+    // 좋아요 상태 업데이트 후에 fetchData 함수를 호출하여 해당 영역을 새로 고침
+    fetchData();
+
+    // 좋아요 상태 업데이트
+    setLikesReviews(
+      isLiked
+        ? likesReviews.filter((id) => id !== reviewId) // 좋아요 취소한 경우
+        : [...likesReviews, reviewId] // 좋아요 한 경우
+    );
+  } catch (error) {
+    console.error("Error updating like:", error);
+  }
+};
 
   //=============handleLike ================
 
@@ -311,16 +322,14 @@ const BoardList = () => {
                   <>
                     <button
                       className="edit_button"
-                      onClick={() => handleEdit(review.content, review.rating)}
+                      onClick={() => handleEdit(review.reviewid,review.content)}
                     >
                       수정
                     </button>
                     {isLoggedIn &&
                       review.useraccount === currentUser &&
                       isEditing && (
-                        <button
-                          className="save_button"
-                          onClick={() => handleSubmit(review.reviewid)}
+                        <button className="save_button" onClick={() => handleSubmit(review.reviewid, review.rating)}
                         >
                           저장
                         </button>
