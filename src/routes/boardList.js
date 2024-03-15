@@ -284,11 +284,7 @@ const BoardList = () => {
                     <button className="edit_button">수정</button>
                     <button className="save_button">저장</button>
                     <button className="cancel_button"  onClick={handleCancelEdit}  >  취소</button>
-                    <button  className="delete_button"  onClick={() =>  handleDelete(  review.reviewid,  review.useraccount,
-                          movieNumber
-                        )
-                      }
-                    >
+                    <button  className="delete_button"  onClick={() =>  handleDelete(  review.reviewid,  review.useraccount  )  }  >
                       삭제
                     </button>
                   </>
