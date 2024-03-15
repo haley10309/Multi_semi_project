@@ -181,6 +181,7 @@ const BoardList = () => {
   } catch (error) {
     console.error("Error updating like:", error);
   }
+  window.location.reload(); 
 };
 
   //=============handleLike ================
