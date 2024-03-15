@@ -8,8 +8,11 @@ const BoardList = () => {
   const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]); //바뀔 때마다 랜더링 : 리뷰 리스트
+
+  const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  const [editedReview, setEditedReview] = useState("");
+  const [editedReview, setEditedReview] = useState(""); // State to store edited review content
+
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [isLoggedIn, setIsLoggedIn] = useState(false); //현재 로그인한 상태인지에 대한 여부
   const [user_star_rate, setUserStarRate] = useState(0); // State to store user's star rating 사용자가 생각하는 영화의 별점
@@ -17,7 +20,7 @@ const BoardList = () => {
 
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
-  const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
+  const movieNumber = Number(searchParams.get("movie_id")); //Home.js에서 movie_number 받을 변수
 
   const currentUser = localStorage.getItem("LoginID");
 
@@ -101,21 +104,20 @@ const BoardList = () => {
     setReview(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (review.trim() !== "") {
-      setReviews([
-        ...reviews,
-        {
-          id: reviews.length + 1,
-          author: currentUser,
-          content: review,
-          date: new Date(),
-          likes: 0,
-        },
-      ]);
-      setReview("");
-      setUserStarRate(0); // Reset the user's star rating after submitting the review
+  const handleSubmit = async (reviewId) => {
+    try {
+      // Perform update request to update the review content
+      await axios.put(`/myapp/review/${reviewId}`, {
+        content: editedReview,
+      });
+      // Reset editing state
+      setEditingId(null);
+      setEditedReview("");
+      setIsEditing(false); // Exit editing mode
+      // Refetch data or update local state
+      fetchData(); // Assuming fetchData refetches the reviews
+    } catch (error) {
+      console.error("Error updating review:", error);
     }
   };
 
@@ -142,21 +144,13 @@ const BoardList = () => {
       console.error("Error deleting review:", e);
     }
   };
-  const handleEdit = async (review_content, review_rating) => {
-    try {
-      const response = await axios.put(`/myapp/review`, {
-        data: {
-          useraccount: currentUser,
-          movie_id: movieNumber,
-          content: review_content,
-          rating: review_rating,
-        },
-      });
-      setReview(response.data);
-      window.location.reload();
-    } catch (error) {
-      console.log("수정 오류 : "+ error);
-    }
+  const handleEdit = (reviewId, content) => {
+    setEditingId(reviewId); // Set the ID of the review being edited
+    setEditedReview(content); // Set the initial content of the textarea
+    setIsEditing(true); // Set editing mode to true
+  };
+  const handleEditChange = (e) => {
+    setEditedReview(e.target.value);
   };
 
   // 민경 - 좋아요 구현부
@@ -241,6 +235,7 @@ const BoardList = () => {
           <br />
           <h3 className="review_start"> 리뷰 작성</h3>
           <form onSubmit={handleSubmit}>
+            {/* 새로 적는 리뷰 */}
             <textarea
               rows="3"
               placeholder="리뷰를 입력하세요"
@@ -272,7 +267,22 @@ const BoardList = () => {
                   {review.useraccount}
                 </span>
                 <br />
-
+                {/* 수정하는 리뷰 */}
+                {!isEditing && (
+                  <span className="review_text">{review.content}</span>
+                )}
+                {isEditing && (
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      className="review_text_editing"
+                      value={review}
+                      onChange={handleEditChange}
+                      autoFocus
+                    >
+                      {review.content}
+                    </input>
+                  </form>
+                )}
                 <span className="review_text">{review.content}</span>
                 <Rating
                   name="review_star"
@@ -305,10 +315,20 @@ const BoardList = () => {
                     >
                       수정
                     </button>
-                    <button className="save_button">저장</button>
+                    {isLoggedIn &&
+                      review.useraccount === currentUser &&
+                      isEditing && (
+                        <button
+                          className="save_button"
+                          onClick={() => handleSubmit(review.reviewid)}
+                        >
+                          저장
+                        </button>
+                      )}
+
                     <button
                       className="cancel_button"
-                      onClick={handleCancelEdit}
+                      onClick={() => setIsEditing(true)}
                     >
                       {" "}
                       취소
