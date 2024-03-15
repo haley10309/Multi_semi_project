@@ -304,7 +304,8 @@ const BoardList = () => {
                   <>
                     <textarea
                       rows="3"
-                      value={review.content}
+                      defaultValue={review.content}
+                      value={editedContent}
                       onChange={handleEditedContentChange}
                       className="review_input_form"
                       style={{ resize: "none" }} // 크기 조절 비활성화
