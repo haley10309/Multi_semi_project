@@ -144,12 +144,13 @@ const BoardList = () => {
     }
   };
 
-  const startEdit = async (reviewid) => {
+  const startEdit = async (reviewid, content) => {
     setEditingId(reviewid);
     setIsEditing(true);
+    setEditedContent(content);
   };
   const handleSubmitEdit = async (editingId) => {
-    console.log("리뷰 아이디: "+review,"\n 수정된 리뷰 내용 : "+editedContent+"\n movie_id: "+movieNumber);
+    console.log("리뷰 아이디: "+editingId,"\n 수정된 리뷰 내용 : "+editedContent+"\n movie_id: "+movieNumber);
     console.log("현재 사용자 id : "+currentUser);
     console.log("별점 : "+editedRating);
     try {
@@ -354,7 +355,7 @@ const BoardList = () => {
                     <>
                       <button
                         className="edit_button"
-                        onClick={() => startEdit(review.reviewid)}
+                        onClick={() => startEdit(review.reviewid, review.content)}
                       >
                         수정
                       </button>
@@ -363,7 +364,7 @@ const BoardList = () => {
                 {/* ================= 저장 + 취소 버튼 누를 조건================= */}
                 {isEditing && editingId === review.reviewid && (
                   <>
-                    <button  className="save_button"  onClick={() => handleSubmitEdit(editingId)} >
+                    <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid)} >
                       저장
                     </button>
                     <button  className="cancel_button"  onClick={() => handleCancelEdit()} >
