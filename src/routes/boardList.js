@@ -308,14 +308,14 @@ const BoardList = () => {
                     ></textarea>
                     <Rating
                       name="review_star"
-                      value={editedRating}
+                      value={review.content}
                       onChange={handleEditedRatingChange}
                       size="small"
                     />
                   </>
                 )}
                 {/* 평소 상태(수정 버튼 안 눌렀을 때) && editingId !== review.reviewid */}
-                {!isEditing  && (
+                {editingId === review.reviewid  && (
                   <>
                     <span className="review_text">{review.content}</span>
                     <Rating
