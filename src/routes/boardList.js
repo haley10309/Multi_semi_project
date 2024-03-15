@@ -21,7 +21,8 @@ const BoardList = () => {
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
   const searchParams = new URLSearchParams(location.search);
 
-  const movieNumber = searchParams.get("movie_id"); //Home.js에서 movie_number 받을 변수
+
+  const movieNumber = parseInt(searchParams.get("movie_id")); //Home.js에서 movie_number 받을 변수 * String -> int로 형변환 *
 
 
   const currentUser = localStorage.getItem("LoginID");
@@ -106,11 +107,17 @@ const BoardList = () => {
     setReview(e.target.value);
   };
 
-  const handleSubmit = async (reviewId) => {
+  const handleSubmit = async (reviewId, rating) => {
     try {
       // Perform update request to update the review content
-      await axios.put(`/myapp/review/${reviewId}`, {
-        content: editedReview,
+      await axios.put(`/myapp/review/`, {
+        data: {
+          useraccount: currentUser,
+          reviewid: reviewId,
+          movie_id: movieNumber,
+          content: editedReview,
+          rating: rating,
+        },
       });
       // Reset editing state
       setEditingId(null);
@@ -146,6 +153,7 @@ const BoardList = () => {
       console.error("Error deleting review:", e);
     }
   };
+
   const handleEdit = (reviewId, content) => {
     setEditingId(reviewId); // Set the ID of the review being edited
     setEditedReview(content); // Set the initial content of the textarea
@@ -183,6 +191,9 @@ const BoardList = () => {
         )
       );
 
+      // 좋아요 상태 업데이트 후에 fetchData 함수를 호출하여 해당 영역을 새로 고침
+      fetchData();
+
       // 좋아요 상태 업데이트
       setLikesReviews(
         isLiked
@@ -192,7 +203,6 @@ const BoardList = () => {
     } catch (error) {
       console.error("Error updating like:", error);
     }
-    window.location.reload();
   };
 
   //=============handleLike ================
@@ -275,14 +285,12 @@ const BoardList = () => {
                 )}
                 {isEditing && (
                   <form onSubmit={handleSubmit}>
-                    <input
+                    <textarea
                       className="review_text_editing"
-                      value={review}
+                      value={editedReview}
                       onChange={handleEditChange}
                       autoFocus
-                    >
-                      {review.content}
-                    </input>
+                    />
                   </form>
                 )}
                 <span className="review_text">{review.content}</span>
@@ -313,7 +321,9 @@ const BoardList = () => {
                   <>
                     <button
                       className="edit_button"
-                      onClick={() => handleEdit(review.content, review.rating)}
+                      onClick={() =>
+                        handleEdit(review.reviewid, review.content)
+                      }
                     >
                       수정
                     </button>
@@ -322,7 +332,9 @@ const BoardList = () => {
                       isEditing && (
                         <button
                           className="save_button"
-                          onClick={() => handleSubmit(review.reviewid)}
+                          onClick={() =>
+                            handleSubmit(review.reviewid, review.rating)
+                          }
                         >
                           저장
                         </button>
