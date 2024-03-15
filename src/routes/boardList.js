@@ -148,17 +148,17 @@ const BoardList = () => {
     setEditingId(reviewid);
     setIsEditing(true);
   };
-  const handleSubmitEdit = async (reviewid, content ,rating) => {
-    console.log("리뷰 아이디: "+review,"\n 수정된 리뷰 내용 : "+content+"\n movie_id: "+movieNumber);
+  const handleSubmitEdit = async (editingId) => {
+    console.log("리뷰 아이디: "+review,"\n 수정된 리뷰 내용 : "+editedContent+"\n movie_id: "+movieNumber);
     console.log("현재 사용자 id : "+currentUser);
-    console.log("별점 : "+rating);
+    console.log("별점 : "+editedRating);
     try {
       const response = await axios.put("/myapp/review", {
         useraccount: currentUser,
-        reviewid: reviewid,
+        reviewid: editingId,
         movie_id: movieNumber,
-        content: content,
-        rating: rating,
+        content: editedContent,
+        rating: editedRating,
       });
       setReviews(response.data);
     } catch (error) {
@@ -304,12 +304,12 @@ const BoardList = () => {
                   <>
                     <textarea
                       rows="3"
-                      defaultValue={review.content}
+                      
                       value={editedContent}
                       onChange={handleEditedContentChange}
                       className="review_input_form"
                       style={{ resize: "none" }} // 크기 조절 비활성화
-                    ></textarea>
+                    >{review.content}</textarea>
                     <Rating
                       name="review_star"
                       defaultValue={review.rating}
@@ -363,7 +363,7 @@ const BoardList = () => {
                 {/* ================= 저장 + 취소 버튼 누를 조건================= */}
                 {isEditing && editingId === review.reviewid && (
                   <>
-                    <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid,editedContent ,editedRating)} >
+                    <button  className="save_button"  onClick={() => handleSubmitEdit(editingId)} >
                       저장
                     </button>
                     <button  className="cancel_button"  onClick={() => handleCancelEdit()} >
