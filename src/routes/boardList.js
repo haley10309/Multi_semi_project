@@ -162,8 +162,9 @@ const BoardList = () => {
         rating: editedRating,
       });
       setReviews(response.data);
+     
+      alert("수정 완료 되었습니다.");
       window.location.reload();
-      alert("수정 완료 되었습니다.")
     } catch (error) {
       console.log("리뷰 수정 오류 : " + error);
     }
