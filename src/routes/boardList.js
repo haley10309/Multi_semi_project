@@ -151,6 +151,15 @@ const BoardList = () => {
     setEditingId(reviewid);
     setIsEditing(true);
   };
+  const handleSubmitEdit = async(reviewid ,  rating)=>{
+    const response = await axios.put('/myapp/review',{
+      useraccount:currentUser,
+     reviewid :reviewid,
+      movie_id : movieNumber,
+       content : review,
+        rating : rating
+    })
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (review.trim() !== "") {
@@ -285,11 +294,9 @@ const BoardList = () => {
                   {review.useraccount}
                 </span>
                 <br />
-              {isLoggedIn && review.useraccount === currentUser &&(
-                <span className="review_text">{review.content}</span>
-              )}
-              {!isLoggedIn && review.useraccount !== currentUser &&(
-                 <textarea
+              {isEditing && review.useraccount === currentUser &&(
+                
+                <textarea
                  rows="3"
                  
                  value={review}
@@ -298,11 +305,14 @@ const BoardList = () => {
                  style={{ resize: "none" }} // 크기 조절 비활성화
                ></textarea>
               )}
+              { review.useraccount !== currentUser &&(
+                <span className="review_text">{review.content}</span>
+              )}
                 
                 <Rating
                   name="review_star"
                   value={review.rating}
-                  readOnly
+                  readOnly={!isEditing}
                   size="small"
                 />
 
@@ -332,7 +342,7 @@ const BoardList = () => {
                     </button>
                     {isEditing && editingId===review.reviewid &&(
                       <>
-                        <button className="save_button">저장</button>
+                        <button className="save_button" onClick={handleSubmitEdit(review.reviewid,review.rating)}>저장</button>
                         <button
                           className="cancel_button"
                           onClick={handleCancelEdit}
