@@ -11,9 +11,8 @@ const BoardList = () => {
 
   const [isEditing, setIsEditing] = useState(false); //수정 여부
   const [editingId, setEditingId] = useState(null); //수정 하고자 하는 리뷰의 id
-  const [editedReview, setEditedReview] = useState(""); //수정한 리뷰 내용
-  const [editedContent, setEditedContent] = useState("");
-  const [editedRating, setEditedRating] = useState(0);
+  const [editedContent, setEditedContent] = useState(""); //수정한 리뷰 내용
+  const [editedRating, setEditedRating] = useState(0); //수정한 별
 
   const [likesReviews, setLikesReviews] = useState([]); // 사용자가 좋아요를 누른 리뷰 ID 저장
   const [isLoggedIn, setIsLoggedIn] = useState(false); //현재 로그인한 상태인지에 대한 여부
@@ -61,14 +60,14 @@ const BoardList = () => {
 
   console.log("Movie ID:", movieNumber);
   // 수정된 리뷰의 내용을 업데이트하는 함수
-const handleEditedContentChange = (e) => {
-  setEditedContent(e.target.value);
-};
+  const handleEditedContentChange = (e) => {
+    setEditedContent(e.target.value);
+  };
 
-// 수정된 리뷰의 평점을 업데이트하는 함수
-const handleEditedRatingChange = (newValue) => {
-  setEditedRating(newValue);
-};
+  // 수정된 리뷰의 평점을 업데이트하는 함수
+  const handleEditedRatingChange = (newValue) => {
+    setEditedRating(newValue);
+  };
 
   // 민경 - 게시일 받는 함수
   const formatReviewDate = (dateString) => {
@@ -111,20 +110,25 @@ const handleEditedRatingChange = (newValue) => {
     setUserStarRate(newValue); // Update user's star rating
   };
 
+
   const handleReviewChange = (e) => {
+    //리뷰 작성시 내용을 실시간으로 review객체에 넣음
     setReview(e.target.value);
   };
+ 
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    setEditedReview("");
+    setEditedContent("");
     setIsEditing(false);
   };
   const handleDelete = async (user_reviewid, user_useraccount) => {
+    //삭제 요청 함수
     console.log("리뷰 아이디: " + user_reviewid);
     console.log("리뷰 쓴 사람" + user_useraccount);
     try {
       const response = await axios.delete(`/myapp/review`, {
+        //삭제 요청
         params: { reviewid: user_reviewid }, // Passing reviewid as a parameter
         data: {
           // Passing useraccount and movie_id in the request body
@@ -139,7 +143,7 @@ const handleEditedRatingChange = (newValue) => {
       console.error("Error deleting review:", e);
     }
   };
-  
+
   const startEdit = async (reviewid) => {
     setEditingId(reviewid);
     setIsEditing(true);
@@ -155,9 +159,8 @@ const handleEditedRatingChange = (newValue) => {
       });
       setReviews(response.data);
     } catch (error) {
-      console.log("리뷰 수정 오류 : "+error);
+      console.log("리뷰 수정 오류 : " + error);
     }
-    
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -284,6 +287,7 @@ const handleEditedRatingChange = (newValue) => {
               등록
             </button>
           </form>
+  {/*================================ 리뷰 ================================*/}
           <div className="reviews_box">
             <h3 className="review_start">리뷰 목록</h3>
             {reviews.map((review) => (
@@ -292,30 +296,40 @@ const handleEditedRatingChange = (newValue) => {
                   {review.useraccount}
                 </span>
                 <br />
+                {/* 수정버튼을 눌렀을 때의 상태 */}
                 {isEditing && editingId === review.reviewid && (
                   <>
                     <textarea
                       rows="3"
-                      value={review.content}
-                      onChange={handleReviewChange}
+                      value={editedContent}
+                      onChange={handleEditedContentChange}
                       className="review_input_form"
                       style={{ resize: "none" }} // 크기 조절 비활성화
                     ></textarea>
+                    <Rating
+                      name="review_star"
+                      value={editedRating}
+                      onChange={handleEditedRatingChange}
+                      size="small"
+                    />
                   </>
                 )}
-                {(!isEditing&&editingId !== review.reviewid)&&(
-                  <span className="review_text">{review.content}</span>
+                {/* 평소 상태(수정 버튼 안 눌렀을 때) && editingId !== review.reviewid */}
+                {!isEditing  && (
+                  <>
+                    <span className="review_text">{review.content}</span>
+                    <Rating
+                      name="review_star"
+                      value={review.rating}
+                      readOnly
+                      size="small"
+                    />
+                  </>
                 )}
-
-                <Rating
-                  name="review_star"
-                  value={review.rating}
-                  readOnly={!isEditing}
-                  size="small"
-                />
 
                 <br />
                 <div>
+                  {/* ========좋아요==========  */}
                   <button
                     className={`likes_button ${
                       review.user_liked ? "liked" : ""
@@ -325,49 +339,48 @@ const handleEditedRatingChange = (newValue) => {
                     {review.user_liked === false ? "♡" : "♥"}
                   </button>
                   <span className="like_count">{review.likes}</span>
+                  {/* ========좋아요==========  */}
                 </div>
                 <span className="review_date">
                   게시일: {formatReviewDate(review.creationdate)}
                 </span>
-                {/* 민경 - 수정 버튼을 누르면 저장 버튼으로 변경하는 함수 필요한지 확인 */}
-                {isLoggedIn && review.useraccount === currentUser && (
+                {/* ================= 수정 버튼 누를 조건================= */}
+                {!isEditing && isLoggedIn &&  review.useraccount === currentUser && (
+                    <>
+                      <button
+                        className="edit_button"
+                        onClick={() => startEdit(review.reviewid)}
+                      >
+                        수정
+                      </button>
+                    </>
+                  )}
+                {/* ================= 저장 + 취소 버튼 누를 조건================= */}
+                {isEditing && editingId === review.reviewid && (
                   <>
-                    <button
-                      className="edit_button"
-                      onClick={() => startEdit(review.reviewid)}
-                    >
-                      수정
+                    <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid)} >
+                      저장
                     </button>
-                    {isEditing && editingId === review.reviewid && (
-                      <>
-                        <button
-                          className="save_button"
-                          onClick={handleSubmitEdit(
-                            review.reviewid
-                          )}
-                        >
-                          저장
-                        </button>
-                        <button
-                          className="cancel_button"
-                          onClick={handleCancelEdit}
-                        >
-                          {" "}
-                          취소
-                        </button>
-                      </>
-                    )}
-
-                    <button
-                      className="delete_button"
-                      onClick={() =>
-                        handleDelete(review.reviewid, review.useraccount)
-                      }
-                    >
-                      삭제
+                    <button  className="cancel_button"  onClick={() => handleCancelEdit} >
+                      
+                      취소
                     </button>
                   </>
                 )}
+                {/* ================= 삭제 버튼 누를 조건================= */}
+
+                {!isEditing &&  isLoggedIn && review.useraccount === currentUser && (
+                    <>
+                      <button
+                        className="delete_button"
+                        onClick={() =>
+                          handleDelete(review.reviewid, review.useraccount)
+                        }
+                      >
+                        삭제
+                      </button>
+                    </>
+                  )}
               </li>
             ))}
           </div>
