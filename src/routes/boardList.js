@@ -305,7 +305,7 @@ const BoardList = () => {
                  style={{ resize: "none" }} // 크기 조절 비활성화
                ></textarea>
               )}
-              { review.useraccount !== currentUser &&(
+              { !isEditing &&(
                 <span className="review_text">{review.content}</span>
               )}
                 
