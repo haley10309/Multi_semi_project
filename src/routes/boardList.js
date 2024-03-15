@@ -76,7 +76,7 @@ const BoardList = () => {
       try {
         const response = await axios.post(`/myapp/review`, {
           useraccount: currentUser,
-          movie_id: parseInt(movieNumber),
+          movie_id: movieNumber,
           content: review,
           rating: user_star_rate,
         });
