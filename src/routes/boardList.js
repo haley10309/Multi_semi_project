@@ -139,20 +139,20 @@ const BoardList = () => {
     setEditingId(null);
     setEditedReview("");
   };
+  
   const handleDelete = async (user_reviewid, user_useraccount) => {
     try {
       const response = await axios.delete(`/myapp/review`, {
-        params: { //query
-          reviewid: user_reviewid,
-        },
-        data: { //body
+        params: { reviewid: user_reviewid }, // Passing reviewid as a parameter
+        data: { // Passing useraccount and movie_id in the request body
           useraccount: user_useraccount,
           movie_id: movieNumber,
         }
       });
       setReview(response.data);
+      console.log("Delete response:", response.data);
     } catch (e) {
-      console.log("handleDelete axios error ");
+      console.error("Error deleting review:", e);
     }
   };
 
