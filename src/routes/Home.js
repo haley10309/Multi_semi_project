@@ -4,7 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 function Home() {
   const [movies, setMovies] = useState([]);
-  
+  const [isLoggedIn ,setIsLoggedIn] =useState(localStorage.getItem("isLoggedIn"));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +17,9 @@ function Home() {
         console.log(error);
       }
     };
+    if(!isLoggedIn){
+      localStorage.setItem("LoginID", "guest");
+    }
 
     fetchData();
   }, []);

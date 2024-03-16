@@ -17,6 +17,7 @@ function Login(props) {
   const onPwhandler = (event) => {
     setPassword(event.target.value);
   };
+ 
 
   const LoginFunc = (event) => {
     event.preventDefault(); // Prevent default form submission behavior
@@ -58,9 +59,9 @@ function Login(props) {
           <input type="password" value={password} onChange={onPwhandler} />
         </div>
         <br />
-        <button className="Login_button" type="submit">
+        <button className="Login_button" type="submit" >
           로그인
-        </button>
+        </button >
         <br />
       </form>
     </div>

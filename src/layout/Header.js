@@ -17,7 +17,9 @@ const Header = () => {
     // Clear localStorage and update state
     localStorage.setItem("isLoggedIn",false);
     setIsLoggedIn(false);
+    localStorage.setItem("LoginID","guest");
   };
+  
 
   return (
     <header className="header">
