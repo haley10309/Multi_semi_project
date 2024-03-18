@@ -3,6 +3,8 @@ import axios from "axios";
 import "./boardList.scss";
 import { useLocation } from "react-router-dom";
 import Rating from "@mui/material/Rating";
+import Heart from "react-animated-heart"; //좋아요 버튼
+import LikeButton from './likeButton';
 
 const BoardList = () => {
   const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
@@ -341,14 +343,14 @@ const BoardList = () => {
                 <br />
                 <div>
                   {/* ========좋아요==========  */}
-                  <button
+                  <LikeButton
                     className={`likes_button ${
                       review.user_liked ? "liked" : ""
                     }`}
                     onClick={() => handleLike(review.reviewid)}
                   >
                     {review.user_liked === false ? "♡" : "♥"}
-                  </button>
+                  </LikeButton>
                   <span className="like_count">{review.likes}</span>
                   {/* ========좋아요==========  */}
                 </div>
