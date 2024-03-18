@@ -58,7 +58,7 @@ const BoardList = () => {
     } else {
       setIsLoggedIn(false);
     }
-  }, [movieNumber]);
+  }, [reviews]);
 
   console.log("Movie ID:", movieNumber);
   // 수정된 리뷰의 내용을 업데이트하는 함수
@@ -95,17 +95,21 @@ const BoardList = () => {
   const addReview = async () => {
     if (isLoggedIn === true) {
       //로그인이 되어 있는 사용자 일때
+      const requestData = {
+        useraccount: currentUser,
+        movie_id: movieNumber,
+        content: review,
+        rating: user_star_rate,
+      }
       try {
-        const response = await axios.post(`/myapp/review`, {
-          useraccount: currentUser,
-          movie_id: movieNumber,
-          content: review,
-          rating: user_star_rate,
-        });
+        const response = await axios.post(`/myapp/review`, requestData);
         // 응답을 콘솔에 출력
         console.log("Review added successfully:", response.data);
-        fetchData(); // 리뷰를 추가한 후에 다시 데이터를 가져오도록 fetchData 함수 호출
+        //fetchData(); // 리뷰를 추가한 후에 다시 데이터를 가져오도록 fetchData 함수 호출
+       
+        setReviews(response.data);
         setReview("");
+        window.location.reload();
       } catch (error) {
         console.error("Error adding review:", error);
         if (error.response && error.response.status === 404) {
