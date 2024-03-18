@@ -27,7 +27,7 @@ body {
 .movie_image {
     width: 75%;
     height: 65vh;
-    margin : 85px;
+    margin : 20px;
     float: right;
     background-color: #F5F5F5;
     object-fit: contain;
@@ -35,8 +35,8 @@ body {
 
     box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
 
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .movie_explanation {
@@ -44,13 +44,13 @@ body {
     width: 45%;
     height: 70vh;
     float: left;
-    margin: 80px 80px 80px 0px;
+    margin: 10px;
     color: white;
 }
 
 /* 각 항목의 폰트 크기 조정 */
 .movie_explanation ul.movie_info_category {
-    font-size: 30px; 
+    font-size: 17px; 
     font-weight: 500;
     line-height: 1.8; 
     color: #6C757D;
@@ -58,7 +58,7 @@ body {
 
 /* 영화 제목 폰트 크기 조정 */
 .movie_info_category_title {
-    font-size: 80px; 
+    font-size: 50px; 
     color: #333;
     font-weight: bold;
 }
