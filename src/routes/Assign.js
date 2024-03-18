@@ -28,6 +28,11 @@ const Assign = () => {
             }
         } catch (error) {
             console.error('ID 중복 확인 오류:', error);
+            if (error.response && error.response.status === 404) {
+                setErrorMessage('이미 사용된 ID입니다');
+            } else {
+                setErrorMessage('서버 오류가 발생했습니다.');
+            }
         }
     };
 
