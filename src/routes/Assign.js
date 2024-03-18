@@ -15,6 +15,13 @@ const Assign = () => {
 
     // ID 중복 확인 함수
     const idCheck = async () => {
+        // 입력값이 영어와 숫자로만 구성되었는지 검증
+        const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+        if (!alphanumericRegex.test(useraccount)) {
+            alert('영어와 숫자로만 구성된 ID와 PW를 입력해주세요.');
+            return;
+        }
+    
         try {
             const response = await axios.post('/myapp/useraccount', { useraccount: useraccount });
             console.log('ID 중복 확인 결과:', response.data);
@@ -127,6 +134,8 @@ const Assign = () => {
                         value={pwdCheck}
                         onChange={(e) => setPwdCheck(e.target.value)}
                         className="confirm-pw-input"
+                        pattern="[a-zA-Z0-9]+"
+                        title="영어와 숫자만 입력 가능합니다."
                     />
                      {/* 비밀번호 확인 보이기/숨기기 토글 버튼 */}
                     <button type="button" className="show-hide-button" onClick={togglePwdCheckVisibility}>
