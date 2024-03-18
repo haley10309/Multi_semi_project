@@ -57,7 +57,7 @@ const Assign = () => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
 
         if (useraccount === 'guest') {
-            alert('허용되지 않는 ID입니다.');
+            alert('이미 가입된 ID 혹은 정보입력 오류입니다.');
             return;
         }
 
