@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+@font-face {
+  font-family: "sokcho_ocean_font";
+  font-weight: normal;
+  src: url("./font/sokcho_ocean_font/TTF/SokchoBadaDotum.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sokcho_ocean_thin_font";
+  font-weight: normal;
+  src: url("./font/sokcho_ocean_thin_font/TTF/SokchoBadaBatang.ttf")format("truetype");
+}

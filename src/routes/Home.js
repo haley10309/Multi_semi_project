@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Home.scss";
 import { NavLink, useLocation } from "react-router-dom";
+import Rating from "@mui/material/Rating";
 
 function Home() {
   const [movies, setMovies] = useState([]);
@@ -37,8 +38,13 @@ function Home() {
             <NavLink to={`/board?movie_id=${movie.movie_id}`}>
               <img src={movie.img_url} alt={movie.title} />
             </NavLink>
-            <h2>{movie.title}</h2>
-            <p>{movie.averagerating}</p>
+            <h2 className="movie_title">{movie.title}</h2>
+            <Rating
+              name="user_star_rating"
+              value={movie.averagerating}
+              size="small"
+            />
+            <p className="star_rate">별점 : {movie.averagerating}점</p>
           </div>
         ))}
       </div>
