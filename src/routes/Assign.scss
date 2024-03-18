@@ -14,6 +14,7 @@
   font-weight: bold; /* 굵은 글꼴 */
   color: #333; /* 제목 색상 */
   margin-bottom: 25px; /* 아래 여백 */
+  margin-top: 50px;
 }
 
 form {
@@ -159,7 +160,8 @@ input[type="checkbox"] {
   font-size: 14px; /* 글꼴 크기 */
   font-weight: bold; /* 굵은 글꼴 */
   padding: 10px 20px; /* 안쪽 여백 */
-  margin-top: 20px; /* 위 여백 */
+  margin-top: 30px; /* 위 여백 */
+  margin-bottom: 40px;
   letter-spacing: 1px; /* 글자 간격 */
   text-transform: uppercase; /* 대문자 변환 */
   cursor: pointer; /* 포인터 커서 */
