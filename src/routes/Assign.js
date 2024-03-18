@@ -21,11 +21,13 @@ const Assign = () => {
             alert('영어와 숫자로만 구성된 ID와 PW를 입력해주세요.');
             return;
         }
-    
+        
+        const lowercaseUserAccount = useraccount.toLowerCase();
+
         try {
             const response = await axios.post('/myapp/useraccount', { useraccount: useraccount });
             console.log('ID 중복 확인 결과:', response.data);
-            if (response.data.exists || useraccount === 'guest') {
+            if (response.data.exists || lowercaseUserAccount === 'guest') {
                 // 이미 사용된 ID + guest 제약 추가
                 alert('이미 사용된 ID이거나 허용되지 않는 ID입니다.');
             } else {
