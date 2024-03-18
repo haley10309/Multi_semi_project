@@ -58,7 +58,7 @@ const BoardList = () => {
     } else {
       setIsLoggedIn(false);
     }
-  }, [reviews]);
+  }, []);
 
   console.log("Movie ID:", movieNumber);
   // 수정된 리뷰의 내용을 업데이트하는 함수
@@ -103,7 +103,11 @@ const BoardList = () => {
       }
       try {
         const response = await axios.post(`/myapp/review`, requestData);
+        if (response.status === 200) {
+          console.log("로그인 성공");
+      }
         // 응답을 콘솔에 출력
+        
         console.log("Review added successfully:", response.data);
         //fetchData(); // 리뷰를 추가한 후에 다시 데이터를 가져오도록 fetchData 함수 호출
        
@@ -300,7 +304,7 @@ const BoardList = () => {
             ></textarea>
             {/*      영화에 대한 해당 사용자의 별점 평가       */}
             <Rating
-              name="user_star_rating"
+               name='movie_id'
               value={user_star_rate}
               onChange={handleStarRatingChange}
               size="large"
