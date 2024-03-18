@@ -5,30 +5,42 @@ import { useNavigate } from 'react-router-dom';
 
 const Assign = () => {
     const [useraccount, setUseraccount] = useState('');
-//  const [accountCheck, setAccountCheck] = useState(false);
     const [password, setPassword] = useState('');
     const [pwdCheck, setPwdCheck] = useState('');
     const [email, setEmail] = useState('');
     const [agree, setAgree] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // 추가: 비밀번호 보이기/숨기기 상태
+    const [showPwdCheck, setShowPwdCheck] = useState(false); // 추가: 비밀번호 확인 보이기/숨기기 상태
     const navigate = useNavigate();
 
     // ID 중복 확인 함수
     const idCheck = async () => {
-      try {
-          const response = await axios.post('/myapp/useraccount', { useraccount : useraccount });
-          console.log('ID 중복 확인 결과:', response.data);
-          if (response.data.exists) {
-              // 이미 사용된 ID인 경우
-              setErrorMessage('이미 사용된 ID입니다.');
-          } else {
-              // 사용 가능한 ID인 경우
-              setErrorMessage('사용 가능한 ID입니다.');
-          }
-      } catch (error) {
-          console.error('ID 중복 확인 오류:', error);
-      }
-  };
+        try {
+            const response = await axios.post('/myapp/useraccount', { useraccount: useraccount });
+            console.log('ID 중복 확인 결과:', response.data);
+            if (response.data.exists) {
+                // 이미 사용된 ID인 경우
+                setErrorMessage('이미 사용된 ID입니다.');
+            } else {
+                // 사용 가능한 ID인 경우
+                setErrorMessage('사용 가능한 ID입니다.');
+            }
+        } catch (error) {
+            console.error('ID 중복 확인 오류:', error);
+        }
+    };
+
+    // 비밀번호 보이기/숨기기 토글 함수
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    // 비밀번호 확인 보이기/숨기기 토글 함수
+    const togglePwdCheckVisibility = () => {
+        setShowPwdCheck(!showPwdCheck);
+    };
+
     // 회원가입 제출 함수
     const assignSubmit = async (e) => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
@@ -38,7 +50,7 @@ const Assign = () => {
             setErrorMessage('클린 리뷰어 약속에 동의해주세요.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
             return;
         }
-        
+
         try {
             const response = await axios.post('/myapp/assign', {
                 useraccount,
@@ -50,21 +62,21 @@ const Assign = () => {
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 setErrorMessage('이미 가입된 ID 혹은 정보입력 오류입니다.');
-            } else { 
+            } else {
                 console.error('회원가입 실패:', error);
             }
         }
-    } 
+    };
 
     return (
         <div className="assign-form">
             {/* 오류 메시지가 있을 때만 표시 */}
             {errorMessage && <div className="error-message">{errorMessage}</div>}
-            
+
             {/* 회원가입 폼 */}
             <form onSubmit={assignSubmit}>
                 <div className="title">회원가입을 위해 정보를 입력해주세요.</div>
-                
+
                 {/* ID 입력 필드 */}
                 <div className="input-list">
                     <div className="label">ID</div>
@@ -79,18 +91,19 @@ const Assign = () => {
                     />
                     {/* 중복 확인 버튼 */}
                     <button className="id-button" type="button" onClick={idCheck}>중복 확인</button>
-                    </div>
-                    {/* ID 중복 확인 결과 에러 메시지 */}
-                    {errorMessage && (
+                </div>
+                {/* ID 중복 확인 결과 에러 메시지 */}
+                {errorMessage && (
                     <div className="error-message-confirm" style={{ marginTop: '3px' }}>
-                    {errorMessage}
-                    </div> )}
-                
+                        {errorMessage}
+                    </div>
+                )}
+
                 {/* 비밀번호 입력 필드 */}
                 <div className="input-list">
                     <div className="label">PW</div>
                     <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="비밀번호"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -98,25 +111,35 @@ const Assign = () => {
                         pattern="[a-zA-Z0-9]+"
                         title="영어와 숫자만 입력 가능합니다."
                     />
-                </div>
+                    {/* 비밀번호 보이기/숨기기 토글 버튼 */}
+                    <button type="button" className="show-hide-button" onClick={togglePasswordVisibility}>
+                    {showPassword ? "숨기기" : "보이기"}
+                    </button>
+                    </div>
+                
                 {/* 비밀번호 확인 입력 필드 */}
                 <div className="input-list">
                     <div className="label">PW(CHECK)</div>
                     <input
-                        type="passwordcheck"
+                        type={showPwdCheck ? "text" : "password"}
                         placeholder="비밀번호 확인"
                         value={pwdCheck}
                         onChange={(e) => setPwdCheck(e.target.value)}
                         className="confirm-pw-input"
                     />
-                </div>
+                     {/* 비밀번호 확인 보이기/숨기기 토글 버튼 */}
+                    <button type="button" className="show-hide-button" onClick={togglePwdCheckVisibility}>
+                    {showPwdCheck ? "숨기기" : "보이기"}
+                    </button>
+                    </div>
+
                 {/* 비밀번호 & 비밀번호(확인) 불일치 오류 메시지 */}
                 {password !== pwdCheck && (
-                <div className="input-list">
-                <div className="error-message-confirm">비밀번호가 서로 일치하지 않습니다.</div>
-                </div>
+                    <div className="input-list">
+                        <div className="error-message-confirm">비밀번호가 서로 일치하지 않습니다.</div>
+                    </div>
                 )}
-                
+
                 {/* 이메일 입력 필드 */}
                 <div className="input-list">
                     <div className="label">EMAIL</div>
@@ -128,7 +151,7 @@ const Assign = () => {
                         className="email-input"
                     />
                 </div>
-                
+
                 {/* 동의 체크박스 */}
                 <label>
                     <input
@@ -138,12 +161,12 @@ const Assign = () => {
                     />
                     매너를 지키는 클린 리뷰어임을 약속합니다!
                 </label>
-                
+
                 {/* 회원가입 버튼 */}
                 <button type="submit" className="assign-button">회원가입</button>
             </form>
         </div>
     );
-}
+};
 
 export default Assign;
