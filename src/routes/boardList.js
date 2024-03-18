@@ -52,7 +52,7 @@ const BoardList = () => {
   useEffect(() => {
     fetchData(); // fetchData 함수 호출
 
-    if (localStorage.getItem("LoginID") != "guest") {
+    if (localStorage.getItem("LoginID") !== "guest") {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       setIsLoggedIn(true);
     } else {
@@ -74,6 +74,17 @@ const BoardList = () => {
 
   // 민경 - 게시일 받는 함수
   const formatReviewDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().slice(-2); // 년도의 마지막 2자리만 추출
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // 월을 2자리로 표시
+    const day = ("0" + date.getDate()).slice(-2); // 일을 2자리로 표시
+    const hours = ("0" + date.getHours()).slice(-2); // 시간을 2자리로 표시
+    const minutes = ("0" + date.getMinutes()).slice(-2); // 분을 2자리로 표시
+    return `${year}/${month}/${day} ${hours}:${minutes}`;
+  };
+
+  // 민경 - 출시일을 YY/MM/DD 형식으로 변환하는 함수
+  const formatReleaseDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear().toString().slice(-2); // 년도의 마지막 2자리만 추출
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // 월을 2자리로 표시
@@ -260,7 +271,7 @@ const BoardList = () => {
               <ul className="movie_info_category">감독 : {movie.director}</ul>
               <ul className="movie_info_category">출연 : {movie.actors}</ul>
               <ul className="movie_info_category">
-                출시일 : {movie.releasedate}
+                출시일 : {formatReleaseDate(movie.releasedate)}
               </ul>
               <ul className="movie_info_category">
                 줄거리 : {movie.description}
@@ -299,9 +310,10 @@ const BoardList = () => {
             </button>
           </form>
   {/*================================ 리뷰 ================================*/}
-          <div className="reviews_box">
+  <div className="reviews_box">
             <h3 className="review_start">리뷰 목록</h3>
-            {reviews.map((review) => (
+            {/* 리뷰 목록을 게시일 기준으로 정렬하여 출력 (최신순) */}
+            {reviews.sort((a, b) => new Date(b.creationdate) - new Date(a.creationdate)).map((review) => (
               <li className="reviews_lists" key={review.useraccount}>
                 <span className="review_list_useraccount">
                   {review.useraccount}
