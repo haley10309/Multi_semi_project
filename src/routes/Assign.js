@@ -18,9 +18,9 @@ const Assign = () => {
         try {
             const response = await axios.post('/myapp/useraccount', { useraccount: useraccount });
             console.log('ID 중복 확인 결과:', response.data);
-            if (response.data.exists) {
-                // 이미 사용된 ID인 경우
-                alert('이미 사용된 ID입니다.');
+            if (response.data.exists || useraccount === 'guest') {
+                // 이미 사용된 ID + guest 제약 추가
+                alert('이미 사용된 ID이거나 허용되지 않는 ID입니다.');
             } else {
                 // 사용 가능한 ID인 경우
                 alert('사용 가능한 ID입니다.');
@@ -30,7 +30,7 @@ const Assign = () => {
             if (error.response && error.response.status === 404) {
                 alert('이미 사용된 ID입니다.');
             } else {
-                alert('서버 오류가 발생했습니다.');
+                alert('사용할 수 없는 ID 혹은 서버 오류입니다.');
             }
         }
     };
@@ -48,6 +48,11 @@ const Assign = () => {
     // 회원가입 제출 함수
     const assignSubmit = async (e) => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
+
+        if (useraccount === 'guest') {
+            alert('허용되지 않는 ID입니다.');
+            return;
+        }
 
         // 서비스 이용약관 동의 여부 확인
         if (!agree) {
