@@ -52,7 +52,7 @@ const BoardList = () => {
   useEffect(() => {
     fetchData(); // fetchData 함수 호출
 
-    if (localStorage.getItem("LoginID") !== "guest") {
+    if (localStorage.getItem("LoginID").toLowerCase() !== "guest") {
       //localStorage 에서 "LoginID"라는 key가 있으면 로그인 된 것, 아니면 게스트 모드 -> 리뷰 작성 버튼 누를 때 로그인 화면으로 이동
       setIsLoggedIn(true);
     } else {
