@@ -214,6 +214,7 @@ body {
 .delete_button:hover {
     transform: scale(1.05);
     background-color: #f0f0f0b4;
+    color : black;
 }
 
 /* 수정, 삭제, 취소 버튼의 공통 스타일 */
@@ -233,7 +234,7 @@ body {
 }
 
 .delete_button {
-    background-color: #dc3546;
+    background-color: #bb8cc0;
 }
 
 /* 리뷰 리스트 스타일 */
