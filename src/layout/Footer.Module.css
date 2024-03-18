@@ -32,20 +32,22 @@ footer {
   }
   
   h4 {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     background-color: #FFF5EA;
-    font-size: 25px;
+    font-size: 27px;
+    font-style: italic;
   }
   
   .each_role {
     margin-bottom: 10px;
     background-color: #FFF5EA;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   p {
-    margin: 5px 0;
+    margin: 3px 0;
     font-weight: bold;
+    font-size: 15px;
   }
   
   a {
@@ -57,7 +59,7 @@ footer {
   }
 
   .copyright {
-    margin-top: 20px; /* Copyright 문구와의 간격을 조정 */
-    font-weight: bold;
-    font-size: 20px;
+    margin-top: -33px; /* Copyright 문구와의 간격을 조정 */
+    font-weight: normal;
+    font-size: 18px;
   }
