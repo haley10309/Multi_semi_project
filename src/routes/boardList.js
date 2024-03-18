@@ -92,7 +92,8 @@ const BoardList = () => {
   };
 
   // 민경 - 리뷰 삽입(작성) 기능 추가
-  const addReview = async () => {
+  const addReview = async (e) => {
+    e.preventDefault(); // 기본 동작 중지
     if (isLoggedIn === true) {
       //로그인이 되어 있는 사용자 일때
       const requestData = {
@@ -100,19 +101,19 @@ const BoardList = () => {
         movie_id: movieNumber,
         content: review,
         rating: user_star_rate,
-      }
+      };
       try {
         const response = await axios.post(`/myapp/review`, requestData);
         if (response.status === 200) {
           console.log("로그인 성공");
-      }
+        }
         // 응답을 콘솔에 출력
-        
         console.log("Review added successfully:", response.data);
         //fetchData(); // 리뷰를 추가한 후에 다시 데이터를 가져오도록 fetchData 함수 호출
-       
+  
         setReviews(response.data);
         setReview("");
+        setUserStarRate(0);
         window.location.reload();
       } catch (error) {
         console.error("Error adding review:", error);
@@ -127,8 +128,8 @@ const BoardList = () => {
   };
 
   //별점 value변화 할 때마다 호출 -> 저장
-  const handleStarRatingChange = (event) => {
-    setUserStarRate(event.target.value); // Update user's star rating
+  const handleStarRatingChange = (event, newValue) => {
+    setUserStarRate(newValue); // Update user's star rating
   };
 
   const handleReviewChange = (e) => {
@@ -304,7 +305,7 @@ const BoardList = () => {
             ></textarea>
             {/*      영화에 대한 해당 사용자의 별점 평가       */}
             <Rating
-               name='movie_id'
+              name={`movie_id`}
               value={user_star_rate}
               onChange={handleStarRatingChange}
               size="large"
