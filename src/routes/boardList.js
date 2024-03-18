@@ -10,7 +10,7 @@ const BoardList = () => {
   const [reviews, setReviews] = useState([]); //바뀔 때마다 랜더링 : 리뷰 리스트
 
   const [isEditing, setIsEditing] = useState(false); //수정 여부
-  const [editingId, setEditingId] = useState(null); //수정 하고자 하는 리뷰의 id
+  const [editing_reviewid, setEditing_reviewid] = useState(null); //수정 하고자 하는 리뷰의 id
   const [editedContent, setEditedContent] = useState(""); //수정한 리뷰 내용
   const [editedRating, setEditedRating] = useState(0); //수정한 별
 
@@ -67,7 +67,7 @@ const BoardList = () => {
 
   // 수정된 리뷰의 평점을 업데이트하는 함수
   const handleEditedRatingChange = (newValue) => {
-    setEditedRating(newValue);
+    setEditedRating(newValue.target.value);
   };
 
   // 민경 - 게시일 받는 함수
@@ -107,8 +107,8 @@ const BoardList = () => {
   };
 
   //별점 value변화 할 때마다 호출 -> 저장
-  const handleStarRatingChange = (event, newValue) => {
-    setUserStarRate(newValue); // Update user's star rating
+  const handleStarRatingChange = (event) => {
+    setUserStarRate(event.target.value); // Update user's star rating
   };
 
 
@@ -119,7 +119,7 @@ const BoardList = () => {
  
 
   const handleCancelEdit = () => {
-    setEditingId(null);
+    setEditing_reviewid(null);
     setEditedContent("");
     setIsEditing(false);
   };
@@ -145,10 +145,11 @@ const BoardList = () => {
     }
   };
 
-  const startEdit = async (reviewid, content) => {
-    setEditingId(reviewid);
+  const startEdit = async (reviewid, content, rating) => {
+    setEditing_reviewid(reviewid);
     setIsEditing(true);
     setEditedContent(content);
+    setEditedRating(rating);
   };
   const handleSubmitEdit = async (editingId) => {
     console.log("리뷰 아이디: "+editingId,"\n 수정된 리뷰 내용 : "+editedContent+"\n movie_id: "+movieNumber);
@@ -305,7 +306,7 @@ const BoardList = () => {
                 </span>
                 <br />
                 {/* 수정버튼을 눌렀을 때의 상태 */}
-                {isEditing && editingId === review.reviewid && (
+                {isEditing && editing_reviewid === review.reviewid && (
                   <>
                     <textarea
                       rows="3"
@@ -317,7 +318,7 @@ const BoardList = () => {
                     >{review.content}</textarea>
                     <Rating
                       name="review_star"
-                      defaultValue={review.rating}
+                      //defaultValue={review.rating}
                       value={editedRating}
                       onChange={handleEditedRatingChange}
                       size="small"
@@ -325,7 +326,7 @@ const BoardList = () => {
                   </>
                 )}
                 {/* 평소 상태(수정 버튼 안 눌렀을 때) && editingId !== review.reviewid */}
-                {editingId !== review.reviewid  && (
+                {editing_reviewid !== review.reviewid  && (
                   <>
                     <span className="review_text">{review.content}</span>
                     <Rating
@@ -359,14 +360,14 @@ const BoardList = () => {
                     <>
                       <button
                         className="edit_button"
-                        onClick={() => startEdit(review.reviewid, review.content)}
+                        onClick={() => startEdit(review.reviewid, review.content ,review.rating)}
                       >
                         수정
                       </button>
                     </>
                   )}
                 {/* ================= 저장 + 취소 버튼 누를 조건================= */}
-                {isEditing && editingId === review.reviewid && (
+                {isEditing && editing_reviewid === review.reviewid && (
                   <>
                     <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid)} >
                       저장
