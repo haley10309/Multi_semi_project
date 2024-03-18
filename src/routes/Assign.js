@@ -78,6 +78,7 @@ const Assign = () => {
             console.log('회원가입 완료:', response.data);
             alert('회원가입이 완료되었습니다.');
             navigate('/login'); // 회원가입 완료 후 로그인 페이지로 이동
+            window.location.reload();
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 alert('이미 가입된 ID 혹은 정보입력 오류입니다.');
