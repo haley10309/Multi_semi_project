@@ -3,8 +3,8 @@ import axios from "axios";
 import "./boardList.scss";
 import { useLocation } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-import Heart from "react-animated-heart"; //좋아요 버튼
-import LikeButton from './likeButton';
+//import LikeButton from './likeButton';//좋아요 버튼
+import { HeartOutlined, HeartFilled } from "@ant-design/icons"; //icons 모듈을 갖고온다
 
 const BoardList = () => {
   const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
@@ -57,10 +57,9 @@ const BoardList = () => {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
-      
     }
   }, [movieNumber]);
-  
+
   console.log("Movie ID:", movieNumber);
   // 수정된 리뷰의 내용을 업데이트하는 함수
   const handleEditedContentChange = (e) => {
@@ -113,12 +112,10 @@ const BoardList = () => {
     setUserStarRate(event.target.value); // Update user's star rating
   };
 
-
   const handleReviewChange = (e) => {
     //리뷰 작성시 내용을 실시간으로 review객체에 넣음
     setReview(e.target.value);
   };
- 
 
   const handleCancelEdit = () => {
     setEditing_reviewid(null);
@@ -154,9 +151,12 @@ const BoardList = () => {
     setEditedRating(rating);
   };
   const handleSubmitEdit = async (editingId) => {
-    console.log("리뷰 아이디: "+editingId,"\n 수정된 리뷰 내용 : "+editedContent+"\n movie_id: "+movieNumber);
-    console.log("현재 사용자 id : "+currentUser);
-    console.log("별점 : "+editedRating);
+    console.log(
+      "리뷰 아이디: " + editingId,
+      "\n 수정된 리뷰 내용 : " + editedContent + "\n movie_id: " + movieNumber
+    );
+    console.log("현재 사용자 id : " + currentUser);
+    console.log("별점 : " + editedRating);
     try {
       const response = await axios.put("/myapp/review", {
         useraccount: currentUser,
@@ -166,7 +166,7 @@ const BoardList = () => {
         rating: editedRating,
       });
       setReviews(response.data);
-     
+
       alert("수정 완료 되었습니다.");
       window.location.reload();
     } catch (error) {
@@ -298,7 +298,7 @@ const BoardList = () => {
               등록
             </button>
           </form>
-  {/*================================ 리뷰 ================================*/}
+          {/*================================ 리뷰 ================================*/}
           <div className="reviews_box">
             <h3 className="review_start">리뷰 목록</h3>
             {reviews.map((review) => (
@@ -312,12 +312,13 @@ const BoardList = () => {
                   <>
                     <textarea
                       rows="3"
-                      
                       value={editedContent}
                       onChange={handleEditedContentChange}
                       className="review_input_form"
                       style={{ resize: "none" }} // 크기 조절 비활성화
-                    >{review.content}</textarea>
+                    >
+                      {review.content}
+                    </textarea>
                     <Rating
                       name="review_star"
                       //defaultValue={review.rating}
@@ -328,7 +329,7 @@ const BoardList = () => {
                   </>
                 )}
                 {/* 평소 상태(수정 버튼 안 눌렀을 때) && editingId !== review.reviewid */}
-                {editing_reviewid !== review.reviewid  && (
+                {editing_reviewid !== review.reviewid && (
                   <>
                     <span className="review_text">{review.content}</span>
                     <Rating
@@ -343,14 +344,19 @@ const BoardList = () => {
                 <br />
                 <div>
                   {/* ========좋아요==========  */}
-                  <LikeButton
-                    className={`likes_button ${
-                      review.user_liked ? "liked" : ""
-                    }`}
-                    onClick={() => handleLike(review.reviewid)}
-                  >
-                    {review.user_liked === false ? "♡" : "♥"}
-                  </LikeButton>
+                  {review.user_liked ? (
+                    <HeartFilled
+                      style={{ color: "red", fontSize: "24px" }}
+                      onClick={() => handleLike(review.reviewid)}
+                    />
+                    
+                  ) : (
+                    <HeartOutlined
+                      style={{ fontSize: "24px" }}
+                      onClick={() => handleLike(review.reviewid)}
+                    />
+                  )}
+
                   <span className="like_count">{review.likes}</span>
                   {/* ========좋아요==========  */}
                 </div>
@@ -358,11 +364,19 @@ const BoardList = () => {
                   게시일: {formatReviewDate(review.creationdate)}
                 </span>
                 {/* ================= 수정 버튼 누를 조건================= */}
-                {!isEditing && isLoggedIn &&  review.useraccount === currentUser && (
+                {!isEditing &&
+                  isLoggedIn &&
+                  review.useraccount === currentUser && (
                     <>
                       <button
                         className="edit_button"
-                        onClick={() => startEdit(review.reviewid, review.content ,review.rating)}
+                        onClick={() =>
+                          startEdit(
+                            review.reviewid,
+                            review.content,
+                            review.rating
+                          )
+                        }
                       >
                         수정
                       </button>
@@ -371,18 +385,25 @@ const BoardList = () => {
                 {/* ================= 저장 + 취소 버튼 누를 조건================= */}
                 {isEditing && editing_reviewid === review.reviewid && (
                   <>
-                    <button  className="save_button"  onClick={() => handleSubmitEdit(review.reviewid)} >
+                    <button
+                      className="save_button"
+                      onClick={() => handleSubmitEdit(review.reviewid)}
+                    >
                       저장
                     </button>
-                    <button  className="cancel_button"  onClick={() => handleCancelEdit()} >
-                      
+                    <button
+                      className="cancel_button"
+                      onClick={() => handleCancelEdit()}
+                    >
                       취소
                     </button>
                   </>
                 )}
                 {/* ================= 삭제 버튼 누를 조건================= */}
 
-                {!isEditing &&  isLoggedIn && review.useraccount === currentUser && (
+                {!isEditing &&
+                  isLoggedIn &&
+                  review.useraccount === currentUser && (
                     <>
                       <button
                         className="delete_button"
@@ -404,3 +425,5 @@ const BoardList = () => {
 };
 
 export default BoardList;
+
+
