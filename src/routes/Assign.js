@@ -9,7 +9,6 @@ const Assign = () => {
     const [pwdCheck, setPwdCheck] = useState('');
     const [email, setEmail] = useState('');
     const [agree, setAgree] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
     const [showPassword, setShowPassword] = useState(false); // 추가: 비밀번호 보이기/숨기기 상태
     const [showPwdCheck, setShowPwdCheck] = useState(false); // 추가: 비밀번호 확인 보이기/숨기기 상태
     const navigate = useNavigate();
@@ -21,17 +20,17 @@ const Assign = () => {
             console.log('ID 중복 확인 결과:', response.data);
             if (response.data.exists) {
                 // 이미 사용된 ID인 경우
-                setErrorMessage('이미 사용된 ID입니다.');
+                alert('이미 사용된 ID입니다.');
             } else {
                 // 사용 가능한 ID인 경우
-                setErrorMessage('사용 가능한 ID입니다.');
+                alert('사용 가능한 ID입니다.');
             }
         } catch (error) {
             console.error('ID 중복 확인 오류:', error);
             if (error.response && error.response.status === 404) {
-                setErrorMessage('이미 사용된 ID입니다');
+                alert('이미 사용된 ID입니다.');
             } else {
-                setErrorMessage('서버 오류가 발생했습니다.');
+                alert('서버 오류가 발생했습니다.');
             }
         }
     };
@@ -52,7 +51,7 @@ const Assign = () => {
 
         // 서비스 이용약관 동의 여부 확인
         if (!agree) {
-            setErrorMessage('클린 리뷰어 약속에 동의해주세요.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
+            alert('클린 리뷰어 약속에 동의해주세요.'); // 동의하지 않은 경우 오류 메시지 설정 후 함수 종료
             return;
         }
 
@@ -67,7 +66,7 @@ const Assign = () => {
             navigate('/login'); // 회원가입 완료 후 로그인 페이지로 이동
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                setErrorMessage('이미 가입된 ID 혹은 정보입력 오류입니다.');
+                alert('이미 가입된 ID 혹은 정보입력 오류입니다.');
             } else {
                 console.error('회원가입 실패:', error);
             }
@@ -76,9 +75,6 @@ const Assign = () => {
 
     return (
         <div className="assign-form">
-            {/* 오류 메시지가 있을 때만 표시 */}
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
-
             {/* 회원가입 폼 */}
             <form onSubmit={assignSubmit}>
                 <div className="title">회원가입을 위해 정보를 입력해주세요.</div>
@@ -98,12 +94,6 @@ const Assign = () => {
                     {/* 중복 확인 버튼 */}
                     <button className="id-button" type="button" onClick={idCheck}>중복 확인</button>
                 </div>
-                {/* ID 중복 확인 결과 에러 메시지 */}
-                {errorMessage && (
-                    <div className="error-message-confirm" style={{ marginTop: '3px' }}>
-                        {errorMessage}
-                    </div>
-                )}
 
                 {/* 비밀번호 입력 필드 */}
                 <div className="input-list">
