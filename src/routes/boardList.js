@@ -45,7 +45,7 @@ const BoardList = () => {
       setMovies(response.data);
       setReviews(response_rv.data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("리뷰 정보 저장 오류:", error);
     }
   };
 
@@ -108,7 +108,7 @@ const BoardList = () => {
           console.log("로그인 성공");
         }
         // 응답을 콘솔에 출력
-        console.log("Review added successfully:", response.data);
+        console.log("리뷰 작성 성공:", response.data);
         //fetchData(); // 리뷰를 추가한 후에 다시 데이터를 가져오도록 fetchData 함수 호출
   
         setReviews(response.data);
@@ -116,9 +116,9 @@ const BoardList = () => {
         setUserStarRate(0);
         window.location.reload();
       } catch (error) {
-        console.error("Error adding review:", error);
+        console.error("리뷰 작성 중 오류 발생:", error);
         if (error.response && error.response.status === 404) {
-          console.error("Bad request:", error.response.data);
+          console.error("잘못된 요청:", error.response.data);
         }
       }
     } else {
@@ -160,7 +160,7 @@ const BoardList = () => {
       console.log("Delete response:", response.data);
       window.location.reload();
     } catch (e) {
-      console.error("Error deleting review:", e);
+      console.error("리뷰 삭제 중 오류 발생:", e);
     }
   };
 
@@ -249,7 +249,7 @@ const BoardList = () => {
           : [...likesReviews, reviewId] // 좋아요 한 경우
       );
     } catch (error) {
-      console.error("Error updating like:", error);
+      console.error("좋아요 업데이트 중 오류 발생:", error);
     }
   };
 
