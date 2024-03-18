@@ -312,7 +312,6 @@ const BoardList = () => {
 
           {/*================================ 리뷰 ================================*/}
           <div className="reviews_box">
-653f3ebf1a61047e59fc9713bd8cfc8a7c764d7
             <h3 className="review_start">리뷰 목록</h3>
             {/* 리뷰 목록을 게시일 기준으로 정렬하여 출력 (최신순) */}
             {reviews.sort((a, b) => new Date(b.creationdate) - new Date(a.creationdate)).map((review) => (
