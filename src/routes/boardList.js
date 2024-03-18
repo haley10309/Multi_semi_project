@@ -328,11 +328,18 @@ const BoardList = () => {
                 <span className="review_list_useraccount">
                   {review.useraccount}
                 </span>
-                <br />
+                
+                <br/>
+                <span className="review_date">
+                  게시일: {formatReviewDate(review.creationdate)}
+                </span>
+                <br/>
+                
                 {/* 수정버튼을 눌렀을 때의 상태 */}
                 {isEditing && editing_reviewid === review.reviewid && (
                   <>
                     <textarea
+                    
                       rows="3"
                       value={editedContent}
                       onChange={handleEditedContentChange}
@@ -341,6 +348,7 @@ const BoardList = () => {
                     >
                       {review.content}
                     </textarea>
+                    <br/>
                     <Rating
                       name="review_star"
                       //defaultValue={review.rating}
@@ -354,6 +362,7 @@ const BoardList = () => {
                 {editing_reviewid !== review.reviewid && (
                   <>
                     <span className="review_text">{review.content}</span>
+                    <br/>
                     <Rating
                       name="review_star"
                       value={review.rating}
@@ -381,10 +390,8 @@ const BoardList = () => {
 
                   <span className="like_count">{review.likes}</span>
                   {/* ========좋아요==========  */}
-                </div>
-                <span className="review_date">
-                  게시일: {formatReviewDate(review.creationdate)}
-                </span>
+                
+                
                 {/* ================= 수정 버튼 누를 조건================= */}
                 {!isEditing &&
                   isLoggedIn &&
@@ -437,6 +444,7 @@ const BoardList = () => {
                       </button>
                     </>
                   )}
+                  </div>
               </li>
             ))}
           </div>
