@@ -43,6 +43,7 @@ function Home() {
               name="user_star_rating"
               value={movie.averagerating}
               size="small"
+              readOnly
             />
             <p className="star_rate">별점 : {movie.averagerating}점</p>
           </div>
