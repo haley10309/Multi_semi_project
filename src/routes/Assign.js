@@ -180,7 +180,19 @@ const Assign = () => {
                 </label>
 
                 {/* 회원가입 버튼 */}
-                <button type="submit" className="assign-button">회원가입</button>
+                <button
+                type="submit"
+                className="assign-button"
+                onClick={(e) => {
+                e.preventDefault(); // 폼 제출 방지
+                assignSubmit(e); // 이벤트 객체 전달
+                alert('이미 사용된 ID 혹은 기입 오류입니다. 다시 시도해주세요.');
+                navigate('/assign'); // 회원가입 완료 후 페이지로 이동
+                window.location.reload();
+                }}
+                >
+                회원가입
+                </button>
             </form>
         </div>
     );
