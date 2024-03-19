@@ -27,6 +27,7 @@ const Assign = () => {
         try {
             const response = await axios.post('/myapp/useraccount', { useraccount: useraccount });
             console.log('ID 중복 확인 결과:', response.data);
+            if (response.status === 200) {
             if (response.data.exists || lowercaseUserAccount === 'guest') {
                 // 이미 사용된 ID + guest 제약 추가
                 alert('이미 사용된 ID이거나 허용되지 않는 ID입니다.');
@@ -34,6 +35,9 @@ const Assign = () => {
                 // 사용 가능한 ID인 경우
                 alert('사용 가능한 ID입니다.');
             }
+        } else {
+            alert('잠시 후 다시 시도해주세요.');
+        }
         } catch (error) {
             console.error('ID 중복 확인 오류:', error);
             if (error.response && error.response.status === 404) {
