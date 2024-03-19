@@ -48,6 +48,12 @@ const Assign = () => {
         }
     };
 
+    // ID, 비밀번호에 특수문자나 한글이 포함되었는지 확인하는 함수
+    const checkCharacters = (value) => {
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>ㄱ-ㅎㅏ-ㅣ]/;
+    return specialCharRegex.test(value);
+    };
+
     // 비밀번호 보이기/숨기기 토글 함수
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -58,13 +64,36 @@ const Assign = () => {
         setShowPwdCheck(!showPwdCheck);
     };
 
+    // 이메일 형식을 확인하는 함수
+    const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+    };
+
     // 회원가입 제출 함수
     const assignSubmit = async (e) => {
         e.preventDefault(); // 폼 제출 후 리로드 방지
 
+        if (!useraccount || !password || !pwdCheck || !email) {
+            alert('모든 정보를 입력해주세요.');
+            return;
+        }
+
         if (useraccount === 'guest') {
             alert('이미 가입된 ID 혹은 정보입력 오류입니다.');
             return;
+        }
+
+        // 입력된 값에 특수문자나 한글이 포함되었는지 확인
+        if (checkCharacters(useraccount) || checkCharacters(password) || checkCharacters(pwdCheck)) {
+        alert('ID/PW는 영어와 숫자만 입력 가능합니다.');
+        return;
+        }
+
+        // 이메일 형식을 확인
+        if (!validateEmail(email)) {
+        alert('EMAIL 형식을 지켜주세요.(예시: email@email.com)');
+        return;
         }
 
         // 서비스 이용약관 동의 여부 확인
@@ -88,6 +117,7 @@ const Assign = () => {
                 alert('이미 가입된 ID 혹은 정보입력 오류입니다.');
             } else {
                 console.error('회원가입 실패:', error);
+                alert('이미 가입된 ID 혹은 정보입력 오류입니다.');
             }
         }
     };
@@ -166,6 +196,8 @@ const Assign = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="email-input"
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                        title="이메일 형식으로만 입력 가능합니다. 예)email@email.com"
                     />
                 </div>
 
@@ -186,9 +218,6 @@ const Assign = () => {
                 onClick={(e) => {
                 e.preventDefault(); // 폼 제출 방지
                 assignSubmit(e); // 이벤트 객체 전달
-                alert('이미 사용된 ID 혹은 기입 오류입니다. 다시 시도해주세요.');
-                navigate('/assign'); // 회원가입 완료 후 페이지로 이동
-                window.location.reload();
                 }}
                 >
                 회원가입
