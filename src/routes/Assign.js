@@ -13,8 +13,18 @@ const Assign = () => {
     const [showPwdCheck, setShowPwdCheck] = useState(false); // 추가: 비밀번호 확인 보이기/숨기기 상태
     const navigate = useNavigate();
 
+    // ID와 PW의 최소 및 최대 길이 설정
+    const minIdLength = 2;
+    const maxIdLength = 25;
+    const minPasswordLength = 2;
+    const maxPasswordLength = 25;
+
+    // ID와 PW의 길이 제한 메시지
+    const LengthMessage = `ID/PW는 ${minIdLength}자 이상 ${maxIdLength}자 이하여야 합니다.`;
+
     // ID 중복 확인 함수
     const idCheck = async () => {
+
         // 입력값이 영어와 숫자로만 구성되었는지 검증
         const alphanumericRegex = /^[a-zA-Z0-9]+$/;
         if (!alphanumericRegex.test(useraccount)) {
@@ -24,13 +34,30 @@ const Assign = () => {
         
         const lowercaseUserAccount = useraccount.toLowerCase();
 
+        // ID 길이 확인 함수
+        const checkIdLength = () => {
+        // ID 입력값이 있는지 확인
+        if (!useraccount) {
+            alert('ID를 입력해주세요.');
+            return false;
+        }
+    
+        // ID 길이 확인
+        if (useraccount.length < minIdLength || useraccount.length > maxIdLength) {
+            alert(LengthMessage);
+            return false;
+        }
+    
+        return true;
+        };
+
         try {
             const response = await axios.post('/myapp/useraccount', { useraccount: useraccount });
             console.log('ID 중복 확인 결과:', response.data);
             if (response.status === 200) {
-            if (response.data.exists || lowercaseUserAccount === 'guest') {
+            if (response.data.exists || lowercaseUserAccount === 'guest' || !checkIdLength()) {
                 // 이미 사용된 ID + guest 제약 추가
-                alert('이미 사용된 ID이거나 허용되지 않는 ID입니다.');
+                alert('허용하지 않는 ID 형식입니다.');
             } else {
                 // 사용 가능한 ID인 경우
                 alert('사용 가능한 ID입니다.');
@@ -86,10 +113,22 @@ const Assign = () => {
 
         // 입력된 값에 특수문자나 한글이 포함되었는지 확인
         if (checkCharacters(useraccount) || checkCharacters(password) || checkCharacters(pwdCheck)) {
-        alert('ID/PW는 영어와 숫자만 입력 가능합니다.');
+        alert('ID/PW는 영어와 숫자만 입력 가능합니다.(2~25글자)');
         return;
         }
 
+                // ID 길이 확인
+                if (useraccount.length < minIdLength || useraccount.length > maxIdLength) {
+                    alert(LengthMessage);
+                    return;
+                }
+        
+                // PW 길이 확인
+                if (password.length < minPasswordLength || password.length > maxPasswordLength) {
+                    alert(LengthMessage);
+                    return;
+                }
+                
         // 이메일 형식을 확인
         if (!validateEmail(email)) {
         alert('EMAIL 형식을 지켜주세요.(예시: email@email.com)');
@@ -138,7 +177,7 @@ const Assign = () => {
                         onChange={(e) => setUseraccount(e.target.value)}
                         className="id-input"
                         pattern="[a-zA-Z0-9]+"
-                        title="영어와 숫자만 입력 가능합니다."
+                        title="영어와 숫자만 입력 가능합니다. (2~25글자)"
                     />
                     {/* 중복 확인 버튼 */}
                     <button className="id-button" type="button" onClick={idCheck}>중복 확인</button>
@@ -154,7 +193,7 @@ const Assign = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="pw-input"
                         pattern="[a-zA-Z0-9]+"
-                        title="영어와 숫자만 입력 가능합니다."
+                        title="영어와 숫자만 입력 가능합니다. (2~25글자)"
                     />
                     {/* 비밀번호 보이기/숨기기 토글 버튼 */}
                     <button type="button" className="show-hide-button" onClick={togglePasswordVisibility}>
@@ -172,7 +211,7 @@ const Assign = () => {
                         onChange={(e) => setPwdCheck(e.target.value)}
                         className="confirm-pw-input"
                         pattern="[a-zA-Z0-9]+"
-                        title="영어와 숫자만 입력 가능합니다."
+                        title="영어와 숫자만 입력 가능합니다. (2~25글자)"
                     />
                      {/* 비밀번호 확인 보이기/숨기기 토글 버튼 */}
                     <button type="button" className="show-hide-button" onClick={togglePwdCheckVisibility}>
