@@ -18,6 +18,7 @@ const Header = () => {
     localStorage.setItem("isLoggedIn",false);
     setIsLoggedIn(false);
     localStorage.setItem("LoginID","guest");
+    window.location.reload();
   };
   
 

@@ -26,6 +26,7 @@ function Home() {
       setIsLoggedIn(false);
       // And also set the LoginID to "guest"
       localStorage.setItem("LoginID", "guest");
+      window.location.reload();
     }
 
     fetchData();
