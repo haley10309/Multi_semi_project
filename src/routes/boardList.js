@@ -7,13 +7,13 @@ import Rating from "@mui/material/Rating";
 //import LikeButton from './likeButton';//좋아요 버튼
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"; //icons 모듈을 갖고온다
 
-const MAX_REVIEW_LENGTH_BYTES = 2000; // 최대 글자 수 (byte 단위)
+const MAX_REVIEW_LENGTH_CHARS = 600; // 최대 글자 수 (한글 글자 단위)
 
 const BoardList = () => {
   const [movies, setMovies] = useState([]); //화면 랜더링 1회 : 영화 상세정보
   const [review, setReview] = useState(""); //사용자가 작성하는 리뷰
   const [reviews, setReviews] = useState([]); //바뀔 때마다 랜더링 : 리뷰 리스트
-  const [reviewBytes, setReviewBytes] = useState(0); // 리뷰의 byte 수
+  const [reviewChars, setReviewChars] = useState(0); // 리뷰의 한글 글자 수 상태를 관리하는 useState 선언
 
   const [isEditing, setIsEditing] = useState(false); //수정 여부
   const [editing_reviewid, setEditing_reviewid] = useState(null); //수정 하고자 하는 리뷰의 id
@@ -142,17 +142,17 @@ const BoardList = () => {
     //리뷰 작성시 내용을 실시간으로 review객체에 넣음
     const inputText = e.target.value;
     // 입력된 텍스트의 byte 수 계산
-    const byteLength = new Blob([inputText]).size;
+    const charLength = inputText.length;
     // 최대 byte 수를 초과하는 경우 처리
-    if (byteLength > MAX_REVIEW_LENGTH_BYTES) {
+    if (charLength > MAX_REVIEW_LENGTH_CHARS) {
       // 최대 byte 수를 초과한 경우 입력을 막음
       e.preventDefault();
       // 필요에 따라 사용자에게 메시지를 표시할 수 있음
-      alert(`리뷰는 최대 ${MAX_REVIEW_LENGTH_BYTES} byte를 초과할 수 없습니다.`);
+      alert(`리뷰는 최대 ${MAX_REVIEW_LENGTH_CHARS} 글자(공백 포함)를 초과할 수 없습니다.`);
     } else {
       // 최대 byte 수를 초과하지 않는 경우 리뷰를 업데이트하고 byte 수를 업데이트함
       setReview(inputText);
-      setReviewBytes(byteLength);
+      setReviewChars(charLength);
     }
   };
 
@@ -328,7 +328,7 @@ const BoardList = () => {
               ></textarea>
               {/* 글자수 표시 */}
               <div className="byte_count">
-              글자수: {review.length}/{MAX_REVIEW_LENGTH_BYTES}
+              글자수: {reviewChars + (review.content ? review.content.length : 0)}/{MAX_REVIEW_LENGTH_CHARS}
               </div>
             {/*      영화에 대한 해당 사용자의 별점 평가       */}
             <Rating
@@ -341,6 +341,7 @@ const BoardList = () => {
               type="submit"
               className="review_submit_button"
               onClick={addReview}
+              disabled={reviewChars > MAX_REVIEW_LENGTH_CHARS}
             >
               등록
             </button>
