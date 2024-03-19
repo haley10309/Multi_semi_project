@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./boardList.scss";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 //import LikeButton from './likeButton';//좋아요 버튼
 import { HeartOutlined, HeartFilled } from "@ant-design/icons"; //icons 모듈을 갖고온다
@@ -22,6 +23,7 @@ const BoardList = () => {
   const user_liked = false;
 
   const location = useLocation(); //영화 이미지  click -> 각각의 movie_number 전달하기 위한 변수
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const movieNumber = parseInt(searchParams.get("movie_id")); //Home.js에서 movie_number 받을 변수 * String -> int로 형변환 *
 
@@ -124,6 +126,7 @@ const BoardList = () => {
     } else {
       //로그인이 안되어 있을 때
       alert("로그인 후 사용해주세요.");
+      navigate("/login"); // 로그인 페이지로 이동
     }
   };
 
@@ -215,6 +218,10 @@ const BoardList = () => {
   // 좋아요 토글 함수
   const handleLike = async (reviewId) => {
     try {
+      if (!isLoggedIn) {
+        alert("로그인 후 사용해주세요.");
+        navigate("/login"); // 로그인 페이지로 이동
+      }
       const isLiked = likesReviews.includes(reviewId);
 
       // 서버로 전송할 데이터 준비
