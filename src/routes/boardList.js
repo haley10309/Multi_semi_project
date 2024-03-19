@@ -299,6 +299,7 @@ const BoardList = () => {
                 name="movie_star_rating"
                 value={movie.averagerating}
                 readOnly
+                precision={0.01}
               />
               <ul className="movie_info_category">감독 : {movie.director}</ul>
               <ul className="movie_info_category">출연 : {movie.actors}</ul>
@@ -336,6 +337,7 @@ const BoardList = () => {
               value={user_star_rate}
               onChange={handleStarRatingChange}
               size="large"
+              precision={0.5}
             />
             <button
               type="submit"
@@ -383,6 +385,7 @@ const BoardList = () => {
                       value={editedRating}
                       onChange={handleEditedRatingChange}
                       size="small"
+                      precision={0.5}
                     />
                   </>
                 )}
@@ -396,6 +399,7 @@ const BoardList = () => {
                       value={review.rating}
                       readOnly
                       size="small"
+                      precision={0.5}
                     />
                   </>
                 )}
