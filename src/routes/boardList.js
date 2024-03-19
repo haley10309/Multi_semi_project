@@ -4,9 +4,7 @@ import "./boardList.scss";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
-//import LikeButton from './likeButton';//좋아요 버튼
-import { HeartOutlined, HeartFilled } from "@ant-design/icons"; //icons 모듈을 갖고온다
-
+import { HeartOutlined, HeartFilled } from "@ant-design/icons"; //icons 모듈을 좋아요 버튼
 const MAX_REVIEW_LENGTH_CHARS = 600; // 최대 글자 수 (한글 글자 단위)
 
 const BoardList = () => {
@@ -237,8 +235,8 @@ const BoardList = () => {
       if (!isLoggedIn) {
         alert("로그인 후 사용해주세요.");
         navigate("/login"); // 로그인 페이지로 이동
-      }
-      const isLiked = likesReviews.includes(reviewId);
+      }else{
+        const isLiked = likesReviews.includes(reviewId);
 
       // 서버로 전송할 데이터 준비
       const requestData = {
@@ -271,6 +269,8 @@ const BoardList = () => {
           ? likesReviews.filter((id) => id !== reviewId) // 좋아요 취소한 경우
           : [...likesReviews, reviewId] // 좋아요 한 경우
       );
+      }
+      
     } catch (error) {
       console.error("좋아요 업데이트 중 오류 발생:", error);
     }
