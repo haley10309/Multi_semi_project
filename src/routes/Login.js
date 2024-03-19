@@ -59,7 +59,7 @@ function Login(props) {
         </div>
         <br />
         <div className="PW_form_align">
-          <label htmlFor="password">PASSWORD : </label>
+          <label htmlFor="password">PASSWORD: </label>
           <input type="password" value={password} onChange={onPwhandler} />
         </div>
         <br />
