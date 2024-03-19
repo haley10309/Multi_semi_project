@@ -43,6 +43,9 @@ function Login(props) {
         }
         console.log("로그인 axios post 실패", error);
         setMsg("로그인 요청에 실패했습니다.");
+        alert("아이디나 비밀번호를 맞게 입력해주세요.");
+        setUseraccount("");
+        setPassword("");
       });
   };
 
