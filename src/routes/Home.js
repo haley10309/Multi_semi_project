@@ -16,6 +16,7 @@ function Home() {
         const response = await fetch("/myapp/movieList");
         const body = await response.json();
         setMovies(body);
+        console.log(body);
       } catch (error) {
         console.log(error);
       }
