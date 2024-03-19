@@ -205,6 +205,16 @@ body {
     
 }
 
+/* 글자수 */
+.byte_count {
+    font-family: sokcho_ocean_thin_font;
+    font-weight: lighter;
+    margin-top: -10px;
+    margin-bottom: 2px;
+    color: #6C757D;
+    float: right;    
+}
+
 /* 저장, 수정, 삭제, 취소 버튼 */
 .save_button,
 .edit_button,
