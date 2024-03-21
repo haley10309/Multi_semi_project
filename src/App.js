@@ -8,8 +8,9 @@ import Assign from './routes/Assign';
 
 
 /* App.js */
-
+localStorage.setItem("LoginID", "guest");
 class App extends Component {
+  
   render(){
     return (
       <Routes>
